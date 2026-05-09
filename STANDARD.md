@@ -416,7 +416,29 @@ boot CPU on the reference SoMs (high → CA55, low → CM33).
 > nominally-vendor-agnostic standard, which violates the §1.2
 > "no-per-SoM-data" rule.
 
-### 6.5 Electrical characteristics
+### 6.5 Mandatory on-module components
+
+The E1M pinout is designed around a SoM that integrates the
+following functions **on the module itself**, so that carrier-board
+designers do not have to repeat them:
+
+| Component | Requirement |
+| --- | --- |
+| **Ethernet PHY(s)** | A conformant SoM **SHALL** include at least one on-module Ethernet PHY connected to the SoC's MAC and exposed on the carrier board via the post-magnetics differential MDI pads (`ETH0_*` minimum). SoMs whose SoC supports two MACs **SHALL** populate a second on-module PHY and expose `ETH1_*`. |
+| **Wi-Fi + Bluetooth combo** | A conformant SoM **SHALL** include an on-module Wi-Fi 6 (802.11 a/b/g/n/ac/ax) and Bluetooth 5.4 combo radio. 2.4 GHz and 5 GHz operation is **REQUIRED**; 6 GHz operation is **OPTIONAL**. |
+| **Antenna outputs** | Antenna pads (§7.3.2) **SHALL** be populated for every band the on-module combo radio supports. SoMs that do not support a particular band **SHALL** leave the corresponding `ANT_*` pad as no-connect. |
+| **CAN transceiver(s)** | If the SoM exposes any of the CAN pads (§7.3.13), the SoM **SHALL** include an on-module CAN transceiver. The pads exposed to the carrier board are then the bus side (`CANxH`, `CANxL`) suitable for direct connection to a terminator and a CAN connector. |
+
+Carrier-board designers **SHALL NOT** add an external Ethernet PHY,
+Wi-Fi/BLE module, or CAN transceiver between the carrier and any of
+these signal classes; the carrier provides only the magnetics + RJ-45
+(for Ethernet), antenna routing or external antenna connector (for
+Wi-Fi / BLE), and bus termination + connector (for CAN).
+
+This is a **family-wide** invariant: it applies to every conformant
+E1M and E1M-X SoM regardless of which SoC silicon the SoM uses.
+
+### 6.6 Electrical characteristics
 
 > **TODO (Alp Lab):** publish four tables, each indexed by signal
 > class:
@@ -555,10 +577,13 @@ every `GND` pad on the SoM to a low-impedance ground plane.
 
 #### 7.3.2 Antenna
 
-A conformant SoM **MAY** populate any subset of the antenna outputs.
-Pads not driven by RF on a particular SoM **SHALL** be left as
-no-connect by the carrier board. Where used, the carrier-board trace
-**SHALL** be 50 Ω characteristic impedance.
+Antenna outputs are driven by the SoM's on-module Wi-Fi 6 + BLE 5.4
+combo radio (mandatory per §6.5). A conformant SoM **SHALL** populate
+`ANT_2.4GHz` and `ANT_5GHz` and **MAY** also populate `ANT_6GHz`.
+Pads not driven by the on-module radio (typically `ANT_6GHz` on
+combo modules without 6 GHz support) **SHALL** be left as no-connect
+by the carrier board. Where used, the carrier-board trace **SHALL**
+be 50 Ω characteristic impedance.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -616,9 +641,13 @@ one USB 2.0 and two USB 3.x interfaces.
 
 #### 7.3.6 Ethernet
 
-E1M and E1M-X each provide two 1 GbE PHYs. Differential pairs **SHALL**
-include EMI and ESD protection on the SoM; carrier boards **SHALL**
-provide a magnetic transformer (or transformer-integrated connector).
+E1M and E1M-X each integrate **on-module Ethernet PHY(s)** (mandatory
+per §6.5) connected to the SoC MAC(s) via SoM-internal RGMII / RMII;
+the differential MDI pads exposed to the carrier board are
+**post-PHY**. The MDI differential pairs **SHALL** include EMI and ESD
+protection on the SoM; carrier boards **SHALL** provide a magnetic
+transformer (or transformer-integrated RJ-45 connector) and **SHALL
+NOT** add an external PHY.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -768,11 +797,13 @@ slash combo is conformant. Selection is a carrier-board decision (§8.3).
 
 #### 7.3.14 CAN bus
 
-Each CAN controller's bus pads carry compound primary functions
-(`CANxH/CANx_TX`, `CANxL/CANx_RX`). The first form (`H`/`L`) is the
-controller-side connection to an external CAN transceiver; the second
-form (`TX`/`RX`) is the digital-controller form that an integrated
-on-SoC transceiver consumes.
+Per §6.5, when the SoM exposes any of the CAN pads it **SHALL**
+include an on-module CAN transceiver, so the pads on the carrier-board
+side are bus-level (`CANxH`, `CANxL`). The slash-combo silkscreen
+(`CANxH/CANx_TX`, `CANxL/CANx_RX`) is preserved for legacy SoMs that
+might (against §6.5) skip the on-module transceiver and expose the
+controller-level signals directly; for new conformant designs, only
+the bus-level reading applies.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -1126,7 +1157,11 @@ below is satisfied for the form factor it declares (E1M or E1M-X):
 4. **Boot.** The SoM implements a boot strap on `BOOT0`–`BOOT3` per
    §6.4. The per-SoM manifest declares the strap mapping; the strap
    pad locations **SHALL** match §7.3.1.
-5. **Manifest.** The SoM publishes a per-SoM manifest conforming to
+5. **Mandatory on-module components.** The SoM integrates an on-module
+   Ethernet PHY for every Ethernet group it exposes, an on-module
+   Wi-Fi 6 + BLE 5.4 combo radio, and an on-module CAN transceiver
+   for every CAN group it exposes — per §6.5.
+6. **Manifest.** The SoM publishes a per-SoM manifest conforming to
    the format in Annex C.
 
 ### 9.2 Carrier-board conformance
@@ -1289,10 +1324,18 @@ The supporting silicon stack is:
 | Role | Part | Vendor |
 | --- | --- | --- |
 | Primary MPU | `R9A09G056N44GBG#AC0` | Renesas |
-| I/O MCU | `GD32G553` (Cortex-M33 @ 216 MHz) | GigaDevice |
+| Auxiliary I/O MCU | `GD32G553` — Arm Cortex-M33 @ 216 MHz | GigaDevice |
 | PMIC | `DA9292` (multi-channel) | Renesas |
 | Ethernet PHY (×2) | `RTL8211FDI-VD-CG` | Realtek |
 | Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
+
+The `GD32G553` is a **separate, on-module Cortex-M33 IC**, distinct
+from the Cortex-M33 core embedded inside the Renesas RZ/V2N. Its
+role is supervisory: power-rail sequencing alongside the PMIC,
+on-module supervisory I/O, and orchestration of the on-module
+peripherals during boot and low-power states. The RZ/V2N's own
+internal M33 (200 MHz) handles application-level real-time work and
+is **not** the same CPU as the GD32G553 (216 MHz).
 
 ### A.3 E1M-X V2N-M1 family (Renesas RZ/V2N + DeepX M1)
 
@@ -1305,7 +1348,8 @@ standalone AI accelerator. Two SKUs match the V2N memory tiers:
 | `E1M-V2M102` | `R9A09G056N44GBG#AC0` | 64 Gbit | eMMC 5.1, 128 Gbit | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
 
 All other V2N attributes carry over (CPU, ISP, GPU, codec, MIPI
-counts, Wi-Fi / BLE, Ethernet, CAN, PCIe). The DeepX M1 brings:
+counts, Wi-Fi / BLE, Ethernet, CAN, PCIe, plus the on-module
+GigaDevice `GD32G553` Cortex-M33 supervisor). The DeepX M1 adds:
 
 | Item | Value |
 | --- | --- |
@@ -1314,9 +1358,21 @@ counts, Wi-Fi / BLE, Ethernet, CAN, PCIe). The DeepX M1 brings:
 | Companion storage | SPI NAND flash |
 | Connection | DeepX M1 attached internally to the SoM via PCIe; not exposed on additional E1M-X pads |
 
+Full silicon stack (V2N stack + DeepX M1):
+
+| Role | Part | Vendor |
+| --- | --- | --- |
+| Primary MPU | `R9A09G056N44GBG#AC0` | Renesas |
+| Companion AI accelerator | `DX-M1` (PCIe-attached, 25 TOPS) | DeepX |
+| Auxiliary I/O MCU | `GD32G553` — Arm Cortex-M33 @ 216 MHz | GigaDevice |
+| PMIC | `DA9292` (multi-channel) | Renesas |
+| Ethernet PHY (×2) | `RTL8211FDI-VD-CG` | Realtek |
+| Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
+
 The DeepX M1 sits behind the RZ/V2N's PCIe controller, so the
 external-PCIe routing on `PCIE0_*` is effectively shared with the
-on-module M1.
+on-module M1. The `GD32G553` supervisor is the same part used on the
+sibling V2N family — see §A.2 for its role.
 
 ### A.4 Wireless module & antenna (E1M-X)
 

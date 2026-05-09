@@ -28,7 +28,7 @@
       "vendor": "GigaDevice",
       "family": "GD32G553",
       "part": "GD32G553",
-      "notes": "Dedicated on-module I/O MCU. Arm Cortex-M33 @ 216 MHz."
+      "notes": "Separate on-module Arm Cortex-M33 @ 216 MHz, distinct from the Cortex-M33 embedded inside the RZ/V2N. Supervises power-rail sequencing alongside the DA9292 PMIC and orchestrates on-module peripherals during boot and low-power states."
     },
     {
       "role": "accelerator",

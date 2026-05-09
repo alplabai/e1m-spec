@@ -5,6 +5,73 @@ All notable changes to the E1M specification are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning is `major.minor` per the rules in `README.md`.
 
+## [1.1] — 2026-05-09
+
+### Added (normative)
+
+- New §6.5 *Mandatory on-module components*. Promotes a family-wide
+  architectural invariant to a normative SHALL clause: every
+  conformant SoM **SHALL** integrate, on the module itself,
+  - at least one Ethernet PHY (and a second when the SoC supports
+    two MACs), connected to the SoC over SoM-internal RGMII / RMII;
+    the carrier-side `ETH*_*` pads are post-PHY differential MDI;
+  - a Wi-Fi 6 + BLE 5.4 combo radio with mandatory 2.4 GHz and 5 GHz
+    operation and optional 6 GHz operation;
+  - a CAN transceiver for every CAN group the SoM exposes
+    (carrier-side pads are bus-level `CANxH`, `CANxL`).
+- §7.3.2 (Antenna), §7.3.6 (Ethernet), §7.3.14 (CAN) updated to
+  reference §6.5 explicitly. Antenna populating rule tightened from
+  "MAY populate any subset" to "SHALL populate the bands the
+  on-module radio supports".
+- §9.1 SoM conformance: new clause **5. Mandatory on-module
+  components** referencing §6.5.
+
+This is a normative addition relative to v1.0; it does not change
+the pinout itself. Existing v1.0 conformant SoMs (the AEN family,
+V2N, V2N-M1) are also v1.1 conformant — they all already satisfy
+the new clause.
+
+### Changed
+
+- §6.6 *Electrical characteristics* — section number bumped (was §6.5
+  in v1.0).
+
+## [1.0.3] — 2026-05-09
+
+### Changed
+
+- `examples/alp-x-v2n-m1.som-manifest.json`: every route's `soc_pin`
+  now uses the canonical Renesas RZ/V2N datasheet name (e.g.
+  `RIIC0_SCL0`, `MD_BOOT0`, `CSI0_DATA0N`, `TCK_SWCLK`), with the
+  matching BGA coordinate in a new `soc_pin_bga` field. Sourced from
+  `R9A09G056N44GBG Pin Out.csv` in the design-documentation folder.
+- E1M-X `BOOT3` (pad Y1) now correctly maps to Renesas `MD_BOOT4`,
+  not `MD_BOOT3` (the chip has no `MD_BOOT3`). `MD_BOOT4` is the strap
+  the V2N uses for boot-CPU selection (CA55 vs CM33).
+- Ethernet routes in the manifest now carry `soc_via: "Realtek
+  RTL8211FDI"` instead of fictional Renesas pin names — the Renesas
+  drives the on-module PHY over RGMII (not exposed on E1M-X), and
+  the E1M-X ETH pads are the post-PHY differential MDI.
+- Added the missing `BOOT2` (pad X1) route entry that earlier drafts
+  dropped.
+
+## [1.0.2] — 2026-05-09
+
+### Fixed
+
+- `examples/alp-x-v2n-m1.som-manifest.json` and Annex A.2 now use
+  the canonical Renesas part number `R9A09G056N44GBG#AC0` (was
+  `R9A09G057`).
+- Annex A.2 lists the supporting silicon stack with real part numbers:
+  - PMIC: Renesas `DA9292` (was placeholder `RAA215300`).
+  - I/O MCU: GigaDevice `GD32G553` (Cortex-M33 @ 216 MHz).
+  - Ethernet PHY: Realtek `RTL8211FDI-VD-CG` (one per ETH group).
+  - Wi-Fi 6 + BLE 5.4 module: Murata `LBEE5HY2FY` (Type2FY,
+    Infineon `CYW55513`).
+- DRP-AI3 figure reconciled to **4 TOPS** at the V2N grade
+  (chip family rated up to 15 TOPS; per-SKU configuration is 4 TOPS
+  per the V2N / V2N-M1 ordering tables).
+
 ## [1.0.1] — 2026-05-09
 
 ### Fixed
