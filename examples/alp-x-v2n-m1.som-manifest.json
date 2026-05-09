@@ -20,15 +20,15 @@
       "role": "primary",
       "vendor": "Renesas",
       "family": "RZ/V2N",
-      "part": "R9A09G057",
-      "notes": "4x Cortex-A55 @ 1.8 GHz + Cortex-M33 @ 200 MHz; DRP-AI3 (15 TOPS), Arm Mali-C55 ISP, Arm Mali-G31 GPU, H.264/H.265 codec."
+      "part": "R9A09G056N44GBG#AC0",
+      "notes": "4x Cortex-A55 @ 1.8 GHz + Cortex-M33 @ 200 MHz; DRP-AI3 (4 TOPS at the V2N grade; chip family rated up to 15 TOPS); Arm Mali-C55 ISP; Arm Mali-G31 GPU; H.264/H.265 codec."
     },
     {
       "role": "io_mcu",
-      "vendor": "Arm",
-      "family": "Cortex-M33",
-      "part": "Cortex-M33",
-      "notes": "Dedicated on-module I/O MCU at 216 MHz."
+      "vendor": "GigaDevice",
+      "family": "GD32G553",
+      "part": "GD32G553",
+      "notes": "Dedicated on-module I/O MCU. Arm Cortex-M33 @ 216 MHz."
     },
     {
       "role": "accelerator",
@@ -40,8 +40,23 @@
     {
       "role": "pmic",
       "vendor": "Renesas",
-      "family": "Multi-channel PMIC",
-      "part": "RAA215300"
+      "family": "DA9292",
+      "part": "DA9292",
+      "notes": "Multi-channel PMIC for RZ/V2N."
+    },
+    {
+      "role": "ethernet_phy",
+      "vendor": "Realtek",
+      "family": "RTL8211F",
+      "part": "RTL8211FDI-VD-CG",
+      "notes": "1 GbE PHY. Two instances on the SoM, one per E1M-X ETHn_* group."
+    },
+    {
+      "role": "wifi_ble",
+      "vendor": "Murata",
+      "family": "Type2FY",
+      "part": "LBEE5HY2FY",
+      "notes": "Wi-Fi 6 + BLE 5.4 combo module based on Infineon CYW55513."
     }
   ],
   "routes": [

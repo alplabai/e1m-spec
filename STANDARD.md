@@ -1284,6 +1284,16 @@ Both SKUs additionally include an on-module display backlight driver,
 4 LDOs for external cameras, NOR Flash, the I/O MCU, a TPM (secure
 chip), an EEPROM, an RTC, and a temperature sensor.
 
+The supporting silicon stack is:
+
+| Role | Part | Vendor |
+| --- | --- | --- |
+| Primary MPU | `R9A09G056N44GBG#AC0` | Renesas |
+| I/O MCU | `GD32G553` (Cortex-M33 @ 216 MHz) | GigaDevice |
+| PMIC | `DA9292` (multi-channel) | Renesas |
+| Ethernet PHY (×2) | `RTL8211FDI-VD-CG` | Realtek |
+| Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
+
 ### A.3 E1M-X V2N-M1 family (Renesas RZ/V2N + DeepX M1)
 
 The **E1M-X V2N-M1** family is the V2N SoM with an added **DeepX M1**
