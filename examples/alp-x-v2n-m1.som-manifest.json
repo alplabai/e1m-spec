@@ -1,0 +1,79 @@
+{
+  "som_manifest_version": 1,
+  "id": "ALP-X-V2N-M1",
+  "version": "0.1.0",
+  "description": "Reference SoM manifest snippet for ALP-X-V2N-M1 on E1M-X (45x65). Pairs Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) with a DeepX M1 NPU companion. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
+  "implements": {
+    "spec_id": "E1M-X",
+    "spec_version": "1.0",
+    "spec_repo": "https://github.com/alpCaner/e1m-spec"
+  },
+  "silicon": [
+    {
+      "role": "primary",
+      "vendor": "Renesas",
+      "family": "RZ/V2N",
+      "part": "R9A09G057",
+      "notes": "Cortex-A55 application + Cortex-M33 real-time, with DRP-AI3 accelerator."
+    },
+    {
+      "role": "accelerator",
+      "vendor": "DeepX",
+      "family": "DX-M1",
+      "part": "DX-M1",
+      "notes": "Connected via PCIe to the primary; no E1M pads are routed directly to this part."
+    },
+    {
+      "role": "pmic",
+      "vendor": "Renesas",
+      "family": "Multi-channel PMIC",
+      "part": "RAA215300"
+    }
+  ],
+  "routes": [
+    { "pad_id": "A1", "use": "default", "soc_pin": "GND" },
+    { "pad_id": "T1", "use": "default", "soc_pin": "5V_IN", "as": "POWER_5V0" },
+    { "pad_id": "U1", "use": "default", "soc_pin": "5V_IN", "as": "POWER_5V0" },
+    { "pad_id": "W1", "use": "default", "soc_pin": "VDDIO_1V8", "as": "POWER_VIO_OUT" },
+
+    { "pad_id": "Y2", "use": "default", "soc_pin": "MD_BOOT_0", "as": "BOOT", "instance": "BOOT0" },
+    { "pad_id": "X2", "use": "default", "soc_pin": "MD_BOOT_1", "as": "BOOT", "instance": "BOOT1" },
+    { "pad_id": "Y1", "use": "default", "soc_pin": "MD_BOOT_3", "as": "BOOT", "instance": "BOOT3" },
+
+    { "pad_id": "AL1", "use": "default", "soc_pin": "TRSTn", "as": "JTAG_NRST", "instance": "JTAG0" },
+    { "pad_id": "AJ1", "use": "default", "soc_pin": "TCK", "as": "JTAG_TCK", "instance": "JTAG0" },
+    { "pad_id": "AJ2", "use": "default", "soc_pin": "TDI", "as": "JTAG_TDI", "instance": "JTAG0" },
+    { "pad_id": "AK2", "use": "default", "soc_pin": "TDO", "as": "JTAG_TDO", "instance": "JTAG0" },
+    { "pad_id": "AK1", "use": "default", "soc_pin": "TMS", "as": "JTAG_TMS", "instance": "JTAG0" },
+
+    { "pad_id": "C1", "use": "default", "soc_pin": "USB0_DM", "as": "USB_DM", "instance": "USB0" },
+    { "pad_id": "B1", "use": "default", "soc_pin": "USB0_DP", "as": "USB_DP", "instance": "USB0" },
+    { "pad_id": "F1", "use": "default", "soc_pin": "USB0_RX_N", "as": "USB_RX_N", "instance": "USB0" },
+    { "pad_id": "E1", "use": "default", "soc_pin": "USB0_RX_P", "as": "USB_RX_P", "instance": "USB0" },
+    { "pad_id": "I1", "use": "default", "soc_pin": "USB0_TX_N", "as": "USB_TX_N", "instance": "USB0" },
+    { "pad_id": "H1", "use": "default", "soc_pin": "USB0_TX_P", "as": "USB_TX_P", "instance": "USB0" },
+
+    { "pad_id": "AR56", "use": "default", "soc_pin": "ETH0_DA_N", "as": "ETH_DA_N", "instance": "ETH0" },
+    { "pad_id": "AQ56", "use": "default", "soc_pin": "ETH0_DA_P", "as": "ETH_DA_P", "instance": "ETH0" },
+
+    { "pad_id": "B47", "use": "default", "soc_pin": "PCIE0_REFCLK_N", "as": "PCIE_CLK_N", "instance": "PCIE0" },
+    { "pad_id": "A47", "use": "default", "soc_pin": "PCIE0_REFCLK_P", "as": "PCIE_CLK_P", "instance": "PCIE0" },
+    { "pad_id": "B42", "use": "default", "soc_pin": "PCIE0_RX0_N", "as": "PCIE_RX0_N", "instance": "PCIE0" },
+    { "pad_id": "A42", "use": "default", "soc_pin": "PCIE0_RX0_P", "as": "PCIE_RX0_P", "instance": "PCIE0" },
+
+    { "pad_id": "AB2", "use": "default", "soc_pin": "P0_2_RX", "as": "UART_RX", "instance": "UART0" },
+    { "pad_id": "AA2", "use": "default", "soc_pin": "P0_3_TX", "as": "UART_TX", "instance": "UART0" },
+
+    { "pad_id": "AH1", "use": "default", "soc_pin": "P3_4", "as": "I2C_SCL", "instance": "I2C0" },
+    { "pad_id": "AH2", "use": "default", "soc_pin": "P3_5", "as": "I2C_SDA", "instance": "I2C0" },
+
+    { "pad_id": "T64", "use": "default", "soc_pin": "CSI0_LANE0_N", "as": "MIPI_CSI2_DATA0_N", "instance": "CSI0" },
+    { "pad_id": "T63", "use": "default", "soc_pin": "CSI0_LANE0_P", "as": "MIPI_CSI2_DATA0_P", "instance": "CSI0" },
+
+    { "pad_id": "AF2", "use": "alt", "soc_pin": "P5_2", "as": "GPIO" },
+    { "pad_id": "AG2", "use": "alt", "soc_pin": "P5_3", "as": "GPIO" }
+  ],
+  "not_routed": [
+    "AN1", "AP1", "AR1"
+  ]
+}

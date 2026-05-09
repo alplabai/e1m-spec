@@ -1,0 +1,44 @@
+name: validate-pinout
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: ajv schema validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install ajv-cli
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: Validate pinout/v1.json (E1M)
+        run: npm run validate:e1m
+
+      - name: Validate pinout/x-v1.json (E1M-X)
+        run: npm run validate:e1m-x
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify each pad has a row in the Altium pin-list
+        run: |
+          echo "Quality bar: every pad in pinout/*.json must be backed by a row"
+          echo "in source/altium-e1m.tsv (E1M) or source/altium-e1m-x.tsv (E1M-X)."
+          echo "Re-running source/_build.py and diffing against committed JSON."
+          python source/_build.py
+          git diff --exit-code pinout/v1.json pinout/x-v1.json

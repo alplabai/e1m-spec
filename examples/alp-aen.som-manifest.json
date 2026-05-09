@@ -1,0 +1,46 @@
+{
+  "som_manifest_version": 1,
+  "id": "ALP-AEN",
+  "version": "0.1.0",
+  "description": "Reference SoM manifest snippet for ALP-AEN (Alif Ensemble E3 on E1M 35x35). Illustrative — not a complete bring-up routing; only the subset needed for debug + first I2C peripheral.",
+  "implements": {
+    "spec_id": "E1M",
+    "spec_version": "1.0",
+    "spec_repo": "https://github.com/alpCaner/e1m-spec"
+  },
+  "silicon": [
+    {
+      "role": "primary",
+      "vendor": "Alif Semiconductor",
+      "family": "Ensemble",
+      "part": "E3"
+    }
+  ],
+  "routes": [
+    { "pad_id": "A1", "use": "default", "soc_pin": "VSS" },
+    { "pad_id": "B11", "use": "default", "soc_pin": "VSS" },
+    { "pad_id": "R1", "use": "default", "soc_pin": "VDD_5V_IN", "as": "POWER_5V0" },
+    { "pad_id": "S1", "use": "default", "soc_pin": "VDD_5V_IN", "as": "POWER_5V0" },
+    { "pad_id": "O2", "use": "default", "soc_pin": "VDDIO_OUT", "as": "POWER_VIO_OUT" },
+    { "pad_id": "P2", "use": "default", "soc_pin": "VDDIO_OUT", "as": "POWER_VIO_OUT" },
+    { "pad_id": "P1", "use": "default", "soc_pin": "MOD_EN", "as": "MODULE_EN" },
+    { "pad_id": "W1", "use": "default", "soc_pin": "PORn", "as": "RESET" },
+
+    { "pad_id": "X1", "use": "default", "soc_pin": "P15_5", "as": "JTAG_TCK", "instance": "JTAG0" },
+    { "pad_id": "X2", "use": "default", "soc_pin": "P15_6", "as": "JTAG_TDI", "instance": "JTAG0" },
+    { "pad_id": "Y1", "use": "default", "soc_pin": "P15_4", "as": "JTAG_TMS", "instance": "JTAG0" },
+    { "pad_id": "Y2", "use": "default", "soc_pin": "P15_7", "as": "JTAG_TDO", "instance": "JTAG0" },
+    { "pad_id": "Z1", "use": "default", "soc_pin": "P15_3", "as": "JTAG_NRST", "instance": "JTAG0" },
+
+    { "pad_id": "AF2", "use": "default", "soc_pin": "P3_4", "as": "I2C_SCL", "instance": "I2C0" },
+    { "pad_id": "AE2", "use": "default", "soc_pin": "P3_5", "as": "I2C_SDA", "instance": "I2C0" },
+
+    { "pad_id": "L2",  "use": "default", "soc_pin": "P0_0", "as": "GPIO" },
+    { "pad_id": "L1",  "use": "default", "soc_pin": "P0_1", "as": "GPIO" },
+    { "pad_id": "W2",  "use": "default", "soc_pin": "P0_2", "as": "GPIO" }
+  ],
+  "not_routed": [
+    "A29", "B29", "A21", "A22", "A23", "A24", "A25", "A26", "A27", "A28",
+    "B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"
+  ]
+}
