@@ -59,48 +59,55 @@
       "notes": "Wi-Fi 6 + BLE 5.4 combo module based on Infineon CYW55513."
     }
   ],
+  "_routes_format_note": "soc_pin uses the Renesas RZ/V2N datasheet's functional pin name (e.g. 'RIIC0_SCL0', 'TCK_SWCLK', 'MD_BOOT0'). soc_pin_bga is the BGA package coordinate of that same pin from R9A09G056N44GBG Pin Out.csv. For pads that go through an on-module PHY (Ethernet, Wi-Fi, CAN), soc_pin is the PHY's pin name and soc_via names the PHY chip.",
   "routes": [
-    { "pad_id": "A1", "use": "default", "soc_pin": "GND" },
-    { "pad_id": "T1", "use": "default", "soc_pin": "5V_IN", "as": "POWER_5V0" },
-    { "pad_id": "U1", "use": "default", "soc_pin": "5V_IN", "as": "POWER_5V0" },
-    { "pad_id": "W1", "use": "default", "soc_pin": "VDDIO_1V8", "as": "POWER_VIO_OUT" },
+    { "pad_id": "A1", "use": "default", "soc_pin": "VSS" },
+    { "pad_id": "T1", "use": "default", "soc_pin": "VDD_5V_IN_BOARD", "as": "POWER_5V0", "soc_note": "Board-level 5 V input; on-module PMIC (Renesas DA9292) derives all SoC rails." },
+    { "pad_id": "U1", "use": "default", "soc_pin": "VDD_5V_IN_BOARD", "as": "POWER_5V0" },
+    { "pad_id": "W1", "use": "default", "soc_pin": "VDDIO_1V8_OUT", "as": "POWER_VIO_OUT", "soc_note": "Module-side 1.8 V I/O reference rail; sourced from on-module PMIC." },
 
-    { "pad_id": "Y2", "use": "default", "soc_pin": "MD_BOOT_0", "as": "BOOT", "instance": "BOOT0" },
-    { "pad_id": "X2", "use": "default", "soc_pin": "MD_BOOT_1", "as": "BOOT", "instance": "BOOT1" },
-    { "pad_id": "Y1", "use": "default", "soc_pin": "MD_BOOT_3", "as": "BOOT", "instance": "BOOT3" },
+    { "pad_id": "Y2",  "use": "default", "soc_pin": "MD_BOOT0", "soc_pin_bga": "AG21", "as": "BOOT", "instance": "BOOT0" },
+    { "pad_id": "X2",  "use": "default", "soc_pin": "MD_BOOT1", "soc_pin_bga": "AF20", "as": "BOOT", "instance": "BOOT1" },
+    { "pad_id": "X1",  "use": "default", "soc_pin": "MD_BOOT2", "soc_pin_bga": "AG20", "as": "BOOT", "instance": "BOOT2", "soc_note": "Strapped to 1 on the V2N reference SoM (per §6.4 of E1M-STD-1.0)." },
+    { "pad_id": "Y1",  "use": "default", "soc_pin": "MD_BOOT4", "soc_pin_bga": "AD22", "as": "BOOT", "instance": "BOOT3", "soc_note": "E1M-X pad BOOT3 maps to the Renesas MD_BOOT4 strap on V2N (the chip has BOOT0/1/2/4; there is no MD_BOOT3). Selects boot CPU: high = CA55, low = CM33." },
 
-    { "pad_id": "AL1", "use": "default", "soc_pin": "TRSTn", "as": "JTAG_NRST", "instance": "JTAG0" },
-    { "pad_id": "AJ1", "use": "default", "soc_pin": "TCK", "as": "JTAG_TCK", "instance": "JTAG0" },
-    { "pad_id": "AJ2", "use": "default", "soc_pin": "TDI", "as": "JTAG_TDI", "instance": "JTAG0" },
-    { "pad_id": "AK2", "use": "default", "soc_pin": "TDO", "as": "JTAG_TDO", "instance": "JTAG0" },
-    { "pad_id": "AK1", "use": "default", "soc_pin": "TMS", "as": "JTAG_TMS", "instance": "JTAG0" },
+    { "pad_id": "AL1", "use": "default", "soc_pin": "TRSTn",      "as": "JTAG_NRST", "instance": "JTAG0" },
+    { "pad_id": "AJ1", "use": "default", "soc_pin": "TCK_SWCLK",  "soc_pin_bga": "AE24", "as": "JTAG_TCK", "instance": "JTAG0" },
+    { "pad_id": "AJ2", "use": "default", "soc_pin": "TDI",        "as": "JTAG_TDI", "instance": "JTAG0" },
+    { "pad_id": "AK2", "use": "default", "soc_pin": "TDO",        "as": "JTAG_TDO", "instance": "JTAG0" },
+    { "pad_id": "AK1", "use": "default", "soc_pin": "TMS_SWDIO",  "soc_pin_bga": "AG24", "as": "JTAG_TMS", "instance": "JTAG0" },
 
-    { "pad_id": "C1", "use": "default", "soc_pin": "USB0_DM", "as": "USB_DM", "instance": "USB0" },
-    { "pad_id": "B1", "use": "default", "soc_pin": "USB0_DP", "as": "USB_DP", "instance": "USB0" },
-    { "pad_id": "F1", "use": "default", "soc_pin": "USB0_RX_N", "as": "USB_RX_N", "instance": "USB0" },
-    { "pad_id": "E1", "use": "default", "soc_pin": "USB0_RX_P", "as": "USB_RX_P", "instance": "USB0" },
-    { "pad_id": "I1", "use": "default", "soc_pin": "USB0_TX_N", "as": "USB_TX_N", "instance": "USB0" },
-    { "pad_id": "H1", "use": "default", "soc_pin": "USB0_TX_P", "as": "USB_TX_P", "instance": "USB0" },
+    { "pad_id": "C1",  "use": "default", "soc_pin": "USB20_DM",   "as": "USB_DM",  "instance": "USB0" },
+    { "pad_id": "B1",  "use": "default", "soc_pin": "USB20_DP",   "soc_pin_bga": "V28",  "as": "USB_DP",  "instance": "USB0" },
+    { "pad_id": "F1",  "use": "default", "soc_pin": "USB30_RX0M", "soc_pin_bga": "Y27",  "as": "USB_RX_N", "instance": "USB0" },
+    { "pad_id": "E1",  "use": "default", "soc_pin": "USB30_RX0P", "soc_pin_bga": "Y28",  "as": "USB_RX_P", "instance": "USB0" },
+    { "pad_id": "I1",  "use": "default", "soc_pin": "USB30_TX0M", "soc_pin_bga": "W28",  "as": "USB_TX_N", "instance": "USB0" },
+    { "pad_id": "H1",  "use": "default", "soc_pin": "USB30_TX0P", "soc_pin_bga": "W29",  "as": "USB_TX_P", "instance": "USB0" },
 
-    { "pad_id": "AR56", "use": "default", "soc_pin": "ETH0_DA_N", "as": "ETH_DA_N", "instance": "ETH0" },
-    { "pad_id": "AQ56", "use": "default", "soc_pin": "ETH0_DA_P", "as": "ETH_DA_P", "instance": "ETH0" },
+    { "pad_id": "AR56", "use": "default", "soc_pin": "MDI_TXN_or_RXN", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_N", "instance": "ETH0", "soc_note": "E1M-X ETH differential pads connect to the on-module Realtek RTL8211FDI PHY's MDI side; the Renesas RZ/V2N drives the PHY over RGMII (not exposed on E1M-X)." },
+    { "pad_id": "AQ56", "use": "default", "soc_pin": "MDI_TXP_or_RXP", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_P", "instance": "ETH0" },
 
-    { "pad_id": "B47", "use": "default", "soc_pin": "PCIE0_REFCLK_N", "as": "PCIE_CLK_N", "instance": "PCIE0" },
-    { "pad_id": "A47", "use": "default", "soc_pin": "PCIE0_REFCLK_P", "as": "PCIE_CLK_P", "instance": "PCIE0" },
-    { "pad_id": "B42", "use": "default", "soc_pin": "PCIE0_RX0_N", "as": "PCIE_RX0_N", "instance": "PCIE0" },
-    { "pad_id": "A42", "use": "default", "soc_pin": "PCIE0_RX0_P", "as": "PCIE_RX0_P", "instance": "PCIE0" },
+    { "pad_id": "B47", "use": "default", "soc_pin": "PCIE_REFCLKN0", "soc_pin_bga": "G26", "as": "PCIE_CLK_N", "instance": "PCIE0", "soc_note": "PCIe controller is shared on V2N-M1: the on-module DeepX M1 sits on PCIE0 internally; external PCIE0_* pads are then bridge-shared." },
+    { "pad_id": "A47", "use": "default", "soc_pin": "PCIE_REFCLKP0", "soc_pin_bga": "G25", "as": "PCIE_CLK_P", "instance": "PCIE0" },
+    { "pad_id": "B42", "use": "default", "soc_pin": "PCIE_RXDNL0",   "soc_pin_bga": "F27", "as": "PCIE_RX0_N", "instance": "PCIE0" },
+    { "pad_id": "A42", "use": "default", "soc_pin": "PCIE_RXDPL0",   "soc_pin_bga": "F28", "as": "PCIE_RX0_P", "instance": "PCIE0" },
 
-    { "pad_id": "AB2", "use": "default", "soc_pin": "P0_2_RX", "as": "UART_RX", "instance": "UART0" },
-    { "pad_id": "AA2", "use": "default", "soc_pin": "P0_3_TX", "as": "UART_TX", "instance": "UART0" },
+    { "pad_id": "AB2", "use": "default", "soc_pin": "RSCI0_RXD0_MISO0_SCL0", "soc_pin_bga": "AD10", "as": "UART_RX", "instance": "UART0", "soc_note": "Renesas port pin P51." },
+    { "pad_id": "AA2", "use": "default", "soc_pin": "RSCI0_TXD0_MOSI0_SDA0", "soc_pin_bga": "AE10", "as": "UART_TX", "instance": "UART0", "soc_note": "Renesas port pin P50." },
 
-    { "pad_id": "AH1", "use": "default", "soc_pin": "P3_4", "as": "I2C_SCL", "instance": "I2C0" },
-    { "pad_id": "AH2", "use": "default", "soc_pin": "P3_5", "as": "I2C_SDA", "instance": "I2C0" },
+    { "pad_id": "AH1", "use": "default", "soc_pin": "RIIC0_SCL0", "soc_pin_bga": "AJ7", "as": "I2C_SCL", "instance": "I2C0", "soc_note": "Renesas port pin P31." },
+    { "pad_id": "AH2", "use": "default", "soc_pin": "RIIC0_SDA0", "soc_pin_bga": "AH7", "as": "I2C_SDA", "instance": "I2C0", "soc_note": "Renesas port pin P30." },
 
-    { "pad_id": "T64", "use": "default", "soc_pin": "CSI0_LANE0_N", "as": "MIPI_CSI2_DATA0_N", "instance": "CSI0" },
-    { "pad_id": "T63", "use": "default", "soc_pin": "CSI0_LANE0_P", "as": "MIPI_CSI2_DATA0_P", "instance": "CSI0" },
+    { "pad_id": "AQ19", "use": "default", "soc_pin": "I3C_SCL30", "soc_pin_bga": "AH21", "as": "I3C_SCL", "instance": "I3C0", "soc_note": "Renesas port pin P21." },
+    { "pad_id": "AR19", "use": "default", "soc_pin": "I3C_SDA30", "soc_pin_bga": "AJ21", "as": "I3C_SDA", "instance": "I3C0", "soc_note": "Renesas port pin P20." },
 
-    { "pad_id": "AF2", "use": "alt", "soc_pin": "P5_2", "as": "GPIO" },
-    { "pad_id": "AG2", "use": "alt", "soc_pin": "P5_3", "as": "GPIO" }
+    { "pad_id": "T64", "use": "default", "soc_pin": "CSI0_DATA0N", "soc_pin_bga": "T2", "as": "MIPI_CSI2_DATA0_N", "instance": "CSI0" },
+    { "pad_id": "T63", "use": "default", "soc_pin": "CSI0_DATA0P", "soc_pin_bga": "T1", "as": "MIPI_CSI2_DATA0_P", "instance": "CSI0" },
+    { "pad_id": "R64", "use": "default", "soc_pin": "CSI0_CLKN",   "soc_pin_bga": "R3", "as": "MIPI_CSI2_CLK_N",   "instance": "CSI0" },
+    { "pad_id": "R63", "use": "default", "soc_pin": "CSI0_CLKP",   "soc_pin_bga": "R2", "as": "MIPI_CSI2_CLK_P",   "instance": "CSI0" },
+
+    { "pad_id": "AF2", "use": "alt", "soc_pin": "GPIO_(silicon-specific)", "as": "GPIO" },
+    { "pad_id": "AG2", "use": "alt", "soc_pin": "GPIO_(silicon-specific)", "as": "GPIO" }
   ],
   "not_routed": [
     "AN1", "AP1", "AR1"
