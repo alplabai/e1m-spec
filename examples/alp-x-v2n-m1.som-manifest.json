@@ -1,12 +1,19 @@
 {
   "som_manifest_version": 1,
-  "id": "ALP-X-V2N-M1",
+  "id": "E1M-V2M101",
   "version": "0.1.0",
-  "description": "Reference SoM manifest snippet for ALP-X-V2N-M1 on E1M-X (45x65). Pairs Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) with a DeepX M1 NPU companion. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
+  "description": "Reference SoM manifest snippet for E1M-V2M101 — Alp Lab E1M-X V2N-M1 family member (Renesas RZ/V2N + DeepX M1). Two SKUs in the family (E1M-V2M101 / E1M-V2M102) differ in memory tier (32/32 vs 64/128 Gbit). Sister family E1M-X V2N (E1M-V2N101 / E1M-V2N102) is the same module without DeepX M1. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
   "implements": {
     "spec_id": "E1M-X",
     "spec_version": "1.0",
     "spec_repo": "https://github.com/alpCaner/e1m-spec"
+  },
+  "family": "E1M-X V2N-M1",
+  "family_skus": ["E1M-V2M101", "E1M-V2M102"],
+  "sibling_family": {
+    "name": "E1M-X V2N",
+    "skus": ["E1M-V2N101", "E1M-V2N102"],
+    "delta": "Same module without the DeepX M1 accelerator. PCIE0_* pads are then exposed externally rather than shared with the on-module M1."
   },
   "silicon": [
     {

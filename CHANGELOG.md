@@ -5,6 +5,28 @@ All notable changes to the E1M specification are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning is `major.minor` per the rules in `README.md`.
 
+## [1.0.1] — 2026-05-09
+
+### Fixed
+
+- Replaced placeholder SKU names (`ALP-AEN-E3`, `ALP-X-V2N`,
+  `ALP-X-V2N-M1`) with the canonical SKUs from the per-family
+  datasheets:
+  - **E1M-AEN family** — `E1M-AEN301`, `E1M-AEN401`, `E1M-AEN501`,
+    `E1M-AEN601`, `E1M-AEN701`, `E1M-AEN801`.
+  - **E1M-X V2N family** — `E1M-V2N101`, `E1M-V2N102`.
+  - **E1M-X V2N-M1 family** — `E1M-V2M101`, `E1M-V2M102`.
+- Annex A.1 now lists the correct Alif part numbers
+  (`AE722F80F55D5LS`, `AE822FA0E5597LS0`, `AE612FA0E5597LS0`,
+  `AE402FA0E5597LE0`, `AE512F80F55D5LS`) and the correct CPU/NPU
+  topology per Ensemble variant (E3–E8).
+- Annex A.2 / A.3 add the canonical Renesas part number
+  (`R9A09G056N44GBG#AC0`) and split each family into its 32 / 32 vs
+  64 / 128 Gbit memory tiers.
+- Example manifests updated: `id` is now the actual SKU
+  (`E1M-AEN301`, `E1M-V2M101`); `family_skus` lists every SKU in the
+  family.
+
 ## [1.0] — 2026-05-09
 
 Initial public draft of the E1M™ Standard.

@@ -204,7 +204,7 @@ applies.
 | Pad pattern | LGA |
 | Pad count | **312** |
 | Coordinate space | Columns `A`–`AH`, rows `1`–`34` |
-| Reference SoMs | ALP-AEN family (Alif Semiconductor Ensemble — 6 SoC variants) |
+| Reference SoMs | E1M-AEN family — six SKUs `E1M-AEN301`/`401`/`501`/`601`/`701`/`801` (Alif Semiconductor Ensemble E3–E8). |
 
 ### 4.2 E1M-X ("Extended")
 
@@ -214,7 +214,7 @@ applies.
 | Pad pattern | LGA |
 | Pad count | **496** |
 | Coordinate space | Columns `A`–`AR`, rows `1`–`64` |
-| Reference SoMs | ALP-X-V2N, ALP-X-V2N-M1 (Renesas RZ/V2N + DRP-AI3 + DeepX M1) |
+| Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102` (Renesas RZ/V2N + DRP-AI3 + optional DeepX M1). |
 
 ### 4.3 Coordinate system
 
@@ -1204,31 +1204,36 @@ This annex describes on-module components used by the rev 1.0 reference
 SoMs. The information is **informative**; conformant SoMs **MAY** use
 any component set that satisfies §4–§9.
 
-| Reference SoM | Form factor | Primary silicon | Notes |
-| --- | --- | --- | --- |
-| **ALP-AEN** family | E1M | Alif Semiconductor Ensemble (E3 / E4 / E5 / E6 / E7 / E8) | Six SKUs; one shared E1M routing across the family. See §A.1. |
-| **ALP-X-V2N** | E1M-X | Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) | Full-feature SoM without companion accelerator. |
-| **ALP-X-V2N-M1** | E1M-X | Renesas RZ/V2N + DeepX DX-M1 | Full-feature SoM with PCIe-attached NPU companion. |
+| Reference SoM family | Form factor | Primary silicon | SKUs | Detail |
+| --- | --- | --- | --- | --- |
+| **E1M-AEN** | E1M | Alif Semiconductor Ensemble (E3–E8) | `E1M-AEN301`, `E1M-AEN401`, `E1M-AEN501`, `E1M-AEN601`, `E1M-AEN701`, `E1M-AEN801` | §A.1 |
+| **E1M-X V2N** | E1M-X | Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) | `E1M-V2N101`, `E1M-V2N102` | §A.2 |
+| **E1M-X V2N-M1** | E1M-X | Renesas RZ/V2N + DeepX DX-M1 | `E1M-V2M101`, `E1M-V2M102` | §A.3 |
 
-### A.1 ALP-AEN family (six SKUs, shared E1M routing)
+### A.1 E1M-AEN family (six SKUs, shared E1M routing)
 
-The ALP-AEN family pairs the Alif Semiconductor *Ensemble* SoC family
-with the E1M (35 × 35 mm) form factor. All six SKUs use the same
-package routing, the same on-module PMIC, the same Wi-Fi 6 + BLE 5.4
-combo (TI CC3501E), the same 100 Mbps Ethernet PHY (TI DP83825I), and
-the same CAN transceiver (TI TCAN1044AVDRBRQ1). They differ only in
-SoC choice and memory configuration.
+The **E1M-AEN** family pairs the Alif Semiconductor *Ensemble* SoC
+family with the E1M (35 × 35 mm) form factor. All six SKUs use the
+same package routing, the same on-module PMIC, the same Wi-Fi 6 +
+BLE 5.4 combo (TI CC3501E), the same 100 Mbps Ethernet PHY (TI
+DP83825I), and the same CAN transceiver (TI TCAN1044AVDRBRQ1). They
+differ only in SoC choice (Ensemble variant), MRAM size, and
+optional ISP / JPEG-encoder presence.
 
-| SKU | App CPU | Real-time CPU | NPU |
-| --- | --- | --- | --- |
-| **ALP-AEN-E3** | — | 2 × Cortex-M55 | 2 × Ethos-U55 |
-| **ALP-AEN-E5** | 1 × Cortex-A32 | 2 × Cortex-M55 | 2 × Ethos-U55 |
-| **ALP-AEN-E7** | 2 × Cortex-A32 | 2 × Cortex-M55 | 2 × Ethos-U55 |
-| **ALP-AEN-E4** | — | 2 × Cortex-M55 | 3 × Ethos-U55 |
-| **ALP-AEN-E6** | 1 × Cortex-A32 | 2 × Cortex-M55 | 3 × Ethos-U55 |
-| **ALP-AEN-E8** | 2 × Cortex-A32 | 2 × Cortex-M55 | 3 × Ethos-U55 |
+| SKU | Alif Ensemble variant | Alif part number | App CPU | Real-time CPU | NPU | ISP / JPEG |
+| --- | --- | --- | --- | --- | --- | --- |
+| `E1M-AEN301` | E3 | (3-series) | — | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
+| `E1M-AEN401` | E4 | `AE402FA0E5597LE0` / `AE512F80F55D5LS` | — | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
+| `E1M-AEN501` | E5 | (5-series) | 1 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
+| `E1M-AEN601` | E6 | `AE612FA0E5597LS0` | 1 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 2 × 204 GOPS Ethos-U55 | ISP + JPEG encoder |
+| `E1M-AEN701` | E7 | `AE722F80F55D5LS` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
+| `E1M-AEN801` | E8 | `AE822FA0E5597LS0` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 2 × 204 GOPS Ethos-U55 | ISP + JPEG encoder |
 
-Every ALP-AEN SKU routes a **subset** of the E1M pads. Notably:
+All six SKUs are RoHS, operating temperature −40 to +85 °C, and use
+the Alif `AE…F80F55D5LS` / `AE…FA0E5597LS0` package family.
+
+Every E1M-AEN SKU routes the same **subset** of the E1M pads.
+Notably:
 
 - **Ethernet:** only `ETH0_*` is routed (Ensemble has one MAC).
 - **MIPI CSI-2:** only `CSI0_*` is routed (one camera, 2 lanes).
@@ -1244,39 +1249,57 @@ plus on-module OSPI configurable as RAM or ROM) are documented in the
 ALP-AEN Hardware Design Guide and the ALP-AEN Datasheet, both
 maintained outside this repository.
 
-### A.2 ALP-X-V2N (Renesas RZ/V2N)
+### A.2 E1M-X V2N family (Renesas RZ/V2N)
 
-ALP-X-V2N pairs the Renesas *RZ/V2N* vision-AI MPU with the E1M-X
-(45 × 65 mm) form factor. Highlights from the V2N datasheet:
+The **E1M-X V2N** family pairs the Renesas *RZ/V2N* vision-AI MPU
+with the E1M-X (45 × 65 mm) form factor. Two SKUs differ only in
+memory tier:
+
+| SKU | Renesas part | LPDDR4X | eMMC |
+| --- | --- | --- | --- |
+| `E1M-V2N101` | `R9A09G056N44GBG#AC0` | 32 Gbit | eMMC 5.1, 32 Gbit |
+| `E1M-V2N102` | `R9A09G056N44GBG#AC0` | 64 Gbit | eMMC 5.1, 128 Gbit |
+
+Common silicon and capability across both SKUs:
 
 | Item | Value |
 | --- | --- |
 | Application CPU | 4 × Arm Cortex-A55 @ 1.8 GHz |
 | Real-time CPU | Arm Cortex-M33 @ 200 MHz |
 | Dedicated I/O MCU | Arm Cortex-M33 @ 216 MHz |
-| AI accelerator | Renesas DRP-AI3, **15 TOPS** dense (datasheet states 4 dense TOPS for DRP-AI 4) |
+| AI accelerator | Renesas DRP-AI3, **4 TOPS** (V2N grade) |
 | ISP | Arm Mali-C55 |
 | GPU | Arm Mali-G31 |
 | Codec | H.264 1920 × 1080 @ 60 fps; H.265 3840 × 2160p @ 30 fps |
 | MIPI DSI | 4 lanes — up to 1920 × 1200 RGB888 @ 60 fps |
-| MIPI CSI | 2 × 4-lane (up to 4K 30 fps), 4 virtual channels |
+| MIPI CSI | 2 × 4-lane (up to 4K @ 30 fps), 4 virtual channels |
 | Wi-Fi / BLE | 2.4 / 5 / 6 GHz Wi-Fi 6 (802.11 a/b/g/n/ac/ax) + Bluetooth 5.4 |
 | Ethernet | 2 × 1 Gbps PHY |
 | CAN | 2 × CAN-BUS PHY |
 | PCIe | PCIe 3.0 × 2 lanes |
-| LPDDR4X | up to 8 GB, 32-bit @ 3.2 GT/s |
-| eMMC | 4 GB – 256 GB |
-| SPI NOR | 128 Mbit (boot supported) |
-| Boot strap | per Renesas RZ/V2N (BOOT0, BOOT1) |
+| Boot | NOR Flash (boot-supported) |
+| Operating temperature | −40 to +85 °C |
 
-### A.3 ALP-X-V2N-M1 (Renesas RZ/V2N + DeepX M1)
+Both SKUs additionally include an on-module display backlight driver,
+4 LDOs for external cameras, NOR Flash, the I/O MCU, a TPM (secure
+chip), an EEPROM, an RTC, and a temperature sensor.
 
-ALP-X-V2N-M1 is the V2N SoM with an added **DeepX M1** standalone AI
-accelerator. All V2N attributes carry over; the additions are:
+### A.3 E1M-X V2N-M1 family (Renesas RZ/V2N + DeepX M1)
+
+The **E1M-X V2N-M1** family is the V2N SoM with an added **DeepX M1**
+standalone AI accelerator. Two SKUs match the V2N memory tiers:
+
+| SKU | Renesas part | LPDDR4X | eMMC | AI capability |
+| --- | --- | --- | --- | --- |
+| `E1M-V2M101` | `R9A09G056N44GBG#AC0` | 32 Gbit | eMMC 5.1, 32 Gbit | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
+| `E1M-V2M102` | `R9A09G056N44GBG#AC0` | 64 Gbit | eMMC 5.1, 128 Gbit | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
+
+All other V2N attributes carry over (CPU, ISP, GPU, codec, MIPI
+counts, Wi-Fi / BLE, Ethernet, CAN, PCIe). The DeepX M1 brings:
 
 | Item | Value |
 | --- | --- |
-| Companion AI accelerator | **DeepX M1** — up to **25 TOPS** |
+| Companion AI accelerator | **DeepX DX-M1** — up to **25 TOPS** |
 | Companion memory | 2 × LPDDR5X |
 | Companion storage | SPI NAND flash |
 | Connection | DeepX M1 attached internally to the SoM via PCIe; not exposed on additional E1M-X pads |

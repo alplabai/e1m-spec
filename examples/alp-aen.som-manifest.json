@@ -1,15 +1,22 @@
 {
   "som_manifest_version": 1,
-  "id": "ALP-AEN-E3",
+  "id": "E1M-AEN301",
   "version": "0.1.0",
-  "description": "Reference SoM manifest for ALP-AEN-E3 — Alif Semiconductor Ensemble E3 (2x Cortex-M55, 2x Ethos-U55) on E1M (35x35 mm). The AEN family has 6 SKUs (E3/E4/E5/E6/E7/E8); they share this E1M routing and differ only in SoC and memory. Snippet is illustrative — it lists only the pads needed for debug + first I2C peripheral, not a full routing.",
+  "description": "Reference SoM manifest for E1M-AEN301 — Alp Lab E1M-AEN family member built around the Alif Semiconductor Ensemble E3 SoC (2x Cortex-M55 + 2x Ethos-U55, no application CPU). The E1M-AEN family has six SKUs (E1M-AEN301/401/501/601/701/801) that share this E1M routing and differ only in Ensemble variant, MRAM size, and ISP/JPEG-encoder option. Snippet is illustrative — it lists only the pads needed for debug + first I2C peripheral, not the full routing.",
   "implements": {
     "spec_id": "E1M",
     "spec_version": "1.0",
     "spec_repo": "https://github.com/alpCaner/e1m-spec"
   },
-  "family": "ALP-AEN",
-  "family_skus": ["ALP-AEN-E3", "ALP-AEN-E4", "ALP-AEN-E5", "ALP-AEN-E6", "ALP-AEN-E7", "ALP-AEN-E8"],
+  "family": "E1M-AEN",
+  "family_skus": [
+    "E1M-AEN301",
+    "E1M-AEN401",
+    "E1M-AEN501",
+    "E1M-AEN601",
+    "E1M-AEN701",
+    "E1M-AEN801"
+  ],
   "silicon": [
     {
       "role": "primary",

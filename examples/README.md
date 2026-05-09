@@ -14,10 +14,10 @@ SHALL only reference pad IDs that exist in the matching `pinout/v1.json`
 
 ## Files
 
-| File | Form factor | Silicon | Notes |
-| --- | --- | --- | --- |
-| [`alp-aen.som-manifest.json`](./alp-aen.som-manifest.json) | E1M (35×35) | Alif Semiconductor Ensemble E3 | Minimal example: routes a small subset (debug + I²C + a few GPIOs). Used to bring up first silicon. |
-| [`alp-x-v2n-m1.som-manifest.json`](./alp-x-v2n-m1.som-manifest.json) | E1M-X (45×65) | Renesas RZ/V2N + DRP-AI3 + DeepX M1 | Extended example: shows multiple silicon parts on one SoM, broader routing, and the `not_routed` field. |
+| File | SKU | Form factor | Silicon | Notes |
+| --- | --- | --- | --- | --- |
+| [`alp-aen.som-manifest.json`](./alp-aen.som-manifest.json) | `E1M-AEN301` | E1M (35×35) | Alif Semiconductor Ensemble E3 | Minimal example: routes a small subset (debug + I²C + a few GPIOs). Used to bring up first silicon. The `family_skus` field lists all six E1M-AEN SKUs (E1M-AEN301 / 401 / 501 / 601 / 701 / 801) that share this routing. |
+| [`alp-x-v2n-m1.som-manifest.json`](./alp-x-v2n-m1.som-manifest.json) | `E1M-V2M101` | E1M-X (45×65) | Renesas RZ/V2N + DRP-AI3 + DeepX M1 | Extended example: shows multiple silicon parts on one SoM, broader routing, and the `not_routed` field. The `family_skus` field lists `E1M-V2M101` / `E1M-V2M102`; the sibling `E1M-X V2N` family (`E1M-V2N101` / `E1M-V2N102`) is the same module without DeepX M1. |
 
 ## Manifest format (v1)
 
