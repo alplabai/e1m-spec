@@ -14,14 +14,21 @@
       "vendor": "Renesas",
       "family": "RZ/V2N",
       "part": "R9A09G057",
-      "notes": "Cortex-A55 application + Cortex-M33 real-time, with DRP-AI3 accelerator."
+      "notes": "4x Cortex-A55 @ 1.8 GHz + Cortex-M33 @ 200 MHz; DRP-AI3 (15 TOPS), Arm Mali-C55 ISP, Arm Mali-G31 GPU, H.264/H.265 codec."
+    },
+    {
+      "role": "io_mcu",
+      "vendor": "Arm",
+      "family": "Cortex-M33",
+      "part": "Cortex-M33",
+      "notes": "Dedicated on-module I/O MCU at 216 MHz."
     },
     {
       "role": "accelerator",
       "vendor": "DeepX",
       "family": "DX-M1",
       "part": "DX-M1",
-      "notes": "Connected via PCIe to the primary; no E1M pads are routed directly to this part."
+      "notes": "Standalone AI accelerator, up to 25 TOPS. Companion memory: 2x LPDDR5X + SPI NAND. Attached internally via PCIe; not routed to additional E1M-X pads."
     },
     {
       "role": "pmic",

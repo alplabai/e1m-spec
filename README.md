@@ -1,24 +1,41 @@
 # e1m-spec
 
-Canonical specification for the **E1M** 35×35 mm AI module-on-module pinout standard.
+Canonical specification for the **E1M** AI module-on-module pinout
+standard, covering two form factors:
 
-E1M defines the universe of physical pads on a 35×35 mm carrier-board edge and
-which peripheral signals each pad may carry. The standard is intentionally
-silicon-agnostic — variants such as **ALP-AEN** (Alif Ensemble),
-**ALP-X-V2N** (Renesas RZ/V2N), and **ALP-X-V2N-M1** (DRP-AI3 + DeepX M1)
-share this pinout and declare their routed subset in per-variant SoM manifests
-held in consumer repositories (e.g. `alp-studio`).
+- **E1M** — 35 × 35 mm, 312 pads.
+- **E1M-X** — 45 × 65 mm, 496 pads.
+
+E1M defines the universe of physical pads on each form factor and
+which peripheral signals each pad may carry. The standard is
+intentionally silicon-agnostic — variants such as **ALP-AEN** (Alif
+Ensemble), **ALP-X-V2N** (Renesas RZ/V2N), and **ALP-X-V2N-M1**
+(DRP-AI3 + DeepX M1) share these pinouts and declare their routed
+subset in per-variant SoM manifests held in consumer repositories
+(e.g. `alp-studio`).
 
 ## Contents
 
 | Path | Purpose |
 | --- | --- |
-| `STANDARD.md` | Prose specification — source of truth. |
-| `pinout/v1.json` | Canonical machine-readable pinout (Loom format v1). |
+| `STANDARD.md` | Prose specification (OSM-style). The normative document. |
+| `pinout/v1.json` | Canonical machine-readable E1M pinout (Loom v1). |
+| `pinout/x-v1.json` | Canonical machine-readable E1M-X pinout (Loom v1). |
+| `pinout/schema/loom-v1.schema.json` | JSON Schema validating both pinout files. |
+| `images/` | Pinout drawings, footprint mechanical drawings, cross-sections, placement diagrams. See `images/CONTENTS.md`. |
 | `examples/` | Reference SoM manifest snippets showing how a variant declares its routed subset. |
-| `source/` | Authoring source (Word doc). Not a deliverable. |
+| `source/altium-*.tsv` | Authoritative pin-list exports from Altium — the source from which `pinout/*.json` is built. |
+| `source/_build.py` | Generator: `altium-*.tsv` → `pinout/*.json`. |
 | `CHANGELOG.md` | Version history. |
-| `LICENSE` | Proprietary notice. |
+| `LICENSE` | CC BY-SA 4.0 notice + scope + trademarks. |
+
+## Open work
+
+The specification has explicit `> **TODO (Alp Lab):** …` blocks in
+every section that still needs author input — searchable via
+`grep -n 'TODO (Alp Lab)' STANDARD.md`. They cover footprint
+dimensions, height envelopes, electrical characteristics, power
+sequencing, packaging, and the boot-strap normative interpretation.
 
 ## Status
 

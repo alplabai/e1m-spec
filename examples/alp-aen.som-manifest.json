@@ -1,19 +1,40 @@
 {
   "som_manifest_version": 1,
-  "id": "ALP-AEN",
+  "id": "ALP-AEN-E3",
   "version": "0.1.0",
-  "description": "Reference SoM manifest snippet for ALP-AEN (Alif Ensemble E3 on E1M 35x35). Illustrative — not a complete bring-up routing; only the subset needed for debug + first I2C peripheral.",
+  "description": "Reference SoM manifest for ALP-AEN-E3 — Alif Semiconductor Ensemble E3 (2x Cortex-M55, 2x Ethos-U55) on E1M (35x35 mm). The AEN family has 6 SKUs (E3/E4/E5/E6/E7/E8); they share this E1M routing and differ only in SoC and memory. Snippet is illustrative — it lists only the pads needed for debug + first I2C peripheral, not a full routing.",
   "implements": {
     "spec_id": "E1M",
     "spec_version": "1.0",
     "spec_repo": "https://github.com/alpCaner/e1m-spec"
   },
+  "family": "ALP-AEN",
+  "family_skus": ["ALP-AEN-E3", "ALP-AEN-E4", "ALP-AEN-E5", "ALP-AEN-E6", "ALP-AEN-E7", "ALP-AEN-E8"],
   "silicon": [
     {
       "role": "primary",
       "vendor": "Alif Semiconductor",
       "family": "Ensemble",
-      "part": "E3"
+      "part": "E3",
+      "notes": "2x Cortex-M55 + 2x Ethos-U55. No application CPU."
+    },
+    {
+      "role": "wifi_ble",
+      "vendor": "Texas Instruments",
+      "part": "CC3501E",
+      "notes": "Wi-Fi 6 + BLE 5.4 combo."
+    },
+    {
+      "role": "ethernet_phy",
+      "vendor": "Texas Instruments",
+      "part": "DP83825I",
+      "notes": "100 Mbps Ethernet PHY. Single PHY — only ETH0_* is routed."
+    },
+    {
+      "role": "can_phy",
+      "vendor": "Texas Instruments",
+      "part": "TCAN1044AVDRBRQ1",
+      "notes": "CAN transceiver for CAN0_*. CAN1_* not present on E1M form factor."
     }
   ],
   "routes": [
@@ -42,5 +63,14 @@
   "not_routed": [
     "A29", "B29", "A21", "A22", "A23", "A24", "A25", "A26", "A27", "A28",
     "B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"
-  ]
+  ],
+  "routing_caveats": {
+    "boot_strap": "BOOT0..BOOT3 are NC on every ALP-AEN SKU. The AEN family does not support strap-driven boot-mode selection.",
+    "ethernet": "Only ETH0_* is routed (Ensemble has one MAC). ETH1_* pads are NC.",
+    "mipi_csi": "Only CSI0_* is routed (Ensemble has one CSI controller, 2 lanes).",
+    "mipi_dsi": "Only DSI0_* is routed (Ensemble has one DSI controller, 2 lanes).",
+    "pcie": "Not routed — the AEN family does not expose PCIe.",
+    "usb3": "Not routed — only USB 2.0 (USB2_*) is available.",
+    "module_stby": "Enters real-time-clock standby only — does not gate the application CPU."
+  }
 }

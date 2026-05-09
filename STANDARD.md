@@ -204,7 +204,7 @@ applies.
 | Pad pattern | LGA |
 | Pad count | **312** |
 | Coordinate space | Columns `A`–`AH`, rows `1`–`34` |
-| Reference SoMs | ALP-AEN (Alif Ensemble) |
+| Reference SoMs | ALP-AEN family (Alif Semiconductor Ensemble — 6 SoC variants) |
 
 ### 4.2 E1M-X ("Extended")
 
@@ -402,6 +402,20 @@ based on Renesas RZ/V2N (informative).
 or leave it as the SoM's internal pull defines. `BOOT3` selects the
 boot CPU on the reference SoMs (high → CA55, low → CM33).
 
+> **TODO (Alp Lab):** define the **normative** strap interpretation
+> independent of any specific silicon. Either:
+>
+> - (a) Specify the meaning of every (`BOOT0`, `BOOT1`, `BOOT2`,
+>   `BOOT3`) tuple at the standard level (e.g. `00xx` = boot from
+>   eMMC, `01xx` = boot from QSPI, etc.) and require all conformant
+>   SoMs to honour it; or
+> - (b) Promote the strap to a per-SoM manifest field entirely and
+>   delete the silicon-specific table above from §6.4.
+>
+> The current text describes a Renesas RZ/V2N mapping in a
+> nominally-vendor-agnostic standard, which violates the §1.2
+> "no-per-SoM-data" rule.
+
 ### 6.5 Electrical characteristics
 
 > **TODO (Alp Lab):** publish four tables, each indexed by signal
@@ -439,6 +453,20 @@ coordinate of the form `<column-letter(s)><row-number>`:
 Each form factor uses its **own** coordinate space; the same physical
 pad position has different coordinates on E1M and E1M-X. The
 form-factor identifier `E1M` or `E1M-X` distinguishes the two.
+
+The pad maps for both form factors are shown in Figures 6 and 7.
+
+![E1M pad map (top view)](images/e1m-pinout-drawing.png)
+
+*Figure 6 — E1M pad map, top view. Columns A–AH (34 letters) × rows
+1–34. Three-row peripheral pad band; centre is reserved for top-side
+components per §5.3.*
+
+![E1M-X pad map (top view)](images/e1m-x-pinout-drawing.png)
+
+*Figure 7 — E1M-X pad map, top view. Columns A–AR (44 letters) × rows
+1–64. Three-row peripheral pad band on the long edges; full pad band
+on the short edges to expose the additional CSI/PCIe controllers.*
 
 ### 7.2 Interface count overview
 
@@ -1178,37 +1206,114 @@ any component set that satisfies §4–§9.
 
 | Reference SoM | Form factor | Primary silicon | Notes |
 | --- | --- | --- | --- |
-| **ALP-AEN** | E1M | Alif Semiconductor Ensemble E3 | Bring-up SoM. Subset routing focused on debug + I²C + GPIO. |
+| **ALP-AEN** family | E1M | Alif Semiconductor Ensemble (E3 / E4 / E5 / E6 / E7 / E8) | Six SKUs; one shared E1M routing across the family. See §A.1. |
 | **ALP-X-V2N** | E1M-X | Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) | Full-feature SoM without companion accelerator. |
 | **ALP-X-V2N-M1** | E1M-X | Renesas RZ/V2N + DeepX DX-M1 | Full-feature SoM with PCIe-attached NPU companion. |
 
-### A.1 Wireless module & antenna
+### A.1 ALP-AEN family (six SKUs, shared E1M routing)
+
+The ALP-AEN family pairs the Alif Semiconductor *Ensemble* SoC family
+with the E1M (35 × 35 mm) form factor. All six SKUs use the same
+package routing, the same on-module PMIC, the same Wi-Fi 6 + BLE 5.4
+combo (TI CC3501E), the same 100 Mbps Ethernet PHY (TI DP83825I), and
+the same CAN transceiver (TI TCAN1044AVDRBRQ1). They differ only in
+SoC choice and memory configuration.
+
+| SKU | App CPU | Real-time CPU | NPU |
+| --- | --- | --- | --- |
+| **ALP-AEN-E3** | — | 2 × Cortex-M55 | 2 × Ethos-U55 |
+| **ALP-AEN-E5** | 1 × Cortex-A32 | 2 × Cortex-M55 | 2 × Ethos-U55 |
+| **ALP-AEN-E7** | 2 × Cortex-A32 | 2 × Cortex-M55 | 2 × Ethos-U55 |
+| **ALP-AEN-E4** | — | 2 × Cortex-M55 | 3 × Ethos-U55 |
+| **ALP-AEN-E6** | 1 × Cortex-A32 | 2 × Cortex-M55 | 3 × Ethos-U55 |
+| **ALP-AEN-E8** | 2 × Cortex-A32 | 2 × Cortex-M55 | 3 × Ethos-U55 |
+
+Every ALP-AEN SKU routes a **subset** of the E1M pads. Notably:
+
+- **Ethernet:** only `ETH0_*` is routed (Ensemble has one MAC).
+- **MIPI CSI-2:** only `CSI0_*` is routed (one camera, 2 lanes).
+- **MIPI DSI:** only `DSI0_*` is routed (one display, 2 lanes).
+- **PCIe:** not routed.
+- **USB:** USB 2.0 only (`USB2_*`).
+- **Boot strap:** `BOOT0`–`BOOT3` are not routed; the AEN family does
+  not support strap-driven boot mode selection. Pads are NC.
+- **Standby:** `MODULE_STBY` enters real-time-clock standby only.
+
+Per-SKU memory options (SRAM 128 KB – 13.5 MB, MRAM 256 KB – 5.5 MB,
+plus on-module OSPI configurable as RAM or ROM) are documented in the
+ALP-AEN Hardware Design Guide and the ALP-AEN Datasheet, both
+maintained outside this repository.
+
+### A.2 ALP-X-V2N (Renesas RZ/V2N)
+
+ALP-X-V2N pairs the Renesas *RZ/V2N* vision-AI MPU with the E1M-X
+(45 × 65 mm) form factor. Highlights from the V2N datasheet:
+
+| Item | Value |
+| --- | --- |
+| Application CPU | 4 × Arm Cortex-A55 @ 1.8 GHz |
+| Real-time CPU | Arm Cortex-M33 @ 200 MHz |
+| Dedicated I/O MCU | Arm Cortex-M33 @ 216 MHz |
+| AI accelerator | Renesas DRP-AI3, **15 TOPS** dense (datasheet states 4 dense TOPS for DRP-AI 4) |
+| ISP | Arm Mali-C55 |
+| GPU | Arm Mali-G31 |
+| Codec | H.264 1920 × 1080 @ 60 fps; H.265 3840 × 2160p @ 30 fps |
+| MIPI DSI | 4 lanes — up to 1920 × 1200 RGB888 @ 60 fps |
+| MIPI CSI | 2 × 4-lane (up to 4K 30 fps), 4 virtual channels |
+| Wi-Fi / BLE | 2.4 / 5 / 6 GHz Wi-Fi 6 (802.11 a/b/g/n/ac/ax) + Bluetooth 5.4 |
+| Ethernet | 2 × 1 Gbps PHY |
+| CAN | 2 × CAN-BUS PHY |
+| PCIe | PCIe 3.0 × 2 lanes |
+| LPDDR4X | up to 8 GB, 32-bit @ 3.2 GT/s |
+| eMMC | 4 GB – 256 GB |
+| SPI NOR | 128 Mbit (boot supported) |
+| Boot strap | per Renesas RZ/V2N (BOOT0, BOOT1) |
+
+### A.3 ALP-X-V2N-M1 (Renesas RZ/V2N + DeepX M1)
+
+ALP-X-V2N-M1 is the V2N SoM with an added **DeepX M1** standalone AI
+accelerator. All V2N attributes carry over; the additions are:
+
+| Item | Value |
+| --- | --- |
+| Companion AI accelerator | **DeepX M1** — up to **25 TOPS** |
+| Companion memory | 2 × LPDDR5X |
+| Companion storage | SPI NAND flash |
+| Connection | DeepX M1 attached internally to the SoM via PCIe; not exposed on additional E1M-X pads |
+
+The DeepX M1 sits behind the RZ/V2N's PCIe controller, so the
+external-PCIe routing on `PCIE0_*` is effectively shared with the
+on-module M1.
+
+### A.4 Wireless module & antenna (E1M-X)
 
 E1M-X may carry a Wi-Fi 6 + BLE 5.4 combo module together with an
 optional U.FL connector for an external antenna. The antenna may also
 be routed off-module to a carrier-side antenna. The antenna selection
 is a per-SoM choice.
 
-### A.2 Memories
+### A.5 Memories (E1M-X reference SoMs)
 
 The reference E1M-X SoMs support:
 
 - **eMMC** up to 256 GB.
-- **LPDDR4X** up to 8 GB.
-- **NOR Flash** with boot support.
+- **LPDDR4X** up to 8 GB at 32-bit / 3.2 GT/s (RZ/V2N main DRAM).
+- **SPI NOR** flash, 128 Mbit, boot-supported.
 - **EEPROM** for board-ID / configuration storage.
+- **(V2N-M1 only)** 2 × LPDDR5X attached to the DeepX M1.
+- **(V2N-M1 only)** SPI NAND for the DeepX M1.
 
-### A.3 Trusted Platform Module
+### A.6 Trusted Platform Module
 
 The rev 1.0 reference E1M-X SoMs include one Trusted Platform Module
 (TPM 2.0).
 
-### A.4 Real-Time Clock
+### A.7 Real-Time Clock
 
 E1M and E1M-X SoMs may include a battery-backed real-time clock with
 its 32 kHz output exposed on `RTC_CLKOUT`.
 
-### A.5 PCB temperature sensor
+### A.8 PCB temperature sensor
 
 The reference SoMs may be assembled with an on-board PCB temperature
 sensor (TI TMP112D or equivalent).
