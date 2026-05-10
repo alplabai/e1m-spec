@@ -6,7 +6,7 @@
   "implements": {
     "spec_id": "E1M-X",
     "spec_version": "1.0",
-    "spec_repo": "https://github.com/alpCaner/e1m-spec"
+    "spec_repo": "https://github.com/alplabai/e1m-spec"
   },
   "family": "E1M-X V2N-M1",
   "family_skus": ["E1M-V2M101", "E1M-V2M102"],

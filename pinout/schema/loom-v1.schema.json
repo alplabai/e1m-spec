@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/alpCaner/e1m-spec/pinout/schema/loom-v1.schema.json",
+  "$id": "https://github.com/alplabai/e1m-spec/pinout/schema/loom-v1.schema.json",
   "title": "Loom v1 — E1M pinout machine-readable form",
   "description": "Schema for E1M-family pinout JSON documents. Validates pinout/v1.json (E1M) and pinout/x-v1.json (E1M-X) against the E1M Standard v1.0 (STANDARD.md).",
   "type": "object",

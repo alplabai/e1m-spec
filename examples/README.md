@@ -29,7 +29,7 @@ SHALL only reference pad IDs that exist in the matching `pinout/v1.json`
   "implements": {
     "spec_id": "E1M",
     "spec_version": "1.0",
-    "spec_repo": "https://github.com/alpCaner/e1m-spec"
+    "spec_repo": "https://github.com/alplabai/e1m-spec"
   },
   "silicon": [
     {

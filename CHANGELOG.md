@@ -5,6 +5,25 @@ All notable changes to the E1M specification are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning is `major.minor` per the rules in `README.md`.
 
+## [1.1.1] — 2026-05-10
+
+### Changed
+
+- Repo moved from `github.com/alpCaner/e1m-spec` to
+  `github.com/alplabai/e1m-spec` (Alp Lab AI org). Repo remains
+  private; no content change beyond URL references.
+- All internal references to the old `alpCaner/e1m-spec` URL
+  updated to `alplabai/e1m-spec`:
+  - `pinout/schema/loom-v1.schema.json` `$id` field.
+  - `examples/alp-aen.som-manifest.json` `spec_repo`.
+  - `examples/alp-x-v2n-m1.som-manifest.json` `spec_repo`.
+  - `examples/README.md` (manifest example).
+  - `STANDARD.md` Annex C manifest example.
+- The old `alpCaner/e1m-spec` URL keeps redirecting to the new
+  location automatically (GitHub repo-transfer behaviour); existing
+  external references will continue to work but should be updated
+  at next opportunity.
+
 ## [1.1] — 2026-05-09
 
 ### Added (normative)
