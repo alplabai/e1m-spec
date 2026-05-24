@@ -5,6 +5,21 @@ All notable changes to the E1M specification are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning is `major.minor` per the rules in `README.md`.
 
+## [1.1.2] — 2026-05-24
+
+### Fixed
+
+- §7.2 *Interface count overview* and §7.3.1 *Power & control* prose
+  counts corrected to match the authoritative pin JSON (`pinout/v1.json`
+  / `pinout/x-v1.json`, CI-checked against the Altium source). The
+  hand-written tables had drifted (issue #1):
+  - E1M `GND`: §7.3.1 said "46 pads" → **49**.
+  - E1M `GPIO` (default-function): §7.2 said 25 → **23**.
+  - E1M-X `NC`: §7.2 said 35 → **34** (the §7.3.4 pad list already
+    enumerated the correct 34).
+
+  Prose-only reconciliation — no pinout or other normative change.
+
 ## [1.1.1] — 2026-05-10
 
 ### Changed
