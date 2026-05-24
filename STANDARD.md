@@ -508,7 +508,7 @@ exposed by this standard on each form factor.
 | SDIO / SD card (4-bit) | 1 | 1 |
 | CAN-BUS | 1 | 2 |
 | JTAG / SWD | 1 | 1 |
-| GPIO (default-function) | 25 | 34 |
+| GPIO (default-function) | 23 | 34 |
 | PDM microphone | 2 | 2 |
 | Audio master clock | 1 | 1 |
 | RTC clock output | 1 | 1 |
@@ -523,7 +523,7 @@ exposed by this standard on each form factor.
 | Parallel LCD (24-bit RGB) | — | 1 |
 | PCIe 4-lane | 1 | 2 |
 | Reserved (RSVD) | 36 | 22 |
-| Not connected (NC) | 0 | 35 |
+| Not connected (NC) | 0 | 34 |
 
 > **Note.** The "GPIO (default-function)" row counts only pads whose
 > default signal is `GPIO`. Per §8.2, every digital pad (USB, MIPI,
@@ -563,7 +563,7 @@ project), both names are shown. Slash-combo names (`JTAG_TCK/SWDCLK`,
 | J63 | AB33 | `CAM_VFB1` |
 | L63 | _(E1M-X only)_ | `CAM_VFB2` |
 | N63 | _(E1M-X only)_ | `CAM_VFB3` |
-| 105 pads (see `pinout/x-v1.json`) | 46 pads (see `pinout/v1.json`) | `GND` |
+| 105 pads (see `pinout/x-v1.json`) | 49 pads (see `pinout/v1.json`) | `GND` |
 | AA1 | O1 | `MODULE_EN` |
 | AB1 | O2 | `MODULE_STBY` |
 | Z1 | W1 | `PORn` |
