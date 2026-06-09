@@ -167,6 +167,7 @@ applies.
 | CAN | Controller area network |
 | CSI | (MIPI) Camera Serial Interface |
 | DAC | Digital-to-analogue converter |
+| DBG | Debug-console UART |
 | DSI | (MIPI) Display Serial Interface |
 | ENC | Quadrature encoder |
 | GPIO | General-purpose input / output |
@@ -501,6 +502,7 @@ exposed by this standard on each form factor.
 | USB 2.0 | 1 | 1 |
 | USB 3.x | 1 | 2 |
 | UART | 2 | 2 |
+| Debug UART (console) | — | 1 |
 | SPI | 2 | 3 |
 | I²C | 2 | 4 |
 | I³C | 1 | 1 |
@@ -522,7 +524,7 @@ exposed by this standard on each form factor.
 | Parallel camera (8 / 16-bit) | 1 (8 bit) | 1 (16 bit) |
 | Parallel LCD (24-bit RGB) | — | 1 |
 | PCIe 4-lane | 1 | 2 |
-| Reserved (RSVD) | 36 | 22 |
+| Reserved (RSVD) | 36 | 20 |
 | Not connected (NC) | 0 | 34 |
 
 > **Note.** The "GPIO (default-function)" row counts only pads whose
@@ -598,7 +600,7 @@ Carrier boards **SHALL** leave them unconnected.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
-| W62, X62, Y62, Z62, AA62, AB62, AC62, AD62, AE62, AF62, AG62, AH62, AI62, AJ62, AK62, AL62, AM62, AN62, AO62, AP62, AQ62, AR62 | A33, A34, D32, E32, F32, G32, H32, I32, J32, K32, L32, M32, N32, O32, P32, Q3, Q32, R3, R32, S3, T3, U3, V3, W3, X3, Y3, Z3, AA3, AB3, AC3, AD3, AE3, AG26, AG32, AH26, AH32 | `RSVD` |
+| W62, X62, Y62, Z62, AA62, AB62, AE62, AF62, AG62, AH62, AI62, AJ62, AK62, AL62, AM62, AN62, AO62, AP62, AQ62, AR62 | A33, A34, D32, E32, F32, G32, H32, I32, J32, K32, L32, M32, N32, O32, P32, Q3, Q32, R3, R32, S3, T3, U3, V3, W3, X3, Y3, Z3, AA3, AB3, AC3, AD3, AE3, AG26, AG32, AH26, AH32 | `RSVD` |
 
 #### 7.3.4 Not connected (NC)
 
@@ -651,24 +653,24 @@ NOT** add an external PHY.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
-| AR56 | AH30 | `ETH0_DA_N` |
-| AQ56 | AG30 | `ETH0_DA_P` |
-| AR57 | AH29 | `ETH0_DB_N` |
-| AQ57 | AG29 | `ETH0_DB_P` |
-| AR58 | AH28 | `ETH0_DC_N` |
-| AQ58 | AG28 | `ETH0_DC_P` |
-| AR59 | AH27 | `ETH0_DD_N` |
-| AQ59 | AG27 | `ETH0_DD_P` |
+| AR59 | AH30 | `ETH0_DA_N` |
+| AQ59 | AG30 | `ETH0_DA_P` |
+| AR58 | AH29 | `ETH0_DB_N` |
+| AQ58 | AG29 | `ETH0_DB_P` |
+| AR57 | AH28 | `ETH0_DC_N` |
+| AQ57 | AG28 | `ETH0_DC_P` |
+| AR56 | AH27 | `ETH0_DD_N` |
+| AQ56 | AG27 | `ETH0_DD_P` |
 | AQ60 | AG31 | `ETH0_LED0` |
 | AR60 | AH31 | `ETH0_LED1` |
-| AR49 | AH23 | `ETH1_DA_N` |
-| AQ49 | AG23 | `ETH1_DA_P` |
-| AR50 | AH22 | `ETH1_DB_N` |
-| AQ50 | AG22 | `ETH1_DB_P` |
-| AR51 | AH21 | `ETH1_DC_N` |
-| AQ51 | AG21 | `ETH1_DC_P` |
-| AR52 | AH20 | `ETH1_DD_N` |
-| AQ52 | AG20 | `ETH1_DD_P` |
+| AR52 | AH23 | `ETH1_DA_N` |
+| AQ52 | AG23 | `ETH1_DA_P` |
+| AR51 | AH22 | `ETH1_DB_N` |
+| AQ51 | AG22 | `ETH1_DB_P` |
+| AR50 | AH21 | `ETH1_DC_N` |
+| AQ50 | AG21 | `ETH1_DC_P` |
+| AR49 | AH20 | `ETH1_DD_N` |
+| AQ49 | AG20 | `ETH1_DD_P` |
 | AQ53 | AG24 | `ETH1_LED0` |
 | AR53 | AH24 | `ETH1_LED1` |
 
@@ -742,8 +744,15 @@ Carrier-board flow control via RTS/CTS is permitted via the
 silicon-specific alt-function policy (§8.4) but is not part of
 default-function conformance.
 
+E1M-X additionally exposes a dedicated debug-console UART on
+`DBG_TX` / `DBG_RX`. It is intended for the SoM's boot/console
+output and is not counted among the general-purpose UARTs in §7.2.
+The corresponding pads do not exist on E1M.
+
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
+| AD62 | _(E1M-X only)_ | `DBG_RX` |
+| AC62 | _(E1M-X only)_ | `DBG_TX` |
 | AB2 | G2 | `UART0_RX` |
 | AA2 | F2 | `UART0_TX` |
 | AR17 | AH4 | `UART1_RX` |
@@ -1474,9 +1483,9 @@ The complete SignalKind enum is captured in
   `POWER_CAM_LDO_OUT`, `POWER_CAM_LDO_FB`, `POWER_SD_VDD_OUT`.
 - **Module control**: `RESET`, `BOOT`, `MODULE_EN`, `MODULE_STBY`,
   `RTC_CLKOUT`, `AUDIO_CLK`.
-- **Buses**: `I2C_*`, `I3C_*`, `SPI_*`, `UART_*`, `I2S_*`, `CAN_*`,
-  `SD_*`, `JTAG_*`, `SWD_*`, `PDM_*`, `USB_*`, `ETH_*`, `PCIE_*`,
-  `MIPI_CSI2_*`, `MIPI_DSI_*`, `LCD_*`, `PARCAM_*`.
+- **Buses**: `I2C_*`, `I3C_*`, `SPI_*`, `UART_*`, `DBG_*`, `I2S_*`,
+  `CAN_*`, `SD_*`, `JTAG_*`, `SWD_*`, `PDM_*`, `USB_*`, `ETH_*`,
+  `PCIE_*`, `MIPI_CSI2_*`, `MIPI_DSI_*`, `LCD_*`, `PARCAM_*`.
 - **Analogue**: `ADC`, `DAC`.
 - **Special**: `ENC_X`, `ENC_Y`, `PWM`, `GPIO`,
   `BL_LED_A`, `BL_LED_K`, `BL_PWM`,

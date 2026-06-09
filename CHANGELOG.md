@@ -5,6 +5,30 @@ All notable changes to the E1M specification are recorded here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Versioning is `major.minor` per the rules in `README.md`.
 
+## [Unreleased]
+
+### Changed (normative — E1M-X pinout)
+
+- **E1M-X Ethernet MDI pair order reversed** (Altium export
+  2026-06-09). On both `ETH0` and `ETH1` the differential pairs now
+  run DD→DA instead of DA→DD across the pad rows; e.g. `ETH1_DA_P`
+  moves AQ49 → AQ52 and `ETH0_DA_P` moves AQ56 → AQ59 (16 pads total,
+  `_P` and `_N` rows of both groups). LED pads unchanged. E1M (35×35)
+  is unaffected. §7.3.6 table and the V2N-M1 example manifest updated.
+
+  > Note: per the README versioning rules this is a
+  > backwards-incompatible pad change for E1M-X and would require a
+  > **major** form-factor version bump if v1.0 is treated as released.
+
+### Added (normative — E1M-X pinout)
+
+- **Dedicated debug-console UART** on previously-reserved pads:
+  AC62 = `DBG_TX`, AD62 = `DBG_RX` (E1M-X only; the corresponding
+  E1M pads remain `RSVD`). New `DBG_TX` / `DBG_RX` SignalKinds in
+  the Loom schema; §7.2 gains a "Debug UART (console)" row; E1M-X
+  RSVD count drops 22 → 20 (§7.2, §7.3.3); §7.3.10 lists the pads.
+  Gives the existing §9.3 "non-debug pad" clause a concrete referent.
+
 ## [1.1.2] — 2026-05-24
 
 ### Fixed

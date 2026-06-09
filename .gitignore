@@ -16,6 +16,7 @@ desktop.ini
 # Transient working artefacts in source/
 source/_*.out
 source/_*.txt
+source/_pinout-tables.md
 source/E1M-draft.docx
 
 # Node tooling for ajv CI
