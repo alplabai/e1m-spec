@@ -2725,9 +2725,13 @@
     },
     {
       "id": "AC62",
-      "silkscreen": "RSVD",
-      "default": "RSVD",
-      "alt": []
+      "silkscreen": "DBG_TX",
+      "default": "DBG_TX",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
     },
     {
       "id": "AC63",
@@ -2781,9 +2785,13 @@
     },
     {
       "id": "AD62",
-      "silkscreen": "RSVD",
-      "default": "RSVD",
-      "alt": []
+      "silkscreen": "DBG_RX",
+      "default": "DBG_RX",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
     },
     {
       "id": "AD63",
@@ -3737,8 +3745,8 @@
     },
     {
       "id": "AQ49",
-      "silkscreen": "ETH1_DA_P",
-      "default": "ETH_DA_P",
+      "silkscreen": "ETH1_DD_P",
+      "default": "ETH_DD_P",
       "instance": "ETH1",
       "alt": [
         {
@@ -3748,17 +3756,6 @@
     },
     {
       "id": "AQ50",
-      "silkscreen": "ETH1_DB_P",
-      "default": "ETH_DB_P",
-      "instance": "ETH1",
-      "alt": [
-        {
-          "signal": "GPIO"
-        }
-      ]
-    },
-    {
-      "id": "AQ51",
       "silkscreen": "ETH1_DC_P",
       "default": "ETH_DC_P",
       "instance": "ETH1",
@@ -3769,9 +3766,20 @@
       ]
     },
     {
+      "id": "AQ51",
+      "silkscreen": "ETH1_DB_P",
+      "default": "ETH_DB_P",
+      "instance": "ETH1",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
+    },
+    {
       "id": "AQ52",
-      "silkscreen": "ETH1_DD_P",
-      "default": "ETH_DD_P",
+      "silkscreen": "ETH1_DA_P",
+      "default": "ETH_DA_P",
       "instance": "ETH1",
       "alt": [
         {
@@ -3804,8 +3812,8 @@
     },
     {
       "id": "AQ56",
-      "silkscreen": "ETH0_DA_P",
-      "default": "ETH_DA_P",
+      "silkscreen": "ETH0_DD_P",
+      "default": "ETH_DD_P",
       "instance": "ETH0",
       "alt": [
         {
@@ -3815,17 +3823,6 @@
     },
     {
       "id": "AQ57",
-      "silkscreen": "ETH0_DB_P",
-      "default": "ETH_DB_P",
-      "instance": "ETH0",
-      "alt": [
-        {
-          "signal": "GPIO"
-        }
-      ]
-    },
-    {
-      "id": "AQ58",
       "silkscreen": "ETH0_DC_P",
       "default": "ETH_DC_P",
       "instance": "ETH0",
@@ -3836,9 +3833,20 @@
       ]
     },
     {
+      "id": "AQ58",
+      "silkscreen": "ETH0_DB_P",
+      "default": "ETH_DB_P",
+      "instance": "ETH0",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
+    },
+    {
       "id": "AQ59",
-      "silkscreen": "ETH0_DD_P",
-      "default": "ETH_DD_P",
+      "silkscreen": "ETH0_DA_P",
+      "default": "ETH_DA_P",
       "instance": "ETH0",
       "alt": [
         {
@@ -4255,8 +4263,8 @@
     },
     {
       "id": "AR49",
-      "silkscreen": "ETH1_DA_N",
-      "default": "ETH_DA_N",
+      "silkscreen": "ETH1_DD_N",
+      "default": "ETH_DD_N",
       "instance": "ETH1",
       "alt": [
         {
@@ -4266,17 +4274,6 @@
     },
     {
       "id": "AR50",
-      "silkscreen": "ETH1_DB_N",
-      "default": "ETH_DB_N",
-      "instance": "ETH1",
-      "alt": [
-        {
-          "signal": "GPIO"
-        }
-      ]
-    },
-    {
-      "id": "AR51",
       "silkscreen": "ETH1_DC_N",
       "default": "ETH_DC_N",
       "instance": "ETH1",
@@ -4287,9 +4284,20 @@
       ]
     },
     {
+      "id": "AR51",
+      "silkscreen": "ETH1_DB_N",
+      "default": "ETH_DB_N",
+      "instance": "ETH1",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
+    },
+    {
       "id": "AR52",
-      "silkscreen": "ETH1_DD_N",
-      "default": "ETH_DD_N",
+      "silkscreen": "ETH1_DA_N",
+      "default": "ETH_DA_N",
       "instance": "ETH1",
       "alt": [
         {
@@ -4322,8 +4330,8 @@
     },
     {
       "id": "AR56",
-      "silkscreen": "ETH0_DA_N",
-      "default": "ETH_DA_N",
+      "silkscreen": "ETH0_DD_N",
+      "default": "ETH_DD_N",
       "instance": "ETH0",
       "alt": [
         {
@@ -4333,17 +4341,6 @@
     },
     {
       "id": "AR57",
-      "silkscreen": "ETH0_DB_N",
-      "default": "ETH_DB_N",
-      "instance": "ETH0",
-      "alt": [
-        {
-          "signal": "GPIO"
-        }
-      ]
-    },
-    {
-      "id": "AR58",
       "silkscreen": "ETH0_DC_N",
       "default": "ETH_DC_N",
       "instance": "ETH0",
@@ -4354,9 +4351,20 @@
       ]
     },
     {
+      "id": "AR58",
+      "silkscreen": "ETH0_DB_N",
+      "default": "ETH_DB_N",
+      "instance": "ETH0",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
+    },
+    {
       "id": "AR59",
-      "silkscreen": "ETH0_DD_N",
-      "default": "ETH_DD_N",
+      "silkscreen": "ETH0_DA_N",
+      "default": "ETH_DA_N",
       "instance": "ETH0",
       "alt": [
         {

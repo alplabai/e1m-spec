@@ -135,6 +135,7 @@
         "I3C_SCL", "I3C_SDA",
         "SPI_SCK", "SPI_MOSI", "SPI_MISO", "SPI_CS0", "SPI_CS1",
         "UART_TX", "UART_RX", "UART_RTS", "UART_CTS",
+        "DBG_TX", "DBG_RX",
         "I2S_SCLK", "I2S_WS", "I2S_SDI", "I2S_SDO",
         "MIPI_CSI2_CLK_N", "MIPI_CSI2_CLK_P",
         "MIPI_CSI2_DATA0_N", "MIPI_CSI2_DATA0_P",

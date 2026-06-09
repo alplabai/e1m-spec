@@ -84,8 +84,8 @@
     { "pad_id": "I1",  "use": "default", "soc_pin": "USB30_TX0M", "soc_pin_bga": "W28",  "as": "USB_TX_N", "instance": "USB0" },
     { "pad_id": "H1",  "use": "default", "soc_pin": "USB30_TX0P", "soc_pin_bga": "W29",  "as": "USB_TX_P", "instance": "USB0" },
 
-    { "pad_id": "AR56", "use": "default", "soc_pin": "MDI_TXN_or_RXN", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_N", "instance": "ETH0", "soc_note": "E1M-X ETH differential pads connect to the on-module Realtek RTL8211FDI PHY's MDI side; the Renesas RZ/V2N drives the PHY over RGMII (not exposed on E1M-X)." },
-    { "pad_id": "AQ56", "use": "default", "soc_pin": "MDI_TXP_or_RXP", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_P", "instance": "ETH0" },
+    { "pad_id": "AR59", "use": "default", "soc_pin": "MDI_TXN_or_RXN", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_N", "instance": "ETH0", "soc_note": "E1M-X ETH differential pads connect to the on-module Realtek RTL8211FDI PHY's MDI side; the Renesas RZ/V2N drives the PHY over RGMII (not exposed on E1M-X)." },
+    { "pad_id": "AQ59", "use": "default", "soc_pin": "MDI_TXP_or_RXP", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_P", "instance": "ETH0" },
 
     { "pad_id": "B47", "use": "default", "soc_pin": "PCIE_REFCLKN0", "soc_pin_bga": "G26", "as": "PCIE_CLK_N", "instance": "PCIE0", "soc_note": "PCIe controller is shared on V2N-M1: the on-module DeepX M1 sits on PCIE0 internally; external PCIE0_* pads are then bridge-shared." },
     { "pad_id": "A47", "use": "default", "soc_pin": "PCIE_REFCLKP0", "soc_pin_bga": "G25", "as": "PCIE_CLK_P", "instance": "PCIE0" },

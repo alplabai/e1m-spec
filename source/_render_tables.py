@@ -90,7 +90,7 @@ def classify(name: str) -> str:
         return "I²C"
     if n.startswith("I3C"):
         return "I³C"
-    if n.startswith("UART"):
+    if n.startswith("UART") or n.startswith("DBG_"):
         return "UART"
     if n.startswith("SPI"):
         return "SPI"
