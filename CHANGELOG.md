@@ -15,10 +15,8 @@ Versioning is `major.minor` per the rules in `README.md`.
   moves AQ49 → AQ52 and `ETH0_DA_P` moves AQ56 → AQ59 (16 pads total,
   `_P` and `_N` rows of both groups). LED pads unchanged. E1M (35×35)
   is unaffected. §7.3.6 table and the V2N-M1 example manifest updated.
-
-  > Note: per the README versioning rules this is a
-  > backwards-incompatible pad change for E1M-X and would require a
-  > **major** form-factor version bump if v1.0 is treated as released.
+  No version bump: nothing has been released yet, so the form-factor
+  stays at 1.0 despite the README's major-bump rule for pad moves.
 
 ### Added (normative — E1M-X pinout)
 
