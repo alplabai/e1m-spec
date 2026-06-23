@@ -2088,9 +2088,13 @@
     },
     {
       "id": "AD3",
-      "silkscreen": "RSVD",
-      "default": "RSVD",
-      "alt": []
+      "silkscreen": "DBG_TX",
+      "default": "DBG_TX",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
     },
     {
       "id": "AD32",
@@ -2144,9 +2148,13 @@
     },
     {
       "id": "AE3",
-      "silkscreen": "RSVD",
-      "default": "RSVD",
-      "alt": []
+      "silkscreen": "DBG_RX",
+      "default": "DBG_RX",
+      "alt": [
+        {
+          "signal": "GPIO"
+        }
+      ]
     },
     {
       "id": "AE32",

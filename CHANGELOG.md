@@ -7,6 +7,16 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+### Added (normative — E1M pinout)
+
+- **Dedicated debug-console UART on E1M** at previously-reserved pads:
+  AD3 = `DBG_TX`, AE3 = `DBG_RX`, mirroring the E1M-X mapping (source:
+  E1M-AEN SoM Altium netlist, rev 2626-R2). Each pad keeps a `GPIO`
+  alt, like its E1M-X counterpart. E1M `RSVD` count drops 36 → 34
+  (§7.2, §7.3.3); §7.2 "Debug UART (console)" E1M column now `1`;
+  §7.3.10 lists the pads. `pinout/v1.json` regenerated from the
+  Altium source. No version bump — nothing released yet.
+
 ### Changed (normative — E1M-X pinout)
 
 - **E1M-X Ethernet MDI pair order reversed** (Altium export
@@ -21,8 +31,9 @@ Versioning is `major.minor` per the rules in `README.md`.
 ### Added (normative — E1M-X pinout)
 
 - **Dedicated debug-console UART** on previously-reserved pads:
-  AC62 = `DBG_TX`, AD62 = `DBG_RX` (E1M-X only; the corresponding
-  E1M pads remain `RSVD`). New `DBG_TX` / `DBG_RX` SignalKinds in
+  AC62 = `DBG_TX`, AD62 = `DBG_RX` (the E1M counterpart at AD3/AE3
+  landed later — see the E1M pinout entry above). New
+  `DBG_TX` / `DBG_RX` SignalKinds in
   the Loom schema; §7.2 gains a "Debug UART (console)" row; E1M-X
   RSVD count drops 22 → 20 (§7.2, §7.3.3); §7.3.10 lists the pads.
   Gives the existing §9.3 "non-debug pad" clause a concrete referent.

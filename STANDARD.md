@@ -502,7 +502,7 @@ exposed by this standard on each form factor.
 | USB 2.0 | 1 | 1 |
 | USB 3.x | 1 | 2 |
 | UART | 2 | 2 |
-| Debug UART (console) | — | 1 |
+| Debug UART (console) | 1 | 1 |
 | SPI | 2 | 3 |
 | I²C | 2 | 4 |
 | I³C | 1 | 1 |
@@ -524,7 +524,7 @@ exposed by this standard on each form factor.
 | Parallel camera (8 / 16-bit) | 1 (8 bit) | 1 (16 bit) |
 | Parallel LCD (24-bit RGB) | — | 1 |
 | PCIe 4-lane | 1 | 2 |
-| Reserved (RSVD) | 36 | 20 |
+| Reserved (RSVD) | 34 | 20 |
 | Not connected (NC) | 0 | 34 |
 
 > **Note.** The "GPIO (default-function)" row counts only pads whose
@@ -600,7 +600,7 @@ Carrier boards **SHALL** leave them unconnected.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
-| W62, X62, Y62, Z62, AA62, AB62, AE62, AF62, AG62, AH62, AI62, AJ62, AK62, AL62, AM62, AN62, AO62, AP62, AQ62, AR62 | A33, A34, D32, E32, F32, G32, H32, I32, J32, K32, L32, M32, N32, O32, P32, Q3, Q32, R3, R32, S3, T3, U3, V3, W3, X3, Y3, Z3, AA3, AB3, AC3, AD3, AE3, AG26, AG32, AH26, AH32 | `RSVD` |
+| W62, X62, Y62, Z62, AA62, AB62, AE62, AF62, AG62, AH62, AI62, AJ62, AK62, AL62, AM62, AN62, AO62, AP62, AQ62, AR62 | A33, A34, D32, E32, F32, G32, H32, I32, J32, K32, L32, M32, N32, O32, P32, Q3, Q32, R3, R32, S3, T3, U3, V3, W3, X3, Y3, Z3, AA3, AB3, AC3, AG26, AG32, AH26, AH32 | `RSVD` |
 
 #### 7.3.4 Not connected (NC)
 
@@ -744,15 +744,14 @@ Carrier-board flow control via RTS/CTS is permitted via the
 silicon-specific alt-function policy (§8.4) but is not part of
 default-function conformance.
 
-E1M-X additionally exposes a dedicated debug-console UART on
+Both form factors expose a dedicated debug-console UART on
 `DBG_TX` / `DBG_RX`. It is intended for the SoM's boot/console
 output and is not counted among the general-purpose UARTs in §7.2.
-The corresponding pads do not exist on E1M.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
-| AD62 | _(E1M-X only)_ | `DBG_RX` |
-| AC62 | _(E1M-X only)_ | `DBG_TX` |
+| AD62 | AE3 | `DBG_RX` |
+| AC62 | AD3 | `DBG_TX` |
 | AB2 | G2 | `UART0_RX` |
 | AA2 | F2 | `UART0_TX` |
 | AR17 | AH4 | `UART1_RX` |
