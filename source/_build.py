@@ -115,7 +115,8 @@ EXPLICIT: dict[str, tuple[str, str | None, str | None]] = {
     # I3C
     "I3C_SCL": ("I3C_SCL", "I3C0", None),
     "I3C_SDA": ("I3C_SDA", "I3C0", None),
-    # Debug console UART (E1M-X only; dedicated, not a numbered UART instance)
+    # Debug console UART (E1M at AD3/AE3, E1M-X at AC62/AD62; dedicated,
+    # not a numbered UART instance)
     "DBG_TX": ("DBG_TX", None, None),
     "DBG_RX": ("DBG_RX", None, None),
     # JTAG / SWD
