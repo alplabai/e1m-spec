@@ -7,6 +7,8 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.2] — 2026-06-23
+
 ### Added (normative — E1M pinout)
 
 - **Dedicated debug-console UART on E1M** at previously-reserved pads:
@@ -15,7 +17,8 @@ Versioning is `major.minor` per the rules in `README.md`.
   alt, like its E1M-X counterpart. E1M `RSVD` count drops 36 → 34
   (§7.2, §7.3.3); §7.2 "Debug UART (console)" E1M column now `1`;
   §7.3.10 lists the pads. `pinout/v1.json` regenerated from the
-  Altium source. No version bump — nothing released yet.
+  Altium source. The Loom form-factor version stays `1.0`; this is a
+  doc-level revision (v1.2).
 
 ### Changed (normative — E1M-X pinout)
 
@@ -25,8 +28,9 @@ Versioning is `major.minor` per the rules in `README.md`.
   moves AQ49 → AQ52 and `ETH0_DA_P` moves AQ56 → AQ59 (16 pads total,
   `_P` and `_N` rows of both groups). LED pads unchanged. E1M (35×35)
   is unaffected. §7.3.6 table and the V2N-M1 example manifest updated.
-  No version bump: nothing has been released yet, so the form-factor
-  stays at 1.0 despite the README's major-bump rule for pad moves.
+  The Loom form-factor version stays `1.0` (form factor still
+  pre-release) despite the README's major-bump rule for pad moves;
+  carried in doc revision v1.2.
 
 ### Added (normative — E1M-X pinout)
 
