@@ -39,7 +39,7 @@ sequencing, packaging, and the boot-strap normative interpretation.
 
 ## Status
 
-**v1.0 — in preparation.** Pinout JSON files are generated from the
+**v1.2 — released (2026-06-23).** Pinout JSON files are generated from the
 Altium pin-list exports in `source/altium-e1m.tsv` and
 `source/altium-e1m-x.tsv` by `source/_build.py`. STANDARD.md is the
 prose specification that goes alongside.
