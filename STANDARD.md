@@ -1,9 +1,9 @@
 # E1M™ Specification — Edge-1 AI Module
 
-**Designation:** E1M-STD-1.0
-**Edition:** 1.0
-**Date:** 2026 _(initial public release date pending)_
-**Status:** Draft for review
+**Designation:** E1M-STD-1.2
+**Edition:** 1.2
+**Date:** 2026-06-23
+**Status:** Released
 **Publisher:** Alp Lab AB
 
 **Reference implementation:** `pinout/v1.json` (E1M, 35 × 35 mm) and
