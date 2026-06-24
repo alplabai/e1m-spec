@@ -35,7 +35,7 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This edition (1.0) is the first public release. Subsequent revisions
+This edition (1.2) is the current release; Edition 1.0 was the first public release. Subsequent revisions
 follow the versioning rules in §1.5.
 
 ---
@@ -1206,7 +1206,7 @@ any non-power, non-reserved, non-debug pad without losing conformance.
 trademarks of Alp Lab AB. Products that conform to this specification
 **MAY NOT** use these trademarks without separate written permission
 from Alp Lab AB. Implementations **MAY** truthfully describe themselves
-as "E1M-compatible" or "implementing the E1M v1.0 specification"
+as "E1M-compatible" or "implementing the E1M v1.2 specification"
 without using the trademarks.
 
 ### 10.2 Licensing of this specification
