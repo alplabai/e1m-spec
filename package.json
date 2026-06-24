@@ -1,6 +1,6 @@
 {
   "name": "e1m-spec",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Tooling for the E1M™ pinout standard. The package itself is not published; only the spec content (STANDARD.md, pinout/*.json) is normative.",
   "license": "CC-BY-SA-4.0",
