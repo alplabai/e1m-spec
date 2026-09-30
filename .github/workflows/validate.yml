@@ -42,3 +42,8 @@ jobs:
           echo "Re-running source/_build.py and diffing against committed JSON."
           python source/_build.py
           git diff --exit-code pinout/v1.json pinout/x-v1.json
+
+      - name: Assert STANDARD.md 7.2 / 7.3.1 prose counts match the pin JSON
+        run: |
+          python -m unittest discover tests
+          python source/_check_prose_counts.py
