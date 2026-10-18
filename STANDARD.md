@@ -3,8 +3,8 @@
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
 **Revision:** 1.3
-**Date:** 2026 _(release date pending)_
-**Status:** Draft for review
+**Date:** 2026-10-18
+**Status:** Released
 **Publisher:** Alp Lab AB
 
 **Reference implementation:** `pinout/v1.json` (E1M, 35 × 35 mm) and

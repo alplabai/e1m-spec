@@ -7,10 +7,13 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
-Targets document revision 1.3 of `E1M-STD-1.0` (Edition 1.0, draft for
-review). The designation and edition stay `E1M-STD-1.0` / 1.0; only
-the document revision advances. The pinout JSONs and the Loom
-form-factor version (`1.0`) are unchanged.
+## [1.3] — 2026-10-18
+
+Document revision 1.3 of `E1M-STD-1.0` (Edition 1.0). The designation
+and edition stay `E1M-STD-1.0` / 1.0; only the document revision
+advances. The Loom form-factor version (`1.0`) is unchanged. The
+pinout JSONs change only by the `RVSD` typo fix on E1M-X `AQ62` /
+`AR62` and the new `RTC_WAKE_N` alternate on `IO25`.
 
 ### Added (normative — SoM and carrier electrical rules)
 
