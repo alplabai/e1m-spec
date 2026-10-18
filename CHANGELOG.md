@@ -32,7 +32,7 @@ pinout JSONs change only by the `RVSD` typo fix on E1M-X `AQ62` /
   (E1M-AEN-confirmed); translators Hi-Z with V_CCA off; sensing rule.
   Informative: translators rated V_CCA 1.65–3.6 V for forward
   compatibility (no 3.3 V `VIO_OUT` class is defined).
-- **§6.2 Power sequencing** (was a TODO). §6.2.1 power-up order
+- **§6.2 Power sequencing.** §6.2.1 power-up order
   (5 V → `VIO_OUT` and `PORn` high → drive pads; SoM declares the
   `PORn` release time); §6.2.2 power-down order (carrier outputs Hi-Z
   or low ≤ 1 ms after `PORn` falls; data-loss warning); §6.2.3
@@ -46,8 +46,7 @@ pinout JSONs change only by the `RVSD` typo fix on E1M-X `AQ62` /
   `MODULE_STBY` open-drain, no pull-up above `VIO_OUT`. `PORn`
   open-drain only, no pull-up, ≥ 2 ms pulse, ≤ 1 nF. `JTAG_nRST`
   open-drain. A SoM SHALL boot with all control pads unconnected.
-- **§6.6** table of the values now fixed, with clause references;
-  remaining characteristics stay TODO.
+- **§6.6** table of the values now fixed, with clause references.
 - **§6.7 Pad voltage domains and safe default fits.** §6.7.1 lists the
   pads outside the `VIO_OUT` domain and the carrier rule for each;
   §6.7.2 requires a safe default fit for dual-meaning pads. For CAN
@@ -113,6 +112,7 @@ pinout JSONs change only by the `RVSD` typo fix on E1M-X `AQ62` /
   NC, and its boot strap is declared ignored.
 - Annex C: example manifest shows the new `electrical`, `can`,
   `boot_strap` and `wireless` declarations (field names illustrative).
+- Editorial: internal editor's notes removed from STANDARD.md.
 
 ## [1.2] — 2026-06-23
 

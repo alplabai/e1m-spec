@@ -29,14 +29,6 @@ subset in per-variant SoM manifests held in consumer repositories
 | `CHANGELOG.md` | Version history. |
 | `LICENSE` | CC BY-SA 4.0 notice + scope + trademarks. |
 
-## Open work
-
-The specification has explicit `> **TODO (Alp Lab):** …` blocks in
-every section that still needs author input — searchable via
-`grep -n 'TODO (Alp Lab)' STANDARD.md`. They cover footprint
-dimensions, height envelopes, electrical characteristics, power
-sequencing, packaging, and the boot-strap normative interpretation.
-
 ## Status
 
 **v1.3 — released (2026-10-18)** (`E1M-STD-1.0` revision 1.3). Pinout JSON files are generated from the
