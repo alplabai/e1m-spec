@@ -7,8 +7,10 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
-Targets Edition 1.3 (`E1M-STD-1.3`, draft for review). The pinout
-JSONs and the Loom form-factor version (`1.0`) are unchanged.
+Targets document revision 1.3 of `E1M-STD-1.0` (Edition 1.0, draft for
+review). The designation and edition stay `E1M-STD-1.0` / 1.0; only
+the document revision advances. The pinout JSONs and the Loom
+form-factor version (`1.0`) are unchanged.
 
 ### Added (normative — SoM and carrier electrical rules)
 
@@ -66,6 +68,16 @@ JSONs and the Loom form-factor version (`1.0`) are unchanged.
   1000BASE-T magnetics; LED-pad strap rule. §7.2 row "Ethernet 1 GbE"
   renamed "Ethernet port (MDI, up to 1000BASE-T)" (counts unchanged);
   `source/_check_prose_counts.py` follows the new label.
+- **Wi-Fi bands (§6.5, §7.3.2, §9.1).** 2.4 GHz operation is REQUIRED;
+  5 GHz and 6 GHz are each OPTIONAL and declared in the SoM manifest
+  (was: 2.4 GHz and 5 GHz required). A SoM that does not use
+  `ANT_5GHz` / `ANT_6GHz` leaves the pad no-connect and declares it.
+  E1M-AEN (2.4 GHz only) is conformant.
+- **Boot strap (§6.4, §9.1, §9.3).** A SoM SHALL expose
+  `BOOT0`–`BOOT3` on its footprint and MAY ignore them if its manifest
+  declares so; carriers keep the strap circuit (pull-ups to `VIO_OUT`
+  only). E1M-AEN (pads unconnected, strap declared ignored) is
+  conformant.
 - **§7.3.3 / §7.3.4.** RSVD pads: no trace, test point, pull, load or
   jumper. The NC routing permission applies only to spec-`NC` pads,
   not to pads a particular SoM leaves unrouted.
@@ -83,8 +95,10 @@ JSONs and the Loom form-factor version (`1.0`) are unchanged.
 - Annex A.1: the E1M-AEN standard build has no on-module CAN
   transceiver (TI TCAN1044AVDRBRQ1 is an assembly option); debug UART
   and CAN routing notes added.
-- Annex C: example manifest shows the new `electrical` and `can`
-  declarations (field names illustrative).
+- Annex A.1: E1M-AEN Wi-Fi is 2.4 GHz only with `ANT_5GHZ` / `ANT_6GHZ`
+  NC, and its boot strap is declared ignored.
+- Annex C: example manifest shows the new `electrical`, `can`,
+  `boot_strap` and `wireless` declarations (field names illustrative).
 
 ## [1.2] — 2026-06-23
 

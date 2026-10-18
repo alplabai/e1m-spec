@@ -1,7 +1,8 @@
 # E1M™ Specification — Edge-1 AI Module
 
-**Designation:** E1M-STD-1.3
-**Edition:** 1.3
+**Designation:** E1M-STD-1.0
+**Edition:** 1.0
+**Revision:** 1.3
 **Date:** 2026 _(release date pending)_
 **Status:** Draft for review
 **Publisher:** Alp Lab AB
@@ -35,8 +36,10 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This edition (1.3) is a draft for review; Edition 1.2 is the current release and Edition 1.0 was the first public release. Subsequent revisions
-follow the versioning rules in §1.5.
+This document is Edition 1.0, document revision 1.3, a draft for
+review; revision 1.2 is the current release and revision 1.0 was the
+first public release. Subsequent revisions follow the versioning rules
+in §1.5.
 
 ---
 
@@ -596,9 +599,30 @@ these pads needs a carrier pull-up.
 
 ### 6.4 Boot configuration
 
-E1M and E1M-X **SHALL** implement a four-pin boot strap on `BOOT0`,
-`BOOT1`, `BOOT2`, and `BOOT3`. The interpretation of the strap is
-silicon-specific and **SHALL** be declared in the per-SoM manifest.
+E1M and E1M-X define a four-pin boot strap on `BOOT0`, `BOOT1`,
+`BOOT2`, and `BOOT3`.
+
+1. **Pads.** A conformant SoM **SHALL** expose `BOOT0`–`BOOT3` on its
+   footprint at the pad locations of §7.3.1 and **SHALL NOT** assign
+   any other function to those pads.
+2. **Interpretation.** The interpretation of the strap is
+   silicon-specific and **SHALL** be declared in the per-SoM manifest.
+3. **Ignored strap.** A SoM whose boot does not depend on the strap
+   **MAY** ignore `BOOT0`–`BOOT3` (for example, leave the pads
+   unconnected on the module). Such a SoM **SHALL** declare in its
+   manifest that it ignores the strap, and **SHALL** tolerate any
+   carrier strap circuit that meets clause 4.
+4. **Carrier.** A carrier board **MAY** fit a strap circuit on
+   `BOOT0`–`BOOT3` whatever SoM it targets. Its pull-ups **SHALL** go
+   to `VIO_OUT` or to a carrier rail switched by `VIO_OUT` (§6.2.3).
+   On a SoM that declares the strap ignored, the circuit has no
+   effect, so a carrier that hosts several SoMs keeps the same strap
+   circuit for all of them.
+
+_Informative: E1M-AEN leaves `BOOT0`–`BOOT3` unconnected on the
+module, boots from on-chip MRAM and declares the strap ignored
+(Annex A.1); it is conformant to this clause._
+
 The reference mapping below applies to the rev 1.0 reference SoMs
 based on Renesas RZ/V2N (informative).
 
@@ -637,8 +661,8 @@ designers do not have to repeat them:
 | Component | Requirement |
 | --- | --- |
 | **Ethernet PHY(s)** | A conformant SoM **SHALL** include at least one on-module Ethernet PHY connected to the SoC's MAC and exposed on the carrier board via the PHY-side (pre-magnetics) differential MDI pads (`ETH0_*` minimum). SoMs whose SoC supports two MACs **SHALL** populate a second on-module PHY and expose `ETH1_*`. The SoM **SHALL** declare in its manifest the highest link rate of each port (§7.3.6). |
-| **Wi-Fi + Bluetooth combo** | A conformant SoM **SHALL** include an on-module Wi-Fi 6 (802.11 a/b/g/n/ac/ax) and Bluetooth 5.4 combo radio. 2.4 GHz and 5 GHz operation is **REQUIRED**; 6 GHz operation is **OPTIONAL**. |
-| **Antenna outputs** | Antenna pads (§7.3.2) **SHALL** be populated for every band the on-module combo radio supports. SoMs that do not support a particular band **SHALL** leave the corresponding `ANT_*` pad as no-connect. |
+| **Wi-Fi + Bluetooth combo** | A conformant SoM **SHALL** include an on-module Wi-Fi 6 (IEEE 802.11ax) and Bluetooth 5.4 combo radio. 2.4 GHz operation is **REQUIRED**. 5 GHz operation and 6 GHz operation are each **OPTIONAL**; the SoM **SHALL** declare in its manifest the Wi-Fi bands it supports. |
+| **Antenna outputs** | The SoM **SHALL** drive `ANT_2.4GHz` (§7.3.2). It **SHALL** drive `ANT_5GHz` and `ANT_6GHz` only for a band it supports and uses on that pad. A SoM that does not use `ANT_5GHz` or `ANT_6GHz` **SHALL** leave that pad no-connect on the module and **SHALL** declare it in its manifest. _Informative: E1M-AEN (2.4 GHz only) drives `ANT_2.4GHZ` and leaves `ANT_5GHZ` and `ANT_6GHZ` no-connect; it is conformant._ |
 | **CAN transceiver(s)** | If the SoM exposes the CAN pads of a CAN group (§7.3.14), it **SHALL** implement that group in one of two options and **SHALL** declare the option for each group in its manifest. **Bus-level CAN** (the default): the SoM includes an on-module CAN transceiver, and the pads carry the bus side (`CANxH`, `CANxL`), suitable for direct connection to a terminator and a CAN connector. **Logic-level CAN** (declared option): the SoM has no on-module transceiver for that group, the pads carry the controller side (`CANx_TX`, `CANx_RX`) in the `VIO_OUT` (1.8 V) domain, and the carrier provides the transceiver (§7.3.14). |
 
 Carrier-board designers **SHALL NOT** add an external Ethernet PHY,
@@ -873,11 +897,14 @@ every `GND` pad on the SoM to a low-impedance ground plane.
 
 Antenna outputs are driven by the SoM's on-module Wi-Fi 6 + BLE 5.4
 combo radio (mandatory per §6.5). A conformant SoM **SHALL** populate
-`ANT_2.4GHz` and `ANT_5GHz` and **MAY** also populate `ANT_6GHz`.
-Pads not driven by the on-module radio (typically `ANT_6GHz` on
-combo modules without 6 GHz support) **SHALL** be left as no-connect
-by the carrier board. Where used, the carrier-board trace **SHALL**
-be 50 Ω characteristic impedance.
+`ANT_2.4GHz`. `ANT_5GHz` and `ANT_6GHz` are **OPTIONAL**: a SoM
+populates each only for a band it supports, and a SoM that does not
+use one of them leaves it no-connect and declares it in its manifest
+(§6.5). Pads not driven by the on-module radio **SHALL** be left as
+no-connect by the carrier board; a carrier that hosts more than one
+SoM implements this per build variant, for example with a not-fitted
+link at the pad. Where used, the carrier-board trace **SHALL** be
+50 Ω characteristic impedance.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -1523,20 +1550,24 @@ below is satisfied for the form factor it declares (E1M or E1M-X):
    (clause 9), §6.1.2, §6.2, §6.3 and §6.3.1. The remaining absolute
    maximum ratings and recommended operating conditions of §6.6 are
    TBD in this revision.
-4. **Boot.** The SoM implements a boot strap on `BOOT0`–`BOOT3` per
-   §6.4. The per-SoM manifest declares the strap mapping; the strap
-   pad locations **SHALL** match §7.3.1.
+4. **Boot.** The SoM exposes `BOOT0`–`BOOT3` on its footprint at the
+   pad locations of §7.3.1, per §6.4. The per-SoM manifest declares
+   the strap mapping, or declares that the SoM ignores the strap
+   (§6.4 (3)); a SoM that ignores the strap and declares it is
+   conformant.
 5. **Mandatory on-module components.** The SoM integrates an on-module
    Ethernet PHY for every Ethernet group it exposes, an on-module
-   Wi-Fi 6 + BLE 5.4 combo radio, and, for every CAN group it
-   exposes, either an on-module CAN transceiver or the declared
-   logic-level CAN option — per §6.5.
+   Wi-Fi 6 + BLE 5.4 combo radio with 2.4 GHz operation (5 GHz and
+   6 GHz optional and declared), and, for every CAN group it exposes,
+   either an on-module CAN transceiver or the declared logic-level CAN
+   option — per §6.5.
 6. **Manifest.** The SoM publishes a per-SoM manifest conforming to
    the format in Annex C, including every declaration that §6 and §7
    require: 5 V input values (§6.1.1), `VIO_OUT` limits (§6.1.2),
    power-up delay (§6.2.1), switched pad groups (§6.2.3), standby
-   protocol and minimum reset pulse (§6.3.1), pads outside the
-   `VIO_OUT` domain (§6.7.1), Ethernet link rate and MDI ESD (§7.3.6),
+   protocol and minimum reset pulse (§6.3.1), boot-strap mapping or
+   ignored strap (§6.4), Wi-Fi bands and unused antenna pads (§6.5,
+   §7.3.2), pads outside the `VIO_OUT` domain (§6.7.1), Ethernet link rate and MDI ESD (§7.3.6),
    debug console (§7.3.10), and CAN option and `CAN_STBY` direction
    (§7.3.14).
 
@@ -1572,7 +1603,8 @@ This revision does not partition pads into mandatory vs. optional
 classes. A future minor release **SHOULD** define:
 
 - **Mandatory pads** — `GND`, `VDD_5V_IN`, `MODULE_EN`, `PORn`,
-  `BOOT0`–`BOOT3`, `JTAG_*`.
+  `BOOT0`–`BOOT3` (which a SoM **MAY** ignore as §6.4 (3) permits),
+  `JTAG_*`.
 - **Optional pads** — All other interface pads.
 
 Until that partitioning is published, conformant SoMs **MAY** omit
@@ -1674,8 +1706,12 @@ Notably:
 - **Debug UART:** `DBG_TX` / `DBG_RX` (`AD3` / `AE3`) carry the Alif
   Secure Enclave UART.
 - **USB:** USB 2.0 only (`USB2_*`).
+- **Wi-Fi:** 2.4 GHz only, on `ANT_2.4GHZ` (`AH1`). `ANT_5GHZ`
+  (`AF1`) and `ANT_6GHZ` (`AD1`) are NC; the manifest declares the
+  2.4 GHz band and the two unused antenna pads (§6.5, §7.3.2).
 - **Boot strap:** `BOOT0`–`BOOT3` are not routed; the AEN family does
-  not support strap-driven boot mode selection. Pads are NC.
+  not support strap-driven boot mode selection. Pads are NC, and the
+  manifest declares the strap ignored (§6.4 (3)).
 - **Standby:** `MODULE_STBY` enters real-time-clock standby only.
 
 Per-SKU memory options (SRAM 128 KB – 13.5 MB, MRAM 256 KB – 5.5 MB,
@@ -1919,13 +1955,18 @@ version.
     "vio_out": { "max_ma": 100, "max_ext_cap_uf": 2.5 },
     "porn_release_max_ms": 290
   },
-  "can": { "CAN0": { "option": "logic", "can_stby": "soc_gpio" } }
+  "can": { "CAN0": { "option": "logic", "can_stby": "soc_gpio" } },
+  "boot_strap": { "ignored": true },
+  "wireless": { "wifi_bands_ghz": [2.4], "antenna_pads_nc": ["AF1", "AD1"] }
 }
 ```
 
-The `electrical` and `can` objects carry the declarations that §6 and
-§7.3.14 require (Edition 1.3). Their field names are illustrative
-until the manifest schema defines them.
+The `electrical`, `can`, `boot_strap` and `wireless` objects carry the
+declarations that §6 and §7 require (revision 1.3): `boot_strap` the
+strap mapping or the ignored strap (§6.4), `wireless` the supported
+Wi-Fi bands and the antenna pads left no-connect (§6.5, §7.3.2).
+Their field names are illustrative until the manifest schema defines
+them.
 
 See `examples/alp-aen.som-manifest.json` and
 `examples/alp-x-v2n-m1.som-manifest.json` for full reference snippets.
