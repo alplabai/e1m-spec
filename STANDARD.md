@@ -2,14 +2,24 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.3
-**Date:** 2026-10-18
+**Revision:** 1.4
+**Date:** 2026-10-19
 **Status:** Released
 **Publisher:** Alp Lab AB
 
 **Reference implementation:** `pinout/v1.json` (E1M, 35 × 35 mm) and
 `pinout/x-v1.json` (E1M-X, 45 × 65 mm) in this repository, validated by
 `pinout/schema/loom-v1.schema.json`.
+
+**Abstract.** E1M (Edge-1 AI Module) is an open standard for
+solder-down LGA system-on-modules in two form factors: E1M, 35 × 35 mm
+with 312 pads, and E1M-X, 45 × 65 mm with 496 pads. The specification
+defines the footprint, the mechanical envelope, the pinout and signal
+assignment, the electrical and power rules, the alternative-function
+policy, and conformance for SoMs and carrier boards. The pinout is
+published as machine-readable Loom v1 JSON. The standard and its
+pinout are open; the individual modules built on it are separate
+products.
 
 ---
 
@@ -35,9 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.3, a draft for
-review; revision 1.2 is the current release and revision 1.0 was the
-first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.4, the current
+release; revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -205,7 +214,7 @@ applies.
 | Pad pattern | LGA |
 | Pad count | **312** |
 | Coordinate space | Columns `A`–`AH`, rows `1`–`34` |
-| Reference SoMs | E1M-AEN family — six SKUs `E1M-AEN301`/`401`/`501`/`601`/`701`/`801` (Alif Semiconductor Ensemble E3–E8). |
+| Reference SoMs | E1M-AEN family — seven SKUs `E1M-AEN301`/`401`/`501`/`601`/`701`/`801`/`803` (Alif Semiconductor Ensemble E3–E8). |
 
 ### 4.2 E1M-X ("Extended")
 
@@ -241,11 +250,8 @@ pad band: 1.0 mm pad pitch (signal grid), 0.40 mm pad diameter. Pin
 A1 corner is marked by the 0.5 mm triangular fiducial.*
 
 The E1M signal pads **SHALL** lie on a 1.0 mm pitch grid and **SHALL**
-be 0.40 mm diameter round copper pads. _Informative — carrier land
-pattern published for E1M-AEN (DS-AEN-001; values confirmed by E1M-AEN
-only): IPC-7351 nominal density, round non-solder-mask-defined (NSMD)
-pads 0.40 mm diameter, solder-mask opening 0.50 mm diameter, stencil
-aperture 1:1 (0.40 mm diameter), stencil thickness 0.08 mm._
+be 0.40 mm diameter round copper pads. The recommended carrier land
+pattern is given in §5.1.3 (informative).
 
 Dimension tolerances other than the outline, and a carrier-board footprint library, are not specified in this revision.
 
@@ -259,6 +265,30 @@ show the pad band on the long and short edges. A scalable vector copy
 is available in `images/e1m-x-footprint.svg`.*
 
 Dimension callouts and a carrier-board footprint library for E1M-X are not specified in this revision.
+
+#### 5.1.3 Recommended carrier land pattern (informative)
+
+The land pattern below is recommended for the carrier board of both
+form factors. Its values are the carrier land pattern published for
+E1M-AEN (DS-AEN-001) _(E1M-AEN only)_; the pad pitch and the copper pad
+diameter are those of §5.1.1 and of the E1M-X footprint drawing
+(§5.1.2).
+
+| Parameter | Value | Provenance |
+| --- | --- | --- |
+| Land-pattern density | IPC-7351 nominal | _(E1M-AEN only)_ |
+| Pad pitch (signal grid) | 1.0 mm | §5.1.1, §5.1.2 |
+| Copper pad | round, NSMD, 0.40 mm diameter | §5.1.1, §5.1.2; NSMD: _(E1M-AEN only)_ |
+| Solder-mask opening | 0.50 mm diameter | _(E1M-AEN only)_ |
+| Stencil aperture | 1:1, 0.40 mm diameter | _(E1M-AEN only)_ |
+| Stencil thickness | 0.08 mm | _(E1M-AEN only)_ |
+
+A pad-detail figure of this land pattern (top view of four pads of
+the 1.0 mm grid, and a section through one pad with the stencil) is
+in the published PDF edition of this specification.
+
+Pad position and size tolerances are not specified in this revision
+(§5.1.1).
 
 ### 5.2 Module height
 
@@ -305,7 +335,26 @@ LGA-class reflow soldering. Where a particular SoM is also compatible
 with BGA-class reflow profiles, the per-SoM manifest **MAY** declare
 this.
 
-A recommended reflow profile is not specified in this revision.
+#### 5.4.1 Recommended reflow profile (informative)
+
+The profile below is informative. Its values are those measured for
+E1M-AEN (DS-AEN-001) with ALPHA OM338 solder paste (SAC, Pb-free); the
+profile phases follow IPC/JEDEC J-STD-020. A recommended reflow
+profile for the other reference SoMs is not specified in this
+revision.
+
+| Parameter | Value _(E1M-AEN measured)_ |
+| --- | --- |
+| Solder paste | ALPHA OM338 (SAC, Pb-free) |
+| Soak, 150–217 °C | 70–74 s |
+| Time above liquidus (217 °C) | about 60 s |
+| Peak temperature | 241–244 °C |
+| Cooling slope | about −1.6 °C/s |
+| Profile reference | IPC/JEDEC J-STD-020 |
+
+A reflow-window figure drawn from these measured values (preheat
+duration illustrative) is in the published PDF edition of this
+specification.
 
 ### 5.5 Packaging
 
@@ -649,7 +698,66 @@ clause that makes it normative.
 | `PORn` carrier low pulse, any SoM | ≥ 2 ms _(E1M-AEN only)_ | §6.3.1 (3) |
 | `PORn` carrier capacitance | ≤ 1 nF _(E1M-AEN only)_ | §6.3.1 (3) |
 
-The remaining absolute maximum ratings, recommended operating conditions, DC characteristics and AC characteristics are not specified in this revision.
+The four tables below collect, by signal class, the absolute maximum
+ratings, recommended operating conditions, DC characteristics and AC
+characteristics. They are informative: they restate values that
+§6.1–§6.7, §8.2 and Annex A already state, with the same provenance
+marks, and add no requirement. Where a table and a clause differ, the
+clause governs. A row that reads "per SoM datasheet" has no value in
+this revision; the SoM datasheet and manifest give it.
+
+*Absolute maximum ratings by signal class (informative)*
+
+| Signal class | Parameter | Value | Clause / provenance |
+| --- | --- | --- | --- |
+| Supply input | `VDD_5V_IN` voltage at the pads | ≤ 5.5 V, including transients | §6.1.1 (2), (9) |
+| Control | `MODULE_EN` voltage | −0.3 V to 5.5 V | §6.3.1 (1) |
+| Control | `IO25` used as `RTC_WAKE_N`, voltage | ≤ 5.5 V (5 V tolerant); minimum per SoM datasheet | §8.2 |
+| `VIO_OUT`-domain signal pads | Voltage at any `VIO_OUT`-domain pad (§6.7.1) | −0.3 V to 1.98 V | §6.2.3 (5) |
+| SD card pads | `SD_CLK`, `SD_CMD`, `SD_D0`–`SD_D3` voltage | per SoM datasheet | §6.7.1 |
+| High-speed and RF pads | USB, MIPI CSI / DSI, PCIe, Ethernet MDI, `ANT_*` | per SoM datasheet | §6.7.1 |
+| Module | Storage temperature, ESD rating | per SoM datasheet | — |
+
+*Recommended operating conditions by signal class (informative)*
+
+| Signal class | Parameter | Value | Clause / provenance |
+| --- | --- | --- | --- |
+| Supply input | `VDD_5V_IN` voltage at the pads | 4.75–5.25 V (5 V nominal) | §6.1.1 (1), (9) |
+| Supply input | `VDD_5V_IN` peak input current | as the SoM declares; 834 mA (`E1M-AEN801`, calculated) | §6.1.1 (5), (9); value _(informative: E1M-AEN, DS-AEN-001)_ |
+| Supply input | Carrier bulk capacitance at `VDD_5V_IN` | as the SoM declares; ≥ 50 µF effective per A of total `VDD_5V_IN` load | §6.1.1 (7); value _(informative: E1M-AEN, DS-AEN-001)_ |
+| Supply output | `VIO_OUT` total carrier load current | ≤ 100 mA | §6.1.2 (4) _(E1M-AEN only)_ |
+| Supply output | `VIO_OUT` carrier load current, first 2 ms after `VIO_OUT` rises | ≤ 50 mA | §6.1.2 (4) _(E1M-AEN only)_ |
+| Supply output | `VIO_OUT` total external capacitance | ≤ 2.5 µF | §6.1.2 (4) _(E1M-AEN only)_ |
+| Control | `MODULE_EN`, `MODULE_STBY` carrier leakage, driver released | ≤ 0.1 µA | §6.3.1 (1), (2) _(E1M-AEN only)_ |
+| Control | `PORn` carrier capacitance | ≤ 1 nF | §6.3.1 (3) _(E1M-AEN only)_ |
+| `VIO_OUT`-domain signal pads | Signal level | `VIO_OUT` (1.8 V nominal); input thresholds per SoM datasheet | §6.1.2 (1), §6.7.1 |
+| SD card pads | Signal level | `SD_VDD_OUT` / `SD_VDD` levels, only while that rail is on | §6.7.1 |
+| Module | Ambient operating temperature | −40 to +75 °C (E1M-AEN); −40 to +85 °C (E1M-X V2N / V2N-M1) | _(informative: Annex A.1, A.2, A.3)_ |
+
+*DC characteristics by signal class (informative)*
+
+| Signal class | Parameter | Value | Clause / provenance |
+| --- | --- | --- | --- |
+| Supply input | On-module input capacitance at `VDD_5V_IN` | about 50 µF | §6.1.1 (9); value _(informative: E1M-AEN, DS-AEN-001)_ |
+| Supply output | `VIO_OUT` output voltage | 1.8 V nominal, ±5 % | §6.1.2 (1); tolerance _(E1M-X V2N / V2N-M1 only; E1M-AEN TBD)_ |
+| Supply output | `SD_VDD_OUT` / `SD_VDD` output voltage | 3.4 V (E1M-AEN, hw_rev R3); 1.8 V / 3.3 V, switched automatically (E1M-X V2N / V2N-M1) | §6.7.1 _(informative)_ |
+| Supply output | `BL_LED_A` voltage | up to 36 V (KTD2801 over-voltage limit) | §6.7.1; value _(informative: E1M-AEN, DS-AEN-001)_ |
+| Control | `MODULE_EN` SoM-internal pull-up | to a rail up to `VDD_5V_IN`; about 1 MΩ | §6.3, §6.3.1 (1); value _(E1M-AEN only)_ |
+| Control | `MODULE_STBY` SoM-internal pull-up | present; value per SoM datasheet | §6.3 |
+| Control | `PORn` SoM-internal pull-up | to 1.8 V; value per SoM datasheet | §6.3 |
+| Control | `IO25` used as `RTC_WAKE_N` output | open-drain, active-low; output low level per SoM datasheet | §8.2 |
+| `VIO_OUT`-domain signal pads | V<sub>IL</sub>, V<sub>IH</sub>, V<sub>OL</sub>, V<sub>OH</sub>, drive strength, leakage | per SoM datasheet | — |
+
+*AC characteristics by signal class (informative)*
+
+| Signal class | Parameter | Value | Clause / provenance |
+| --- | --- | --- | --- |
+| Supply input | `VDD_5V_IN` rise, 0 V to 4.75 V | monotonic, ≤ 40 ms | §6.1.1 (3), (9) _(E1M-AEN only)_ |
+| Control | `VDD_5V_IN` at 4.75 V, or `MODULE_EN` release, to `PORn` high | maximum as the SoM declares; 206 ms typical, 290 ms maximum (E1M-AEN) | §6.2.1; value _(informative: E1M-AEN, DS-AEN-001)_ |
+| Control | `PORn` carrier low pulse, any SoM | ≥ 2 ms | §6.3.1 (3) _(E1M-AEN only)_ |
+| Control | `MODULE_STBY` minimum low and high times | as the SoM declares; value per SoM datasheet | §6.3.1 (2) |
+| `VIO_OUT`-domain signal pads | `PORn` falling to carrier outputs high-impedance or low | ≤ 1 ms | §6.2.2 (2) _(E1M-AEN only)_ |
+| `VIO_OUT`-domain signal pads | Interface timing (I²C, SPI, UART, I²S, SDIO and others) | per SoM datasheet | — |
 
 ### 6.7 Pad voltage domains and safe default fits
 
@@ -1610,36 +1718,43 @@ any component set that satisfies §4–§9.
 
 | Reference SoM family | Form factor | Primary silicon | SKUs | Detail |
 | --- | --- | --- | --- | --- |
-| **E1M-AEN** | E1M | Alif Semiconductor Ensemble (E3–E8) | `E1M-AEN301`, `E1M-AEN401`, `E1M-AEN501`, `E1M-AEN601`, `E1M-AEN701`, `E1M-AEN801` | §A.1 |
+| **E1M-AEN** | E1M | Alif Semiconductor Ensemble (E3–E8) | `E1M-AEN301`, `E1M-AEN401`, `E1M-AEN501`, `E1M-AEN601`, `E1M-AEN701`, `E1M-AEN801`, `E1M-AEN803` | §A.1 |
 | **E1M-X V2N** | E1M-X | Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) | `E1M-V2N101`, `E1M-V2N102` | §A.2 |
 | **E1M-X V2N-M1** | E1M-X | Renesas RZ/V2N + DeepX DX-M1 | `E1M-V2M101`, `E1M-V2M102` | §A.3 |
 
-### A.1 E1M-AEN family (six SKUs, shared E1M routing)
+### A.1 E1M-AEN family (seven SKUs, shared E1M routing)
 
 The **E1M-AEN** family pairs the Alif Semiconductor *Ensemble* SoC
-family with the E1M (35 × 35 mm) form factor. All six SKUs use the
+family with the E1M (35 × 35 mm) form factor. All seven SKUs use the
 same package routing, the same on-module PMIC, the same Wi-Fi 6 +
 BLE 5.4 combo (TI CC3501E) and the same 100 Mbps Ethernet PHY (TI
-DP83825I). The standard build has **no** on-module CAN transceiver:
+DP83825). The standard build has **no** on-module CAN transceiver:
 `B18` / `B19` carry `CAN0_TX` / `CAN0_RX` as 1.8 V SoC logic, `A19`
 (`CAN_STBY`) is a SoC GPIO, and the manifest declares the logic-level
 CAN option (§6.5, §7.3.14). An on-module TI TCAN1044AVDRBRQ1
 transceiver is an assembly option; with it fitted, `B18` / `B19`
 carry `CAN0H` / `CAN0L` (bus-level CAN) and `A19` is the transceiver
-standby input. They differ only in SoC choice (Ensemble variant), MRAM size, and
-optional ISP / JPEG-encoder presence.
+standby input. They differ only in SoC choice (Ensemble variant),
+internal RAM size, optional ISP / JPEG-encoder presence, and
+on-module OSPI memory population: `E1M-AEN803` is the `E1M-AEN801`
+silicon and PCB with both external OSPI memories fitted (512 Mbit
+HyperRAM + 256 Mbit NOR flash).
+
+*E1M-AEN SKU matrix (values from DS-AEN-001)*
 
 | SKU | Alif Ensemble variant | Alif part number | App CPU | Real-time CPU | NPU | ISP / JPEG |
 | --- | --- | --- | --- | --- | --- | --- |
-| `E1M-AEN301` | E3 | (3-series) | — | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
-| `E1M-AEN401` | E4 | `AE402FA0E5597LE0` / `AE512F80F55D5LS` | — | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
-| `E1M-AEN501` | E5 | (5-series) | 1 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
-| `E1M-AEN601` | E6 | `AE612FA0E5597LS0` | 1 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 2 × 204 GOPS Ethos-U55 | ISP + JPEG encoder |
-| `E1M-AEN701` | E7 | `AE722F80F55D5LS` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 1 × 204 GOPS Ethos-U55 | — |
-| `E1M-AEN801` | E8 | `AE822FA0E5597LS0` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 1 × 46 GOPS + 2 × 204 GOPS Ethos-U55 | ISP + JPEG encoder |
+| `E1M-AEN301` | E3 | `AE302F80F55D5LE` | — | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 (1 × 46 GOPS + 1 × 204 GOPS) | — |
+| `E1M-AEN401` | E4 | `AE402FA0E5597LE0` | — | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 + 1 × Ethos-U85 (1 × 46 GOPS + 2 × 204 GOPS) | ISP + JPEG encoder |
+| `E1M-AEN501` | E5 | `AE512F80F55D5LS` | 1 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 (1 × 46 GOPS + 1 × 204 GOPS) | — |
+| `E1M-AEN601` | E6 | `AE612FA0E5597LS0` | 1 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 + 1 × Ethos-U85 (1 × 46 GOPS + 2 × 204 GOPS) | ISP + JPEG encoder |
+| `E1M-AEN701` | E7 | `AE722F80F55D5LS` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 (1 × 46 GOPS + 1 × 204 GOPS) | — |
+| `E1M-AEN801` | E8 | `AE822FA0E5597LS0` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 + 1 × Ethos-U85 (1 × 46 GOPS + 2 × 204 GOPS) | ISP + JPEG encoder |
+| `E1M-AEN803` | E8 | `AE822FA0E5597LS0` | 2 × Cortex-A32 @ 800 MHz | 1 × M55 @ 160 MHz + 1 × M55 @ 400 MHz | 2 × Ethos-U55 + 1 × Ethos-U85 (1 × 46 GOPS + 2 × 204 GOPS) | ISP + JPEG encoder |
 
-All six SKUs are RoHS, operating temperature −40 to +85 °C, and use
-the Alif `AE…F80F55D5LS` / `AE…FA0E5597LS0` package family.
+All seven SKUs are RoHS and rated for operating temperature −40 to
++75 °C. The E3, E5 and E7 SKUs use Alif `AE…F80F55D5L…` parts and the
+E4, E6 and E8 SKUs Alif `AE…FA0E5597L…0` parts (part numbers above).
 
 Every E1M-AEN SKU routes the same **subset** of the E1M pads.
 Notably:
@@ -1661,10 +1776,14 @@ Notably:
   manifest declares the strap ignored (§6.4 (3)).
 - **Standby:** `MODULE_STBY` enters real-time-clock standby only.
 
-Per-SKU memory options (SRAM 128 KB – 13.5 MB, MRAM 256 KB – 5.5 MB,
-plus on-module OSPI configurable as RAM or ROM) are documented in the
-ALP-AEN Hardware Design Guide and the ALP-AEN Datasheet, both
-maintained outside this repository.
+Memory per SKU (DS-AEN-001): 5.5 MB internal MRAM on every SKU;
+internal RAM 13.5 MB (E3, E5, E7) or 9.75 MB (E4, E6, E8). External
+OSPI memory: `E1M-AEN803` fits 512 Mbit HyperRAM + 256 Mbit NOR flash,
+`E1M-AEN801` fits none, and `E1M-AEN301` / `401` / `501` / `601` /
+`701` have on-die memory only in the standard build (external memory
+is an assembly option). Details are in the ALP-AEN Hardware Design
+Guide and the ALP-AEN Datasheet, both maintained outside this
+repository.
 
 ### A.2 E1M-X V2N family (Renesas RZ/V2N)
 
@@ -1925,6 +2044,9 @@ See `examples/alp-aen.som-manifest.json` and
 
 - IPC-7351 — _Generic Requirements for Surface Mount Design and Land
   Pattern Standard_, for footprint design principles.
+- IPC/JEDEC J-STD-020 — _Moisture/Reflow Sensitivity Classification
+  for Nonhermetic Surface Mount Devices_, for the reflow profile phases
+  of §5.4.1.
 - USB Implementers Forum, _USB Type-C® Specification_, for the
   `USB_CC1`/`USB_CC2` definitions.
 - MIPI Alliance, _CSI-2 Specification_ and _DSI Specification_, for
