@@ -57,7 +57,7 @@ form-factor version (`1.0`) are unchanged.
   output from the module (§8.2, Appendix A.7). New `RTC_WAKE_N` value
   in the Loom SignalKind enum; `pinout/v1.json` and `pinout/x-v1.json`
   carry it in the `alt` array of those pads. Default stays `GPIO`.
-  The SoM drives it from its always-on domain, valid while `VDDIN` is
+  The SoM drives it from its always-on domain, valid while `VDD_5V_IN` is
   present and 5 V tolerant; the carrier pull-up goes to an always-on
   rail, as an exception to §6.2.3 clauses 1 and 4.
 

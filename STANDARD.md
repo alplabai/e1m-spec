@@ -1494,7 +1494,7 @@ Pad `IO25` (E1M `P3`, E1M-X `F63`) additionally defines the alternate
 function `RTC_WAKE_N`: an active-low, open-drain RTC wake / interrupt
 output from the module. A SoM that exposes it **SHALL** drive it
 open-drain from its always-on domain, keep it valid in every power
-state while `VDDIN` is present, and tolerate up to 5.5 V on the pad
+state while `VDD_5V_IN` is present, and tolerate up to 5.5 V on the pad
 (5 V tolerant). The carrier supplies the pull-up, to its own or the
 host's always-on rail; `RTC_WAKE_N` is an exception to §6.2.3
 clauses 1 and 4. The JSON expresses it as
