@@ -192,7 +192,7 @@
         "POWER_CAM_LDO_OUT", "POWER_CAM_LDO_FB",
         "POWER_SD_VDD_OUT",
         "RESET", "BOOT", "MODULE_EN", "MODULE_STBY",
-        "RTC_CLKOUT", "AUDIO_CLK",
+        "RTC_CLKOUT", "RTC_WAKE_N", "AUDIO_CLK",
         "RSVD", "NC"
       ]
     }

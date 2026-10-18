@@ -1485,7 +1485,11 @@
       "id": "F63",
       "silkscreen": "IO25",
       "default": "GPIO",
-      "alt": []
+      "alt": [
+        {
+          "signal": "RTC_WAKE_N"
+        }
+      ]
     },
     {
       "id": "F64",
@@ -3873,7 +3877,7 @@
     },
     {
       "id": "AQ62",
-      "silkscreen": "RVSD",
+      "silkscreen": "RSVD",
       "default": "RSVD",
       "alt": []
     },
@@ -4391,7 +4395,7 @@
     },
     {
       "id": "AR62",
-      "silkscreen": "RVSD",
+      "silkscreen": "RSVD",
       "default": "RSVD",
       "alt": []
     },

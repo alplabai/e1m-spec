@@ -1361,7 +1361,11 @@
       "id": "P3",
       "silkscreen": "IO25",
       "default": "GPIO",
-      "alt": []
+      "alt": [
+        {
+          "signal": "RTC_WAKE_N"
+        }
+      ]
     },
     {
       "id": "P32",
