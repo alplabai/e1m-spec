@@ -7,7 +7,7 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
-## [1.4] — 2026-10-18
+## [1.4] — 2026-10-19
 
 Document revision 1.4 of `E1M-STD-1.0` (Edition 1.0). Informative
 content only: no normative clause changes, the pinout JSONs and the

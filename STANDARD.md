@@ -3,7 +3,7 @@
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
 **Revision:** 1.4
-**Date:** 2026-10-18
+**Date:** 2026-10-19
 **Status:** Released
 **Publisher:** Alp Lab AB
 
