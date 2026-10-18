@@ -62,7 +62,7 @@ are **not** normative for this standard.
 
 | File | Notes |
 | --- | --- |
-| `misc-floating.svg` | Floating SVG inside the docx with no caption. View-box 193 × 138 mm. **TODO:** identify or delete. |
+| `misc-floating.svg` | Floating SVG inside the docx with no caption. View-box 193 × 138 mm. |
 
 ## Re-extraction
 

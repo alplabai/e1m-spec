@@ -250,13 +250,7 @@ only): IPC-7351 nominal density, round non-solder-mask-defined (NSMD)
 pads 0.40 mm diameter, solder-mask opening 0.50 mm diameter, stencil
 aperture 1:1 (0.40 mm diameter), stencil thickness 0.08 mm._
 
-> **TODO (Alp Lab):** publish the full normative dimension callouts —
-> tolerances on every dimension shown, solder-mask opening size, paste
-> aperture, recommended carrier-board land pattern (per IPC-7351), and
-> the matching Altium libraries.
-> **Source:** Altium project (mechanical layers + footprint library).
-> **Format:** Annex to this specification + an `altium/` directory in
-> this repository containing the open-source footprint library.
+Dimension tolerances other than the outline, and a carrier-board footprint library, are not specified in this revision.
 
 #### 5.1.2 E1M-X (45 × 65 mm)
 
@@ -267,8 +261,7 @@ Central cavity 39.45 × 57.45 mm. Two corner Detail views (5:1 scale)
 show the pad band on the long and short edges. A scalable vector copy
 is available in `images/e1m-x-footprint.svg`.*
 
-> **TODO (Alp Lab):** publish the full normative dimension callouts and
-> Altium library, as for §5.1.1.
+Dimension callouts and a carrier-board footprint library for E1M-X are not specified in this revision.
 
 ### 5.2 Module height
 
@@ -283,12 +276,7 @@ class in its per-SoM manifest.
 on the base-board surface; only the SoM's top-side components rise
 above the base-board plane.*
 
-> **TODO (Alp Lab):** specify the maximum module thickness measured
-> from the underside of the SoM PCB to the highest top-side component,
-> including any EMI shield. Specify the recommended LGA pad height /
-> stand-off.
-> **Format:** dimensioned mechanical drawing + numeric envelope (e.g.
-> "≤ 2.5 mm above base-board top surface, including shield").
+The maximum module thickness and the LGA pad stand-off are not specified in this revision.
 
 #### 5.2.2 Extended height
 
@@ -298,11 +286,7 @@ above the base-board plane.*
 the SoM and the base board allows components on the bottom side of
 the SoM to clear the base-board surface.*
 
-> **TODO (Alp Lab):** specify the spacer-PCB thickness, the maximum
-> total module thickness measured from base-board top surface to the
-> highest top-side component, the maximum component height on the
-> SoM bottom side, and the recommended cut-out / cavity in the
-> base-board PCB or spacer.
+The spacer-PCB thickness, the maximum total module thickness and the maximum component height on the SoM bottom side are not specified in this revision.
 
 ### 5.3 Component placement areas
 
@@ -315,12 +299,7 @@ within the LGA pad band; coordinates **TBD**.*
 Where present, EMI shielding **SHALL** fit within the declared height
 envelope.
 
-> **TODO (Alp Lab):** publish numeric keepout dimensions for top and
-> bottom placement zones for each form factor, the recommended cut-out
-> in the base-board PCB or spacer, and any vendor-defined keepout for
-> RF / antenna routing.
-> **Format:** dimensioned drawing + table mapping zone → max component
-> height for each form factor and height class.
+Numeric keepout dimensions for the placement zones are not specified in this revision.
 
 ### 5.4 Soldering
 
@@ -329,22 +308,11 @@ LGA-class reflow soldering. Where a particular SoM is also compatible
 with BGA-class reflow profiles, the per-SoM manifest **MAY** declare
 this.
 
-> **TODO (Alp Lab):** publish a recommended reflow profile (peak
-> temperature, time above liquidus, ramp rates), paste-stencil
-> thickness and aperture geometry, and rework / desoldering guidelines.
-> **Source:** SoM characterisation lab data.
-> **Format:** time-temperature curve + numeric table per IPC J-STD-020
-> and J-STD-001.
+A recommended reflow profile is not specified in this revision.
 
 ### 5.5 Packaging
 
-> **TODO (Alp Lab):** specify tape-and-reel pocket geometry, reel
-> diameter, units per reel, MSL (moisture-sensitivity level) rating,
-> dry-pack and shelf-life requirements, and tray dimensions for the
-> tray alternative.
-> **Source:** SoM manufacturing partner.
-> **Format:** EIA-481-compliant tape-and-reel drawing + JEDEC-compliant
-> tray drawing.
+Packaging requirements are not specified in this revision.
 
 ---
 
@@ -641,20 +609,6 @@ based on Renesas RZ/V2N (informative).
 or leave it as the SoM's internal pull defines. `BOOT3` selects the
 boot CPU on the reference SoMs (high → CA55, low → CM33).
 
-> **TODO (Alp Lab):** define the **normative** strap interpretation
-> independent of any specific silicon. Either:
->
-> - (a) Specify the meaning of every (`BOOT0`, `BOOT1`, `BOOT2`,
->   `BOOT3`) tuple at the standard level (e.g. `00xx` = boot from
->   eMMC, `01xx` = boot from QSPI, etc.) and require all conformant
->   SoMs to honour it; or
-> - (b) Promote the strap to a per-SoM manifest field entirely and
->   delete the silicon-specific table above from §6.4.
->
-> The current text describes a Renesas RZ/V2N mapping in a
-> nominally-vendor-agnostic standard, which violates the §1.2
-> "no-per-SoM-data" rule.
-
 ### 6.5 Mandatory on-module components
 
 The E1M pinout is designed around a SoM that integrates the
@@ -698,24 +652,7 @@ clause that makes it normative.
 | `PORn` carrier low pulse, any SoM | ≥ 2 ms _(E1M-AEN only)_ | §6.3.1 (3) |
 | `PORn` carrier capacitance | ≤ 1 nF _(E1M-AEN only)_ | §6.3.1 (3) |
 
-> **TODO (Alp Lab):** publish the remaining characteristics as four
-> tables, each indexed by signal class:
->
-> 1. **Absolute maximum ratings** — all signal pads not covered above,
->    ESD per HBM/CDM, junction temperature.
-> 2. **Recommended operating conditions** — operating temperature
->    range, humidity range.
-> 3. **DC characteristics** — `V_IH`, `V_IL`, `V_OH`, `V_OL`, leakage,
->    pull-up / pull-down resistance, per pad class.
-> 4. **AC characteristics** — slew rate, output drive strength, and
->    interface-specific timing (USB, MIPI, PCIe, etc.) where the
->    standard imposes timing beyond what the underlying interface
->    spec already mandates.
->
-> Also confirm the values marked _(E1M-AEN only)_ for E1M-X V2N /
-> V2N-M1, and the E1M-X V2N / V2N-M1 power-up hand-off delay (§6.2.1).
-> **Source:** SoM characterisation lab data, derived from the silicon
-> datasheets of conformant SoMs and validated on the SoM PCB.
+The remaining absolute maximum ratings, recommended operating conditions, DC characteristics and AC characteristics are not specified in this revision.
 
 ### 6.7 Pad voltage domains and safe default fits
 
