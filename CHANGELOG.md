@@ -7,6 +7,47 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.4] — 2026-10-18
+
+Document revision 1.4 of `E1M-STD-1.0` (Edition 1.0). Informative
+content only: no normative clause changes, the pinout JSONs and the
+Loom schema are unchanged, and the Loom form-factor version (`1.0`) is
+unchanged. The figures added in 1.4 are in the published PDF edition;
+`STANDARD.md` carries the text and tables.
+
+### Added (informative)
+
+- **Abstract** under the document header.
+- **§5.1.3 Recommended carrier land pattern** for E1M and E1M-X:
+  IPC-7351 nominal density, round NSMD pads 0.40 mm, solder-mask
+  opening 0.50 mm, stencil 1:1 0.40 mm, stencil thickness 0.08 mm
+  (values: E1M-AEN only). The informative land-pattern sentence of
+  §5.1.1 moves here. Pad tolerances and a carrier-board footprint
+  library remain not specified.
+- **§5.4.1 Recommended reflow profile**, E1M-AEN measured: ALPHA OM338
+  SAC paste, soak 150–217 °C 70–74 s, about 60 s above 217 °C, peak
+  241–244 °C, cooling about −1.6 °C/s, per IPC/JEDEC J-STD-020
+  (added to the Bibliography).
+- **§6.6** informative tables of absolute maximum ratings, recommended
+  operating conditions, DC characteristics and AC characteristics by
+  signal class, built from values the specification already states,
+  with their provenance; rows without a stated value read "per SoM
+  datasheet".
+
+### Changed (informative)
+
+- **Annex A.1 E1M-AEN SKU matrix** aligned with the E1M-AEN datasheet
+  (DS-AEN-001): Alif part numbers `AE302F80F55D5LE` (`E1M-AEN301`)
+  and `AE512F80F55D5LS` (`E1M-AEN501`) added and `AE512F80F55D5LS`
+  removed from `E1M-AEN401`; E4, E6 and E8 NPU 2 × Ethos-U55 +
+  1 × Ethos-U85; `E1M-AEN401` has the ISP and JPEG encoder; memory per
+  SKU (5.5 MB MRAM on every SKU, internal RAM 13.5 MB or 9.75 MB).
+- **Annex A.1 brought in line with the PDF edition:** the
+  `E1M-AEN803` row (seven SKUs; also §4.1 and the Annex A overview),
+  operating temperature −40 to +75 °C, Ethernet PHY named by family
+  (`TI DP83825`).
+- **Foreword:** revision status sentence updated.
+
 ## [1.3] — 2026-10-18
 
 Document revision 1.3 of `E1M-STD-1.0` (Edition 1.0). The designation
