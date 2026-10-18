@@ -1,6 +1,6 @@
 # e1m-spec
 
-Canonical specification for the **E1M** AI module-on-module pinout
+Canonical specification for the **E1M** AI system-on-module (SoM) pinout
 standard, covering two form factors:
 
 - **E1M** — 35 × 35 mm, 312 pads.
@@ -18,7 +18,7 @@ subset in per-variant SoM manifests held in consumer repositories
 
 | Path | Purpose |
 | --- | --- |
-| `STANDARD.md` | Prose specification (OSM-style). The normative document. |
+| `STANDARD.md` | Prose specification. The normative document. |
 | `pinout/v1.json` | Canonical machine-readable E1M pinout (Loom v1). |
 | `pinout/x-v1.json` | Canonical machine-readable E1M-X pinout (Loom v1). |
 | `pinout/schema/loom-v1.schema.json` | JSON Schema validating both pinout files. |

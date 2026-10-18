@@ -39,19 +39,6 @@ reflect what each image actually depicts.
 | `component-placement-areas.png` | Top-side and bottom-side placement diagrams. Shows the central component zone (≈30 × 16.5 mm and 30 × 17.5 mm) within the LGA pad band, with cut-out hints for the spacer / base-board cavity. |
 | `form-factor-zones.png` | Form-factor outline schematic with peripheral pad bands and central placement zones (45 × ~30 mm with 30 × 30 mm centre). |
 
-## Reference / informative
-
-These three are screenshots of the OSM (Open Standard Module)
-Industrial specification, included because the doc author modelled
-parts of E1M on OSM. They are kept here as bibliographic reference and
-are **not** normative for this standard.
-
-| File | Notes |
-| --- | --- |
-| `osm-ref-interface-overview.png` | OSM spec §2.1.4 *Interface Overview* — sizes 0/S/M/L feature counts. |
-| `osm-ref-size0-pinout.png` | OSM spec §2.3.3.2 *Size-0 Detailed Contact Overview* — pad map for the smallest OSM size. |
-| `osm-ref-size-s-additions.png` | OSM spec §2.3.4 *Size-S ADDITIONAL Functions* — additional features added at Size-S. |
-
 ## Brand
 
 | File | Notes |
