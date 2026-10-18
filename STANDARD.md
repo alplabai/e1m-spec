@@ -526,8 +526,11 @@ have no ready output; the hand-off delay is TBD._
    resistors, and open-drain outputs that only pull low, are permitted
    at any time.
 2. **Exceptions.** Clause 1 does not apply to `MODULE_EN` (5 V
-   tolerant, §6.3.1) or to pads in a domain other than `VIO_OUT`;
-   those pads follow the rule in §6.7.1.
+   tolerant, §6.3.1), to `IO25` when the SoM uses it as `RTC_WAKE_N`
+   (open-drain, 5 V tolerant, §8.2), or to pads in a domain other
+   than `VIO_OUT`; those pads follow the rule in §6.7.1. Clause 4
+   does not apply to `RTC_WAKE_N` either: its pull-up goes to an
+   always-on rail.
 3. **Gate.** The carrier **SHALL** use `VIO_OUT` high together with
    `PORn` high as the condition for driving `VIO_OUT`-domain signal
    pads (§6.2.1 and §6.2.2).
@@ -1490,9 +1493,12 @@ In the JSON, the GPIO secondary is expressed by including
 Pad `IO25` (E1M `P3`, E1M-X `F63`) additionally defines the alternate
 function `RTC_WAKE_N`: an active-low, open-drain RTC wake / interrupt
 output from the module. A SoM that exposes it **SHALL** drive it
-open-drain; the carrier supplies any pull-up (to `VIO_OUT` only, per
-§6.2.3). The JSON expresses it as `{ "signal": "RTC_WAKE_N" }` in the
-pad's `alt` array.
+open-drain from its always-on domain, keep it valid in every power
+state while `VDDIN` is present, and tolerate up to 5.5 V on the pad
+(5 V tolerant). The carrier supplies the pull-up, to its own or the
+host's always-on rail; `RTC_WAKE_N` is an exception to §6.2.3
+clauses 1 and 4. The JSON expresses it as
+`{ "signal": "RTC_WAKE_N" }` in the pad's `alt` array.
 
 ### 8.3 Compound-function pins
 
