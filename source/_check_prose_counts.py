@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 # Each interface is counted via one signal that appears once per instance.
 PARCAM = "Parallel camera (8 / 16-bit)"
 ROWS = {
-    "Ethernet 1 GbE": lambda n: n("ETH_DA_P"),
+    "Ethernet port (MDI, up to 1000BASE-T)": lambda n: n("ETH_DA_P"),
     "USB 2.0": lambda n: n("USB_DP") - n("USB_RX_P"),  # USB3 ports also carry D+/D-
     "USB 3.x": lambda n: n("USB_RX_P"),
     "UART": lambda n: n("UART_TX"),

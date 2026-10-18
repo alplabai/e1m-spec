@@ -1,9 +1,9 @@
 # E1M™ Specification — Edge-1 AI Module
 
-**Designation:** E1M-STD-1.2
-**Edition:** 1.2
-**Date:** 2026-06-23
-**Status:** Released
+**Designation:** E1M-STD-1.3
+**Edition:** 1.3
+**Date:** 2026 _(release date pending)_
+**Status:** Draft for review
 **Publisher:** Alp Lab AB
 
 **Reference implementation:** `pinout/v1.json` (E1M, 35 × 35 mm) and
@@ -35,7 +35,7 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This edition (1.2) is the current release; Edition 1.0 was the first public release. Subsequent revisions
+This edition (1.3) is a draft for review; Edition 1.2 is the current release and Edition 1.0 was the first public release. Subsequent revisions
 follow the versioning rules in §1.5.
 
 ---
@@ -237,8 +237,15 @@ form-factor identifier `E1M` or `E1M-X` is recorded in the top-level
 
 *Figure 1 — E1M footprint (top view). Overall envelope 35.0 × 35.0 mm.
 Central cavity 29.0 × 27.0 mm. Detail A (5:1 scale) shows the corner
-pad band: 0.5 mm pitch, 0.4 mm pad diameter, 0.5 mm offset to the
-package edge. Pin A1 corner is marked by the triangular fiducial.*
+pad band: 1.0 mm pad pitch (signal grid), 0.40 mm pad diameter. Pin
+A1 corner is marked by the 0.5 mm triangular fiducial.*
+
+The E1M signal pads **SHALL** lie on a 1.0 mm pitch grid and **SHALL**
+be 0.40 mm diameter round copper pads. _Informative — carrier land
+pattern published for E1M-AEN (DS-AEN-001; values confirmed by E1M-AEN
+only): IPC-7351 nominal density, round non-solder-mask-defined (NSMD)
+pads 0.40 mm diameter, solder-mask opening 0.50 mm diameter, stencil
+aperture 1:1 (0.40 mm diameter), stencil thickness 0.08 mm._
 
 > **TODO (Alp Lab):** publish the full normative dimension callouts —
 > tolerances on every dimension shown, solder-mask opening size, paste
@@ -344,44 +351,248 @@ this.
 
 Conformant SoMs **SHALL** generate every internal supply rail on board
 from a single externally-supplied 5 V input on the `VDD_5V_IN` pads
-(see §7.3). On-module power management **SHALL** be performed by an
-I²C-controlled PMIC.
+(silkscreen `VDD` on E1M; see §7.3.1). On-module power management
+**SHALL** be performed by an I²C-controlled PMIC.
 
 A SoM **SHALL** expose a regulated 1.8 V I/O reference rail on the
 `VIO_OUT` pads, sized to power any I/O level-shifting on the carrier
-board.
-
-> **TODO (Alp Lab):** specify the maximum sink current on `VIO_OUT`
-> (per pad and aggregate), the regulation tolerance (e.g. 1.8 V ± 5%),
-> and the over-current behaviour (current-limit, fold-back, or trip).
-> **Format:** numeric values in §6.5's electrical-characteristics
-> table.
+board (§6.1.2).
 
 A SoM **SHALL** include all decoupling capacitors required for
 correct on-module operation. Carrier-board designers **SHOULD** add
 additional decoupling capacitors close to high-current loads on the
 carrier side.
 
+> **Value provenance.** Where a value in §6 is marked _(E1M-AEN
+> only)_, it is confirmed by the E1M-AEN documentation (DS-AEN-001 /
+> HG-AEN-001, hw_rev R3) and is still TBD in the E1M-X V2N and V2N-M1
+> documentation. Where it is marked _(E1M-X V2N / V2N-M1 only)_, the
+> reverse applies. Such values bind every SoM and every carrier until
+> a later revision states otherwise.
+
+#### 6.1.1 5 V supply input
+
+The clauses below define the 5 V window for a carrier that hosts
+**any** conformant SoM. The window is the strictest combination of the
+windows of the reference SoMs (Annex A).
+
+1. **Operating window.** The carrier **SHALL** hold the voltage at the
+   `VDD_5V_IN` pads between **4.75 V and 5.25 V**, measured at the
+   pads, at every load up to the peak input current the SoM declares.
+2. **Absolute maximum.** The carrier **SHALL** keep the voltage at the
+   `VDD_5V_IN` pads at or below **5.5 V** at all times, including
+   transients, load release and hot-plug overshoot. A
+   transient-voltage suppressor alone does not meet this clause,
+   because the clamp voltage of a 5 V TVS is well above 5.5 V; an
+   over-voltage cut-off or clamp (for example an eFuse or load switch
+   with over-voltage protection) is needed ahead of the pads.
+3. **Ramp.** The rise of `VDD_5V_IN` from 0 V to 4.75 V **SHALL** be
+   monotonic and **SHALL** complete within **40 ms** _(E1M-AEN only)_.
+4. **Pads.** The carrier **SHALL** connect every `VDD_5V_IN` pad (E1M:
+   `R1`, `R2`, `S1`, `S2`; E1M-X: `T1`, `T2`, `U1`, `U2`, `V1`, `V2`)
+   to the 5 V supply through a low-impedance path, and **SHALL NOT**
+   connect any other supply to them.
+5. **Current.** The carrier 5 V source **SHALL** be sized for the peak
+   input current the SoM declares, not for its average current, plus
+   every carrier load that shares the source.
+6. **Input protection.** A SoM is not required to include input
+   protection. The carrier **SHALL** provide the over-voltage
+   protection that clause 2 needs and, where the 5 V input connector
+   can be mis-wired, reverse-polarity protection.
+7. **Hold-up capacitance.** The carrier **SHALL** place, next to the
+   `VDD_5V_IN` pads, at least the bulk capacitance the SoM declares.
+8. **Source OR-ing.** Where the carrier can feed `VDD_5V_IN` from more
+   than one source, it **SHALL NOT** back-feed an inactive source (use
+   a unidirectional eFuse or an ideal-diode controller). The voltage
+   drop of the OR-ing element **SHALL** still leave at least 4.75 V at
+   the pads (clause 1).
+9. **SoM side.** A conformant SoM **SHALL** operate across
+   4.75–5.25 V at its `VDD_5V_IN` pads, **SHALL** withstand 5.5 V
+   without damage, and **SHALL** start correctly from any monotonic
+   ramp that reaches 4.75 V within 40 ms _(ramp value: E1M-AEN only)_.
+   The SoM **SHALL** declare in its manifest its operating range,
+   absolute maximum, peak input current, on-module input capacitance
+   and the minimum carrier bulk capacitance.
+
+A carrier that declares (§8.4, §9.2) that it hosts only SoMs whose
+manifests declare a wider window **MAY** use that wider window.
+
+*5 V input values of the reference SoMs (informative):*
+
+| Parameter | E1M-AEN (DS-AEN-001, hw_rev R3) | E1M-X V2N / V2N-M1 (DS-V2N-001, DS-V2N-M1-001) |
+| --- | --- | --- |
+| Operating range (min / typ / max) | 4.75 / 5.0 / 5.25 V | 4.5 / 5.0 / 5.5 V (the HG documents recommend ±5 %) |
+| Absolute maximum | 5.5 V | 6.0 V |
+| Ramp | monotonic, 0 V to 4.75 V within 40 ms | not specified |
+| Peak input current | 834 mA (`E1M-AEN801`, calculated) | TBD; carrier 5 V source ≥ 5 A peak recommended |
+| On-module input capacitance | about 50 µF | not specified |
+| Carrier bulk capacitance | ≥ 50 µF effective per A of total `VDD_5V_IN` load | ≥ 10 µF + 100 nF |
+
+#### 6.1.2 VIO_OUT
+
+1. **Level.** `VIO_OUT` **SHALL** be 1.8 V nominal, with a tolerance
+   of ±5 % _(tolerance: E1M-X V2N / V2N-M1 only; E1M-AEN TBD)_. No
+   other `VIO_OUT` level is defined in this revision.
+2. **Direction.** `VIO_OUT` is a SoM output. The carrier **SHALL NOT**
+   drive `VIO_OUT`, connect it to any other rail, or connect any source
+   that can raise it above the SoM's own level.
+3. **Permitted uses.** The carrier **SHALL** use `VIO_OUT` only (a) as
+   the SoM-side supply or reference (V_CCA / V_REF) of carrier level
+   translators and as the pull-up rail for signals into the SoM's
+   1.8 V pads, (b) as a module-on indication, or (c) as the enable
+   input of a carrier load switch that generates a carrier 1.8 V rail
+   that follows the SoM. Any other carrier load that must follow the
+   SoM **SHALL** be supplied from such a switched rail (use c).
+4. **Load limits.** The SoM **SHALL** declare in its manifest the
+   maximum load current and the maximum external capacitance on
+   `VIO_OUT`. A carrier that hosts any SoM **SHALL** keep the total
+   `VIO_OUT` load at or below **100 mA**, **SHALL** draw no more than
+   **50 mA** during the first 2 ms after `VIO_OUT` rises, and **SHALL**
+   keep the total capacitance on `VIO_OUT` at or below **2.5 µF**
+   _(E1M-AEN only; E1M-X V2N / V2N-M1: TBD)_. Excess capacitance can
+   stop the SoM's 1.8 V rail from starting.
+5. **Translator power-off behaviour.** Every level translator
+   referenced to `VIO_OUT` **SHALL** keep both of its ports
+   high-impedance while its `VIO_OUT`-side supply is off (I_off or
+   partial-power-down specified). Some pass-gate translators conduct
+   with V_CCA at 0 V and do not meet this clause.
+6. **Sensing.** A carrier that monitors `VIO_OUT` **SHALL** do so
+   through a high-impedance input whose own supply is on whenever the
+   SoM can be powered, so that the monitor cannot back-power an
+   unpowered host.
+
+> **Forward compatibility (informative).** `VIO_OUT` is 1.8 V in this
+> revision, and carriers treat it as 1.8 V. Carrier designers are
+> recommended to choose level translators whose `VIO_OUT`-side supply
+> (V_CCA) is rated 1.65–3.6 V, so that the same carrier part still
+> works if a later revision defines another `VIO_OUT` level. This
+> recommendation does not define a 3.3 V `VIO_OUT` class.
+
 ### 6.2 Power sequencing
 
-> **TODO (Alp Lab):** specify the power-up and power-down sequencing
-> contract between the carrier board and the SoM:
-> 1. Required ramp time on `VDD_5V_IN` (typical and worst-case).
-> 2. Maximum allowed time from `VDD_5V_IN` valid → `VIO_OUT` valid.
-> 3. `MODULE_EN` assertion timing relative to `VDD_5V_IN`.
-> 4. `PORn` deassertion timing relative to `VIO_OUT` valid.
-> 5. `MODULE_STBY` entry/exit timing.
-> 6. Any forbidden sequences (e.g. carrier-board signals high while
->    `VDD_5V_IN` is low).
-> **Format:** annotated waveform diagram + numeric timing table.
+The SoM **SHALL** sequence all of its internal rails itself. A carrier
+**SHALL NOT** be required to sequence any supply; the carrier orders
+only the control pads (§6.3) and the signal pads.
+
+#### 6.2.1 Power-up
+
+1. **First,** the carrier applies `VDD_5V_IN` within the limits of
+   §6.1.1. To keep the SoM off, the carrier holds `MODULE_EN` low
+   before and while `VDD_5V_IN` rises; otherwise it leaves
+   `MODULE_EN` released.
+2. **Then** the carrier waits until `VIO_OUT` is high and `PORn` is
+   high.
+3. **Only then** the carrier **MAY** drive the signal pads of the SoM
+   (§6.2.3).
+
+A SoM **SHALL** declare in its manifest the maximum time from
+`VDD_5V_IN` reaching 4.75 V, or from `MODULE_EN` release, to `PORn`
+high. Where `VIO_OUT` and `PORn` high do not yet mean that the SoM can
+receive signals, the SoM **SHALL** declare the additional delay and
+the carrier **SHALL** wait for it. _Informative: E1M-AEN releases
+`PORn` 206 ms typical, 290 ms maximum after `VDD_5V_IN` reaches
+4.75 V or `MODULE_EN` is released (DS-AEN-001). E1M-X V2N / V2N-M1
+have no ready output; the hand-off delay is TBD._
+
+#### 6.2.2 Power-down
+
+1. **First,** the carrier **SHOULD** request a graceful shut-down by
+   the means the SoM manifest declares (application link, a GPIO, or
+   `MODULE_STBY`) and give the SoM time to finish writes to
+   non-volatile memory.
+2. **Next,** when `PORn` falls, the carrier **SHALL** set every output
+   that drives a SoM signal pad to high impedance or low within
+   **1 ms** _(E1M-AEN only)_.
+3. **Then,** if the SoM has not powered off by itself, the carrier
+   forces power-off with `MODULE_EN` low (§6.3.1).
+4. **Last,** the carrier removes `VDD_5V_IN`. It **SHOULD** wait until
+   `VIO_OUT` is low before it removes `VDD_5V_IN`.
+
+> **Data loss.** Pulling `MODULE_EN` low, pulling `PORn` low and
+> removing `VDD_5V_IN` give the SoM firmware no notice. Writes to
+> on-module non-volatile memory that are in progress at that moment
+> are lost or corrupted.
+
+#### 6.2.3 Back-powering and I/O gating
+
+1. **No drive into an unpowered SoM.** While `VIO_OUT` is low, the
+   carrier **SHALL NOT** drive any `VIO_OUT`-domain signal pad
+   (§6.7.1) high and **SHALL NOT** source current into it, whether
+   from a push-pull output, a pull-up resistor, a debug probe, a
+   USB-to-UART bridge or any other carrier circuit. Pull-down
+   resistors, and open-drain outputs that only pull low, are permitted
+   at any time.
+2. **Exceptions.** Clause 1 does not apply to `MODULE_EN` (5 V
+   tolerant, §6.3.1) or to pads in a domain other than `VIO_OUT`;
+   those pads follow the rule in §6.7.1.
+3. **Gate.** The carrier **SHALL** use `VIO_OUT` high together with
+   `PORn` high as the condition for driving `VIO_OUT`-domain signal
+   pads (§6.2.1 and §6.2.2).
+4. **Pull-up rail.** Every carrier pull-up on a `VIO_OUT`-domain pad
+   **SHALL** go to `VIO_OUT` or to a carrier rail switched by
+   `VIO_OUT` (§6.1.2 clause 3), never to an always-on rail.
+5. **Level.** The carrier **SHALL** keep every `VIO_OUT`-domain pad
+   between −0.3 V and 1.98 V (absolute maximum of the 1.8 V pads of
+   both E1M-AEN and E1M-X V2N / V2N-M1).
+6. **Debug probes.** A debug probe or console adapter on the SoM's
+   debug pads (§7.3.10, §7.3.13) **SHALL** use `VIO_OUT` as its target
+   reference, **SHALL** have its target-power output disabled, and
+   **SHALL** keep its outputs high-impedance while `VIO_OUT` is low.
+7. **Switched pad groups.** Where a SoM supplies a group of its
+   `VIO_OUT`-domain pads from an internal rail that can be off while
+   `VIO_OUT` is high (for example the pads of an on-module radio), it
+   **SHALL** list those pads in its manifest, and the carrier
+   **SHALL** apply clause 1 to them while that rail is off.
 
 ### 6.3 Reset and module enable
 
 | Pad | Direction | Polarity | Description |
 | --- | --- | --- | --- |
-| `MODULE_EN` | input | active-high (default high via internal pull-up) | Drive low to disable the SoM. Open-drain. Carrier **MAY** leave floating if not used. |
-| `MODULE_STBY` | input | active-low (TBD) | Module standby (low-power) request. Open-drain. TBD. |
-| `PORn` | input | active-low (default high via internal pull-up to 1.8 V) | Power-on reset. Drive low to reset the SoM. Open-drain. Carrier **MAY** leave floating if not used. |
+| `MODULE_EN` | input | active-high (default high via SoM-internal pull-up) | Drive low to switch the SoM off and hold it off; release to switch it on. 5 V tolerant. Open-drain drive. Carrier **MAY** leave floating if not used. Drive rules: §6.3.1. |
+| `MODULE_STBY` | input | active-low (default high via SoM-internal pull-up) | Module standby (low-power) request. The protocol (level or pulse) is declared in the per-SoM manifest. Not 5 V tolerant on every SoM. Open-drain drive. Carrier **MAY** leave floating if not used. Drive rules: §6.3.1. |
+| `PORn` | input, open-drain, wired-AND | active-low (default high via SoM-internal pull-up to 1.8 V) | Power-on reset. Drive low to reset the SoM. A SoM **MAY** also hold it low itself while its rails are not valid. Carrier **MAY** leave floating if not used. Drive rules: §6.3.1. |
+
+A SoM **SHALL** power up and boot when `VDD_5V_IN` is applied with
+`MODULE_EN`, `MODULE_STBY` and `PORn` all left unconnected. None of
+these pads needs a carrier pull-up.
+
+#### 6.3.1 Control-pad drive rules
+
+1. **MODULE_EN.** A SoM **SHALL** tolerate any voltage from −0.3 V to
+   5.5 V on `MODULE_EN` and **MAY** pull it up internally to a rail as
+   high as `VDD_5V_IN`. The carrier **SHALL** pull `MODULE_EN` low
+   only with an open-drain or open-collector output, a switch or a
+   push-button to `GND`; push-pull drive is permitted only towards
+   SoMs whose manifest allows it. The carrier **SHALL NOT** fit a
+   pull-up on `MODULE_EN` to a rail that can be off while `VDD_5V_IN`
+   is present, and **SHALL NOT** connect `MODULE_EN` directly to a GPIO
+   of a host that can be unpowered while the SoM must stay on (the
+   unpowered host clamps the line low); such a host **SHALL** drive
+   `MODULE_EN` through a buffer, for example an N-MOSFET to `GND`.
+   Every carrier part on `MODULE_EN` (buffer transistor, ESD diode,
+   read-back input) **SHALL** be rated for 5.5 V. With the carrier
+   driver released, the total carrier leakage on `MODULE_EN` **SHALL
+   NOT** exceed 0.1 µA _(E1M-AEN only; its internal pull-up is about
+   1 MΩ)_. `MODULE_EN` low is a hard power cut and **SHOULD NOT** be
+   used as the normal power-off path (§6.2.2).
+2. **MODULE_STBY.** The carrier **SHALL** pull `MODULE_STBY` low only
+   with an open-drain output, a switch or a push-button to `GND`, and
+   **SHALL NOT** fit a pull-up on it to any rail other than `VIO_OUT`.
+   With the carrier driver released, the total carrier leakage on
+   `MODULE_STBY` **SHALL NOT** exceed 0.1 µA _(E1M-AEN only)_. A SoM
+   **SHALL** declare in its manifest the standby protocol (level or
+   pulse) and the minimum low and high times.
+3. **PORn.** The carrier **SHALL** pull `PORn` low only with an
+   open-drain output, a switch or a push-button to `GND`, **SHALL NOT**
+   drive it high, and **SHALL NOT** fit a pull-up on it. The carrier
+   **SHALL** hold `PORn` low for at least the minimum the SoM declares,
+   and for at least 2 ms when it targets any SoM _(E1M-AEN only;
+   E1M-X V2N / V2N-M1: TBD)_. The carrier **SHALL NOT** add more than
+   1 nF on `PORn` _(E1M-AEN only)_. A carrier input that reads `PORn`
+   **SHALL** be high-impedance while its own supply is off.
+4. **JTAG_nRST.** The carrier **SHALL** pull `JTAG_nRST` low only with
+   an open-drain output and **SHALL NOT** fit a pull-up on it to any
+   rail other than `VIO_OUT`.
 
 ### 6.4 Boot configuration
 
@@ -425,38 +636,115 @@ designers do not have to repeat them:
 
 | Component | Requirement |
 | --- | --- |
-| **Ethernet PHY(s)** | A conformant SoM **SHALL** include at least one on-module Ethernet PHY connected to the SoC's MAC and exposed on the carrier board via the post-magnetics differential MDI pads (`ETH0_*` minimum). SoMs whose SoC supports two MACs **SHALL** populate a second on-module PHY and expose `ETH1_*`. |
+| **Ethernet PHY(s)** | A conformant SoM **SHALL** include at least one on-module Ethernet PHY connected to the SoC's MAC and exposed on the carrier board via the PHY-side (pre-magnetics) differential MDI pads (`ETH0_*` minimum). SoMs whose SoC supports two MACs **SHALL** populate a second on-module PHY and expose `ETH1_*`. The SoM **SHALL** declare in its manifest the highest link rate of each port (§7.3.6). |
 | **Wi-Fi + Bluetooth combo** | A conformant SoM **SHALL** include an on-module Wi-Fi 6 (802.11 a/b/g/n/ac/ax) and Bluetooth 5.4 combo radio. 2.4 GHz and 5 GHz operation is **REQUIRED**; 6 GHz operation is **OPTIONAL**. |
 | **Antenna outputs** | Antenna pads (§7.3.2) **SHALL** be populated for every band the on-module combo radio supports. SoMs that do not support a particular band **SHALL** leave the corresponding `ANT_*` pad as no-connect. |
-| **CAN transceiver(s)** | If the SoM exposes any of the CAN pads (§7.3.13), the SoM **SHALL** include an on-module CAN transceiver. The pads exposed to the carrier board are then the bus side (`CANxH`, `CANxL`) suitable for direct connection to a terminator and a CAN connector. |
+| **CAN transceiver(s)** | If the SoM exposes the CAN pads of a CAN group (§7.3.14), it **SHALL** implement that group in one of two options and **SHALL** declare the option for each group in its manifest. **Bus-level CAN** (the default): the SoM includes an on-module CAN transceiver, and the pads carry the bus side (`CANxH`, `CANxL`), suitable for direct connection to a terminator and a CAN connector. **Logic-level CAN** (declared option): the SoM has no on-module transceiver for that group, the pads carry the controller side (`CANx_TX`, `CANx_RX`) in the `VIO_OUT` (1.8 V) domain, and the carrier provides the transceiver (§7.3.14). |
 
 Carrier-board designers **SHALL NOT** add an external Ethernet PHY,
 Wi-Fi/BLE module, or CAN transceiver between the carrier and any of
 these signal classes; the carrier provides only the magnetics + RJ-45
 (for Ethernet), antenna routing or external antenna connector (for
-Wi-Fi / BLE), and bus termination + connector (for CAN).
+Wi-Fi / BLE), and bus termination + connector (for CAN). The one
+exception is a CAN group that the SoM declares as logic-level CAN: for
+that group the carrier **SHALL** provide the transceiver (§7.3.14).
 
 This is a **family-wide** invariant: it applies to every conformant
 E1M and E1M-X SoM regardless of which SoC silicon the SoM uses.
 
 ### 6.6 Electrical characteristics
 
-> **TODO (Alp Lab):** publish four tables, each indexed by signal
-> class:
+The values below are fixed by this revision; each row points to the
+clause that makes it normative.
+
+| Parameter | Value | Clause |
+| --- | --- | --- |
+| `VDD_5V_IN` operating window at the pads | 4.75–5.25 V | §6.1.1 (1), (9) |
+| `VDD_5V_IN` absolute maximum (carrier limit; SoM withstand) | 5.5 V | §6.1.1 (2), (9) |
+| `VDD_5V_IN` ramp, 0 V to 4.75 V | monotonic, ≤ 40 ms _(E1M-AEN only)_ | §6.1.1 (3), (9) |
+| `VIO_OUT` level | 1.8 V nominal, ±5 % _(tolerance: E1M-X V2N / V2N-M1 only)_ | §6.1.2 (1) |
+| `VIO_OUT` carrier load, any SoM | ≤ 100 mA; ≤ 50 mA in the first 2 ms; ≤ 2.5 µF _(E1M-AEN only)_ | §6.1.2 (4) |
+| `VIO_OUT`-domain signal pads | −0.3 V to 1.98 V | §6.2.3 (5) |
+| Carrier outputs Hi-Z or low after `PORn` falls | ≤ 1 ms _(E1M-AEN only)_ | §6.2.2 (2) |
+| `MODULE_EN` voltage range the SoM tolerates | −0.3 V to 5.5 V | §6.3.1 (1) |
+| `MODULE_EN`, `MODULE_STBY` released carrier leakage | ≤ 0.1 µA _(E1M-AEN only)_ | §6.3.1 (1), (2) |
+| `PORn` carrier low pulse, any SoM | ≥ 2 ms _(E1M-AEN only)_ | §6.3.1 (3) |
+| `PORn` carrier capacitance | ≤ 1 nF _(E1M-AEN only)_ | §6.3.1 (3) |
+
+> **TODO (Alp Lab):** publish the remaining characteristics as four
+> tables, each indexed by signal class:
 >
-> 1. **Absolute maximum ratings** — `VDD_5V_IN`, `VIO_OUT`, all signal
->    pads, ESD per HBM/CDM, junction temperature.
-> 2. **Recommended operating conditions** — supply voltage range,
->    operating temperature range, humidity range.
+> 1. **Absolute maximum ratings** — all signal pads not covered above,
+>    ESD per HBM/CDM, junction temperature.
+> 2. **Recommended operating conditions** — operating temperature
+>    range, humidity range.
 > 3. **DC characteristics** — `V_IH`, `V_IL`, `V_OH`, `V_OL`, leakage,
 >    pull-up / pull-down resistance, per pad class.
 > 4. **AC characteristics** — slew rate, output drive strength, and
 >    interface-specific timing (USB, MIPI, PCIe, etc.) where the
 >    standard imposes timing beyond what the underlying interface
 >    spec already mandates.
+>
+> Also confirm the values marked _(E1M-AEN only)_ for E1M-X V2N /
+> V2N-M1, and the E1M-X V2N / V2N-M1 power-up hand-off delay (§6.2.1).
 > **Source:** SoM characterisation lab data, derived from the silicon
 > datasheets of conformant SoMs and validated on the SoM PCB.
-> **Format:** four tables per §6.5.1–§6.5.4.
+
+### 6.7 Pad voltage domains and safe default fits
+
+#### 6.7.1 Pad voltage domains
+
+Unless listed below, every signal pad of a conformant SoM is in the
+`VIO_OUT` (1.8 V) domain, and §6.2.3 applies to it. The pads below are
+in another domain. The carrier **SHALL NOT** clamp them to `VIO_OUT`,
+pull them up to `VIO_OUT` or level-translate them as 1.8 V signals,
+and **SHALL** apply the rule given for each.
+
+| Pads | Domain | Carrier rule |
+| --- | --- | --- |
+| `MODULE_EN` | up to 5.5 V | §6.3.1 (1). |
+| `VDD_5V_IN` / `VDD` | 5 V input | §6.1.1. |
+| `VIO_OUT`, `SD_VDD_OUT` / `SD_VDD`, `+V_CAM0`–`+V_CAM3` | SoM supply outputs | The carrier **SHALL NOT** drive, back-feed or connect another supply to them. _Informative: on E1M-AEN, `SD_VDD` was a carrier input on hw_rev R2 and is a 3.4 V SoM output from hw_rev R3._ |
+| `SD_CLK`, `SD_CMD`, `SD_D0`–`SD_D3` | `SD_VDD_OUT` / `SD_VDD` | The carrier **SHALL** drive or pull them up only to `SD_VDD_OUT` / `SD_VDD` levels and only while that rail is on. _Informative: E1M-AEN 3.4 V through an on-module translator; E1M-X V2N / V2N-M1 1.8 V / 3.3 V, switched automatically._ |
+| `BL_LED_A`, `BL_LED_K` | backlight LED string | The carrier **SHALL** connect only an LED string (anode on `BL_LED_A`) and its feedback network; it **SHALL NOT** connect a logic input or another supply. _Informative: E1M-AEN `BL_LED_A` reaches up to 36 V (KTD2801 over-voltage limit)._ |
+| `ETH0_*`, `ETH1_*` MDI pairs | PHY MDI | §7.3.6. |
+| `ANT_*` | RF | §7.3.2. |
+| `USB*` data, `USB*_VBUS`, `USB_CC1`, `USB_CC2` | USB | Per the USB specifications. |
+| `CSI*`, `DSI*`, `PCIE*` | high-speed differential | Per the MIPI and PCIe specifications. |
+| `CANxH/CANx_TX`, `CANxL/CANx_RX` | bus level, or `VIO_OUT` domain, per the declared CAN option | §6.7.2 and §7.3.14. |
+| `+S_CAP` | RTC backup store | As declared in the per-SoM manifest. |
+
+A SoM **SHALL** declare in its manifest any other pad that is not in
+the `VIO_OUT` domain, with its domain.
+
+#### 6.7.2 Safe default fits for dual-meaning pads
+
+The CAN pads (§7.3.14) carry either bus-level signals or 1.8 V logic
+signals, depending on the CAN option the SoM declares. A carrier that
+supports both options on one PCB uses assembly options (BOM variants,
+0 Ω links or not-fitted parts).
+
+1. **Safe default.** For every group of dual-meaning pads, the
+   carrier's default assembly (the fit used when no SoM set is
+   declared) **SHALL** be the fit that cannot damage any conformant
+   SoM.
+2. **CAN default.** For the CAN pads, the default assembly **SHALL** be
+   the carrier-transceiver path: the carrier transceiver connected to
+   the CAN pads, and the bypass path that connects the CAN pads
+   straight to the bus connector, termination or bus-side protection
+   not fitted (DNP). Bus voltages on logic-level CAN pads destroy the
+   SoC: on the E1M-AEN standard build these are 1.8 V SoC pads with an
+   absolute maximum of −0.3 V to 1.98 V.
+3. **Bypass fit.** The carrier **MAY** fit the bypass path, with the
+   carrier transceiver out of circuit, only in a build variant that
+   declares (§9.2) a SoM set in which every SoM declares bus-level CAN
+   for the CAN groups concerned. With a bus-level SoM on the default
+   assembly, CAN does not work until the bypass variant is fitted.
+4. **Mutual exclusion.** The carrier-transceiver path and the bypass
+   path of the same CAN group **SHALL NOT** both be fitted.
+5. **Declaration.** Every carrier build variant **SHALL** declare which
+   fit it uses for each dual-meaning pad group and which SoMs it
+   supports.
 
 ---
 
@@ -498,7 +786,7 @@ exposed by this standard on each form factor.
 
 | Feature | E1M | E1M-X |
 | --- | :---: | :---: |
-| Ethernet 1 GbE | 2 | 2 |
+| Ethernet port (MDI, up to 1000BASE-T) | 2 | 2 |
 | USB 2.0 | 1 | 1 |
 | USB 3.x | 1 | 2 |
 | UART | 2 | 2 |
@@ -530,7 +818,11 @@ exposed by this standard on each form factor.
 > **Note.** The "GPIO (default-function)" row counts only pads whose
 > default signal is `GPIO`. Per §8.2, every digital pad (USB, MIPI,
 > ADC, etc.) **MAY** also be repurposed as `GPIO` on a conformant
-> SoM; those repurposings are not counted here.
+> SoM; those repurposings are not counted here. The "Ethernet port"
+> row counts MDI pad groups; each group has the four pairs that
+> 1000BASE-T needs, and the link rate a SoM supports is declared in
+> its manifest (§7.3.6). The debug UART is not counted in the "UART"
+> row.
 
 ### 7.3 Pad assignments
 
@@ -596,7 +888,11 @@ be 50 Ω characteristic impedance.
 #### 7.3.3 Reserved (RSVD)
 
 Reserved pads are reserved for manufacturing or future expansion.
-Carrier boards **SHALL** leave them unconnected.
+Carrier boards **SHALL** leave them unconnected: no trace, test point,
+pull resistor, load or jumper. An RSVD pad can carry a live on-module
+net used in production, and connecting it can damage the SoM.
+_Informative: on E1M-AEN, `W3` is an on-module 1.8 V rail and `U3` /
+`V3` are a 3.3 V programming port._
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -605,7 +901,12 @@ Carrier boards **SHALL** leave them unconnected.
 #### 7.3.4 Not connected (NC)
 
 NC pads have no internal connection. Carrier boards **MAY** route
-through them or leave them unconnected.
+through them or leave them unconnected. This permission applies only
+to pads whose default function in this specification is `NC`. A pad
+that one SoM does not route (listed in its manifest `not_routed`, or
+described as "NC" in a SoM datasheet) keeps its standard function on
+other SoMs; a carrier that targets the standard generically **SHALL
+NOT** route unrelated nets through such a pad.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -646,10 +947,33 @@ one USB 2.0 and two USB 3.x interfaces.
 E1M and E1M-X each integrate **on-module Ethernet PHY(s)** (mandatory
 per §6.5) connected to the SoC MAC(s) via SoM-internal RGMII / RMII;
 the differential MDI pads exposed to the carrier board are
-**post-PHY**. The MDI differential pairs **SHALL** include EMI and ESD
-protection on the SoM; carrier boards **SHALL** provide a magnetic
-transformer (or transformer-integrated RJ-45 connector) and **SHALL
-NOT** add an external PHY.
+**post-PHY and pre-magnetics**. Carrier boards **SHALL** provide a
+magnetic transformer (or transformer-integrated RJ-45 connector) for
+each port they use and **SHALL NOT** add an external PHY.
+
+1. **Routing.** The carrier **SHALL** route each MDI pair as a 100 Ω
+   differential pair.
+2. **ESD.** The carrier **SHALL** provide ESD protection on the MDI
+   lines of every port it brings to a connector (a low-capacitance ESD
+   array between the magnetics and the connector, with a common-mode
+   choke where needed). A SoM **MAY** also include MDI ESD protection
+   and **SHALL** declare in its manifest whether it does.
+   _Informative: the E1M-AEN PHY (TI DP83825) integrates ±5 kV
+   IEC 61000-4-2 ESD on its MDI pins; the E1M-X V2N / V2N-M1 MDI lines
+   have no on-module EMI/ESD protection._
+3. **Link rate.** Each `ETHx` group has the four MDI pairs (`DA`–`DD`)
+   that 1000BASE-T needs. A SoM **SHALL** declare the highest link
+   rate of each port in its manifest. A SoM whose port supports only
+   100BASE-TX uses the `DA` and `DB` pairs and **MAY** leave `DC` and
+   `DD` unconnected. A carrier that hosts any SoM **SHALL** route all
+   four pairs of every port it uses and **SHALL** use magnetics rated
+   for 1000BASE-T. _Informative: E1M-AEN, one 100 Mbps port (`ETH0`);
+   E1M-X V2N / V2N-M1, two 1 Gbps ports._
+4. **LED pads.** `ETHx_LED0` / `ETHx_LED1` can be PHY configuration
+   straps sampled at reset (on E1M-AEN they are DP83825 bootstrap
+   pins). The carrier **SHALL NOT** add pull-up or pull-down resistors
+   to them beyond those the SoM manifest allows, and **SHALL** connect
+   LEDs only as the SoM manifest declares.
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -747,6 +1071,13 @@ default-function conformance.
 Both form factors expose a dedicated debug-console UART on
 `DBG_TX` / `DBG_RX`. It is intended for the SoM's boot/console
 output and is not counted among the general-purpose UARTs in §7.2.
+`DBG_TX` is a SoM output and `DBG_RX` a SoM input, both in the
+`VIO_OUT` domain; the carrier **SHALL** drive `DBG_RX` only while
+`VIO_OUT` is high (§6.2.3). Carriers **SHOULD** bring `DBG_TX` /
+`DBG_RX` to a header or to a USB-to-UART bridge referenced to
+`VIO_OUT`. The SoM **SHALL** declare the console's role and settings
+in its manifest. _Informative: on E1M-AEN, `DBG_TX` / `DBG_RX` are the
+Alif Secure Enclave UART._
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -805,13 +1136,38 @@ slash combo is conformant. Selection is a carrier-board decision (§8.3).
 
 #### 7.3.14 CAN bus
 
-Per §6.5, when the SoM exposes any of the CAN pads it **SHALL**
-include an on-module CAN transceiver, so the pads on the carrier-board
-side are bus-level (`CANxH`, `CANxL`). The slash-combo silkscreen
-(`CANxH/CANx_TX`, `CANxL/CANx_RX`) is preserved for legacy SoMs that
-might (against §6.5) skip the on-module transceiver and expose the
-controller-level signals directly; for new conformant designs, only
-the bus-level reading applies.
+Each CAN group (`CAN0`, and on E1M-X also `CAN1`) is implemented in
+one of the two options of §6.5, declared for each group in the per-SoM
+manifest. The slash-combo silkscreen names both readings:
+
+- **Bus-level CAN.** `CANxH/CANx_TX` carries `CANxH` and
+  `CANxL/CANx_RX` carries `CANxL` from an on-module transceiver. The
+  carrier provides termination, bus-side ESD protection and the
+  connector, and **SHALL NOT** add a transceiver.
+- **Logic-level CAN.** `CANxH/CANx_TX` carries the controller output
+  `CANx_TX` and `CANxL/CANx_RX` carries the controller input
+  `CANx_RX`, both in the `VIO_OUT` (1.8 V) domain. The carrier
+  **SHALL** provide a CAN transceiver whose logic-side supply is
+  `VIO_OUT` (or a carrier rail switched by `VIO_OUT`, §6.1.2) and whose
+  logic pins are high-impedance while it is unpowered, plus
+  termination, bus-side ESD protection and the connector.
+
+A carrier **SHALL NOT** connect a CAN bus, a bus terminator or
+bus-side protection directly to a CAN pad unless every SoM it declares
+support for implements that CAN group as bus-level CAN. A carrier that
+supports both options **SHALL** follow §6.7.2; its default assembly is
+the carrier-transceiver path.
+
+`CAN_STBY` is the standby control of the CAN transceiver. On a
+bus-level group it controls the on-module transceiver; on a
+logic-level group the SoM **MAY** use it to drive the standby input of
+the carrier transceiver. The SoM **SHALL** declare the direction and
+polarity of `CAN_STBY` in its manifest. The carrier **SHALL NOT** pull
+`CAN_STBY` low, and **SHALL NOT** drive it unless the SoM manifest
+declares it a SoM input. _Informative: on the E1M-AEN transceiver
+assembly option, `CAN_STBY` (`A19`) is the TI TCAN1044AVDRBRQ1 standby
+input (low = normal mode); on the E1M-AEN standard build it is a SoC
+GPIO._
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
@@ -1115,8 +1471,11 @@ present in this revision:
 - `JTAG_TCK/SWDCLK`, `JTAG_TMS/SWDIO`
 - `CAN0H/CAN0_TX`, `CAN0L/CAN0_RX`, `CAN1H/CAN1_TX`, `CAN1L/CAN1_RX`
 
-Carrier boards **MAY** select either function; selection is a
-per-board decision. Both functions are conformant.
+Both functions of a compound pad are conformant. For the JTAG / SWD
+compound pads, carrier boards **MAY** select either function;
+selection is a per-board decision. For the CAN compound pads, the
+reading is fixed by the CAN option the SoM declares for that group
+(§6.5, §7.3.14), and the carrier **SHALL** use the declared reading.
 
 ### 8.4 Per-SoM tertiary functions
 
@@ -1160,17 +1519,26 @@ below is satisfied for the form factor it declares (E1M or E1M-X):
    and `default` signal class match the corresponding entry in
    `pinout/v1.json` (E1M) or `pinout/x-v1.json` (E1M-X). The SoM
    **MAY** leave any pad as no-connect.
-3. **Electrical.** The SoM meets the absolute maximum ratings and
-   recommended operating conditions of §6 (TBD in this revision).
+3. **Electrical.** The SoM meets the SoM-side clauses of §6.1.1
+   (clause 9), §6.1.2, §6.2, §6.3 and §6.3.1. The remaining absolute
+   maximum ratings and recommended operating conditions of §6.6 are
+   TBD in this revision.
 4. **Boot.** The SoM implements a boot strap on `BOOT0`–`BOOT3` per
    §6.4. The per-SoM manifest declares the strap mapping; the strap
    pad locations **SHALL** match §7.3.1.
 5. **Mandatory on-module components.** The SoM integrates an on-module
    Ethernet PHY for every Ethernet group it exposes, an on-module
-   Wi-Fi 6 + BLE 5.4 combo radio, and an on-module CAN transceiver
-   for every CAN group it exposes — per §6.5.
+   Wi-Fi 6 + BLE 5.4 combo radio, and, for every CAN group it
+   exposes, either an on-module CAN transceiver or the declared
+   logic-level CAN option — per §6.5.
 6. **Manifest.** The SoM publishes a per-SoM manifest conforming to
-   the format in Annex C.
+   the format in Annex C, including every declaration that §6 and §7
+   require: 5 V input values (§6.1.1), `VIO_OUT` limits (§6.1.2),
+   power-up delay (§6.2.1), switched pad groups (§6.2.3), standby
+   protocol and minimum reset pulse (§6.3.1), pads outside the
+   `VIO_OUT` domain (§6.7.1), Ethernet link rate and MDI ESD (§7.3.6),
+   debug console (§7.3.10), and CAN option and `CAN_STBY` direction
+   (§7.3.14).
 
 ### 9.2 Carrier-board conformance
 
@@ -1183,6 +1551,20 @@ A carrier board is **E1M-conformant** if all of the following hold:
    the carrier's BOM / build system).
 3. The carrier connects every `GND` pad of the SoM to a low-impedance
    ground plane.
+4. **5 V input.** The carrier meets §6.1.1 clauses 1–8.
+5. **`VIO_OUT`.** The carrier meets §6.1.2 clauses 2–6.
+6. **Sequencing and back-powering.** The carrier meets §6.2.1, §6.2.2
+   and §6.2.3.
+7. **Control pads.** The carrier drives `MODULE_EN`, `MODULE_STBY`,
+   `PORn` and `JTAG_nRST` per §6.3.1.
+8. **Pad domains and default fits.** The carrier meets §6.7.1 and
+   §6.7.2, and declares, for every build variant, the fit of each
+   dual-meaning pad group and the SoMs it supports.
+9. **Reserved and not-routed pads.** The carrier leaves every `RSVD`
+   pad unconnected (§7.3.3) and routes no unrelated net through a pad
+   that a SoM does not route (§7.3.4).
+10. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
+    (Ethernet), §7.3.10 (debug UART) and §7.3.14 (CAN).
 
 ### 9.3 Optional vs. mandatory pad classes
 
@@ -1258,9 +1640,14 @@ any component set that satisfies §4–§9.
 The **E1M-AEN** family pairs the Alif Semiconductor *Ensemble* SoC
 family with the E1M (35 × 35 mm) form factor. All six SKUs use the
 same package routing, the same on-module PMIC, the same Wi-Fi 6 +
-BLE 5.4 combo (TI CC3501E), the same 100 Mbps Ethernet PHY (TI
-DP83825I), and the same CAN transceiver (TI TCAN1044AVDRBRQ1). They
-differ only in SoC choice (Ensemble variant), MRAM size, and
+BLE 5.4 combo (TI CC3501E) and the same 100 Mbps Ethernet PHY (TI
+DP83825I). The standard build has **no** on-module CAN transceiver:
+`B18` / `B19` carry `CAN0_TX` / `CAN0_RX` as 1.8 V SoC logic, `A19`
+(`CAN_STBY`) is a SoC GPIO, and the manifest declares the logic-level
+CAN option (§6.5, §7.3.14). An on-module TI TCAN1044AVDRBRQ1
+transceiver is an assembly option; with it fitted, `B18` / `B19`
+carry `CAN0H` / `CAN0L` (bus-level CAN) and `A19` is the transceiver
+standby input. They differ only in SoC choice (Ensemble variant), MRAM size, and
 optional ISP / JPEG-encoder presence.
 
 | SKU | Alif Ensemble variant | Alif part number | App CPU | Real-time CPU | NPU | ISP / JPEG |
@@ -1282,6 +1669,10 @@ Notably:
 - **MIPI CSI-2:** only `CSI0_*` is routed (one camera, 2 lanes).
 - **MIPI DSI:** only `DSI0_*` is routed (one display, 2 lanes).
 - **PCIe:** not routed.
+- **CAN:** `CAN0` only; logic-level CAN on the standard build (see
+  above).
+- **Debug UART:** `DBG_TX` / `DBG_RX` (`AD3` / `AE3`) carry the Alif
+  Secure Enclave UART.
 - **USB:** USB 2.0 only (`USB2_*`).
 - **Boot strap:** `BOOT0`–`BOOT3` are not routed; the AEN family does
   not support strap-driven boot mode selection. Pads are NC.
@@ -1522,9 +1913,19 @@ version.
   "routes": [
     { "pad_id": "AE2", "use": "default", "soc_pin": "P3_4", "as": "I2C_SCL", "instance": "I2C0" }
   ],
-  "not_routed": ["A29", "B29"]
+  "not_routed": ["A29", "B29"],
+  "electrical": {
+    "vdd_5v_in": { "min_v": 4.75, "max_v": 5.25, "abs_max_v": 5.5, "ramp_max_ms": 40 },
+    "vio_out": { "max_ma": 100, "max_ext_cap_uf": 2.5 },
+    "porn_release_max_ms": 290
+  },
+  "can": { "CAN0": { "option": "logic", "can_stby": "soc_gpio" } }
 }
 ```
+
+The `electrical` and `can` objects carry the declarations that §6 and
+§7.3.14 require (Edition 1.3). Their field names are illustrative
+until the manifest schema defines them.
 
 See `examples/alp-aen.som-manifest.json` and
 `examples/alp-x-v2n-m1.som-manifest.json` for full reference snippets.
