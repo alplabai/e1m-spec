@@ -50,6 +50,14 @@ form-factor version (`1.0`) are unchanged.
   §6.7.2 requires a safe default fit for dual-meaning pads. For CAN
   the default is the carrier-transceiver path with the bypass DNP.
 
+### Added (normative — RTC wake alternate)
+
+- **`RTC_WAKE_N` on `IO25`.** New alternate function on pad `IO25`
+  (E1M `P3`, E1M-X `F63`): active-low, open-drain RTC wake / interrupt
+  output from the module (§8.2, Appendix A.7). New `RTC_WAKE_N` value
+  in the Loom SignalKind enum; `pinout/v1.json` and `pinout/x-v1.json`
+  carry it in the `alt` array of those pads. Default stays `GPIO`.
+
 ### Changed (normative)
 
 - **CAN (§6.5, §7.3.14, §8.3, §9.1).** New declared **logic-level

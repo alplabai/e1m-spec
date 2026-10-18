@@ -1485,7 +1485,11 @@
       "id": "F63",
       "silkscreen": "IO25",
       "default": "GPIO",
-      "alt": []
+      "alt": [
+        {
+          "signal": "RTC_WAKE_N"
+        }
+      ]
     },
     {
       "id": "F64",

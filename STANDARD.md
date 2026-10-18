@@ -1487,6 +1487,13 @@ pad as default-driven when no GPIO software is loaded.
 In the JSON, the GPIO secondary is expressed by including
 `{ "signal": "GPIO" }` in the pad's `alt` array.
 
+Pad `IO25` (E1M `P3`, E1M-X `F63`) additionally defines the alternate
+function `RTC_WAKE_N`: an active-low, open-drain RTC wake / interrupt
+output from the module. A SoM that exposes it **SHALL** drive it
+open-drain; the carrier supplies any pull-up (to `VIO_OUT` only, per
+§6.2.3). The JSON expresses it as `{ "signal": "RTC_WAKE_N" }` in the
+pad's `alt` array.
+
 ### 8.3 Compound-function pins
 
 Some pads carry **two** equally-conformant primary functions. The
@@ -1835,7 +1842,8 @@ The rev 1.0 reference E1M-X SoMs include one Trusted Platform Module
 ### A.7 Real-Time Clock
 
 E1M and E1M-X SoMs may include a battery-backed real-time clock with
-its 32 kHz output exposed on `RTC_CLKOUT`.
+its 32 kHz output exposed on `RTC_CLKOUT` and its active-low wake /
+interrupt output on `RTC_WAKE_N` (alternate function of `IO25`, §8.2).
 
 ### A.8 PCB temperature sensor
 
@@ -1908,7 +1916,7 @@ The complete SignalKind enum is captured in
   `POWER_VBAT`, `POWER_VIO_OUT`, `POWER_SUPER_CAP`,
   `POWER_CAM_LDO_OUT`, `POWER_CAM_LDO_FB`, `POWER_SD_VDD_OUT`.
 - **Module control**: `RESET`, `BOOT`, `MODULE_EN`, `MODULE_STBY`,
-  `RTC_CLKOUT`, `AUDIO_CLK`.
+  `RTC_CLKOUT`, `RTC_WAKE_N`, `AUDIO_CLK`.
 - **Buses**: `I2C_*`, `I3C_*`, `SPI_*`, `UART_*`, `DBG_*`, `I2S_*`,
   `CAN_*`, `SD_*`, `JTAG_*`, `SWD_*`, `PDM_*`, `USB_*`, `ETH_*`,
   `PCIE_*`, `MIPI_CSI2_*`, `MIPI_DSI_*`, `LCD_*`, `PARCAM_*`.

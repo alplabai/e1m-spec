@@ -315,6 +315,13 @@ NOT_GPIO_CAPABLE = {
 }
 
 
+# GPIO-default pads that also carry a defined non-GPIO alternate, keyed by
+# Altium pin name (IO25 is P3 on E1M and F63 on E1M-X).
+GPIO_PAD_ALTS = {
+    "IO25": "RTC_WAKE_N",
+}
+
+
 def normalise(name: str, anomalies: list[str]) -> str:
     """Apply typo fixes and case normalisation. Records every change."""
     if name in TYPO_FIXES:
@@ -349,6 +356,8 @@ def build_pad(coord: str, original_name: str, signal: str,
         alts.append(entry)
     if signal not in NOT_GPIO_CAPABLE and signal != "GPIO":
         alts.append({"signal": "GPIO"})
+    if signal == "GPIO" and original_name in GPIO_PAD_ALTS:
+        alts.append({"signal": GPIO_PAD_ALTS[original_name]})
     pad["alt"] = alts
     return pad
 
