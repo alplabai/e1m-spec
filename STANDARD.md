@@ -16,9 +16,8 @@
 ## Foreword
 
 This specification is published by Alp Lab AB as an open standard for
-small-form-factor, AI-capable, machine-processable Module-on-Module
-(MoM) products. It is part of the **Open Standard Module™** family of
-specifications.
+small-form-factor, AI-capable, machine-processable system-on-module
+(SoM) products.
 
 The standard fixes the carrier-board pinout, mechanical envelope, and
 electrical interface of two module form factors — **E1M** (35 × 35 mm)
@@ -180,9 +179,7 @@ applies.
 | LCD | Liquid-crystal display (parallel RGB) |
 | LGA | Land-grid array |
 | LDO | Low-dropout regulator |
-| MoM | Module-on-Module |
 | NC | Not connected |
-| OSM | Open Standard Module™ |
 | PCIe | Peripheral Component Interconnect Express |
 | PDM | Pulse-density modulation (microphone) |
 | PMIC | Power-management IC |
@@ -1566,7 +1563,7 @@ any non-power, non-reserved, non-debug pad without losing conformance.
 
 ### 10.1 Trademarks
 
-"E1M™", "Edge-1 AI Module™", and "Open Standard Module™" are
+"E1M™" and "Edge-1 AI Module™" are
 trademarks of Alp Lab AB. Products that conform to this specification
 **MAY NOT** use these trademarks without separate written permission
 from Alp Lab AB. Implementations **MAY** truthfully describe themselves
@@ -1926,9 +1923,6 @@ See `examples/alp-aen.som-manifest.json` and
 
 ## Bibliography
 
-- ECDF (Embedded Computing Design Foundation), _Open Standard Module
-  Specification_ — methodological inspiration for the pad-numbering
-  and conformance-clause structure of this document.
 - IPC-7351 — _Generic Requirements for Surface Mount Design and Land
   Pattern Standard_, for footprint design principles.
 - USB Implementers Forum, _USB Type-C® Specification_, for the

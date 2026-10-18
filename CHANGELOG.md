@@ -113,6 +113,7 @@ pinout JSONs change only by the `RVSD` typo fix on E1M-X `AQ62` /
 - Annex C: example manifest shows the new `electrical`, `can`,
   `boot_strap` and `wireless` declarations (field names illustrative).
 - Editorial: internal editor's notes removed from STANDARD.md.
+- Editorial: removed wording that wrongly associated E1M with an unrelated specification and trademark.
 
 ## [1.2] — 2026-06-23
 
@@ -277,7 +278,7 @@ the new clause.
 Initial public draft of the E1M™ Standard.
 
 ### Added
-- `STANDARD.md` — full prose specification in OSM-style (Designation
+- `STANDARD.md` — full prose specification (Designation
   `E1M-STD-1.0`, Status: Draft for review, Publisher: Alp Lab AB).
 - `pinout/v1.json` — canonical machine-readable pinout for E1M
   (35 × 35 mm, 312 pads). Mechanically generated from
@@ -288,7 +289,8 @@ Initial public draft of the E1M™ Standard.
   validating both pinout files.
 - `images/` — pinout drawings, footprint mechanical drawings,
   height-class cross-sections, component-placement diagram, plus
-  three OSM reference screenshots (informative). See `images/CONTENTS.md`.
+  three third-party reference screenshots (informative, since
+  removed). See `images/CONTENTS.md`.
 - `examples/alp-aen.som-manifest.json`, `examples/alp-x-v2n-m1.som-manifest.json`
   — reference per-SoM manifests with full silicon stack and routing
   caveats.
