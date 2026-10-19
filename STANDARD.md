@@ -74,7 +74,8 @@ ports, more MIPI CSI lanes, parallel LCD, etc.) than fits on E1M.
 
 This specification defines, for the E1M and E1M-X form factors:
 
-- The mechanical envelope (outline, height, component placement areas).
+- The mechanical envelope (outline, height, mounting on the carrier,
+  component placement areas).
 - The electrical interface (power input, voltage rails, reset, boot
   strap, electrical characteristics).
 - The complete pinout (every pad's coordinate, default function, and
@@ -283,10 +284,13 @@ Dimension callouts and a carrier-board footprint library for E1M-X are not speci
 #### 5.1.3 Recommended carrier land pattern (informative)
 
 The land pattern below is recommended for the carrier board of both
-form factors. Its values are the carrier land pattern published for
-E1M-AEN (DS-AEN-001) _(E1M-AEN only)_; the pad pitch and the copper pad
-diameter are those of §5.1.1 and of the E1M-X footprint drawing
-(§5.1.2).
+form factors. Its pad, solder-mask and stencil values are the carrier
+land pattern published for E1M-AEN (DS-AEN-001) _(E1M-AEN only)_; the
+pad pitch and the copper pad diameter are those of §5.1.1 and of the
+E1M-X footprint drawing (§5.1.2). The courtyard is 2.0 mm clearance
+around the module outline on every side. For mounting option (b) of
+§5.2 the through-cutout is part of the carrier land pattern; its size,
+position and corner radius are normative (§5.2).
 
 | Parameter | Value | Provenance |
 | --- | --- | --- |
@@ -296,49 +300,82 @@ diameter are those of §5.1.1 and of the E1M-X footprint drawing
 | Solder-mask opening | 0.50 mm diameter | _(E1M-AEN only)_ |
 | Stencil aperture | 1:1, 0.40 mm diameter | _(E1M-AEN only)_ |
 | Stencil thickness | 0.08 mm | _(E1M-AEN only)_ |
+| Courtyard | module outline + 2.0 mm on every side: E1M 39.0 × 39.0 mm; E1M-X 69.0 mm across × 49.0 mm down | §5.1.3 |
+| Through-cutout, mounting option (b) only | central-cavity size and position, R1.00 corners: E1M 27.0 mm across × 29.0 mm down, 4.0 mm from the left and 3.0 mm from the top edge of the module outline; E1M-X 57.45 mm across × 39.45 mm down, 3.775 mm from the left and 2.775 mm from the top edge | §5.2 (normative) |
 
 A pad-detail figure of this land pattern (top view of four pads of
-the 1.0 mm grid, and a section through one pad with the stencil) is
-in the published PDF edition of this specification.
+the 1.0 mm grid, and a section through one pad with the stencil) and
+a figure of the carrier land pattern of each form factor (module
+outline, 2.0 mm courtyard, land pads and the option (b) cutout,
+dashed) are in the published PDF edition of this specification.
 
 Pad position and size tolerances are not specified in this revision
 (§5.1.1).
 
-### 5.2 Module height
+### 5.2 Mounting
 
-Two height classes are defined. A SoM **SHALL** declare its height
-class in its per-SoM manifest.
+A SoM **SHALL NOT** be placed directly on the carrier board. One of
+the following two mounting options **SHALL** be used:
 
-#### 5.2.1 Standard height
+1. **Option (a), spacer PCB.** A spacer PCB **SHALL** be placed
+   between the SoM and the carrier board (§5.2.1).
+2. **Option (b), carrier cutout.** The carrier board **SHALL** have a
+   through-cutout the size of the SoM's central cavity, at the cavity
+   position, with R1.00 corners (§5.2.2). In the top view of §4.3,
+   the cutout is:
+   - **E1M:** 27.0 mm across × 29.0 mm down, its left edge 4.0 mm
+     from the left edge and its top edge 3.0 mm from the top edge of
+     the module outline (§5.1.1);
+   - **E1M-X:** 57.45 mm across × 39.45 mm down, its left edge
+     3.775 mm from the left edge and its top edge 2.775 mm from the
+     top edge of the module outline (§5.1.2).
 
-![Standard-height cross-section](images/module-cross-section-standard-height.png)
+> **Why two mounting options (informative).** A SoM carries components
+> on its bottom side, under its central cavity, inside the LGA pad
+> band (§5.3). Placed directly on the carrier, these components would
+> meet the carrier surface. The spacer PCB of option (a) raises the
+> SoM above the carrier; the cutout of option (b) gives the
+> bottom-side components room through the carrier board.
 
-*Figure 3 — Standard-height cross-section. The SoM PCB sits directly
-on the base-board surface; only the SoM's top-side components rise
-above the base-board plane.*
+#### 5.2.1 Option (a): spacer PCB
 
-The maximum module thickness and the LGA pad stand-off are not specified in this revision.
+The cross-section figure "Module on a spacer PCB" is in the published
+PDF edition of this specification: the spacer PCB lies between the
+SoM pad band and the carrier board, and the components on the SoM
+bottom side, under the central cavity, clear the carrier surface.
 
-#### 5.2.2 Extended height
+The spacer-PCB thickness, the maximum module thickness and the maximum
+component height on the SoM bottom side are not specified in this
+revision.
 
-![Extended-height cross-section](images/module-cross-section-extended-height.png)
+#### 5.2.2 Option (b): carrier cutout
 
-*Figure 4 — Extended-height cross-section. A spacer-PCB layer between
-the SoM and the base board allows components on the bottom side of
-the SoM to clear the base-board surface.*
+The cross-section figure "Module over a carrier cutout" is in the
+published PDF edition of this specification: the SoM pad band is
+soldered to the carrier land pattern, the through-cutout in the
+carrier board has the size and position of the SoM's central cavity,
+and the components on the SoM bottom side extend into it. The cutout
+is shown in the carrier land-pattern figure of §5.1.3.
 
-The spacer-PCB thickness, the maximum total module thickness and the maximum component height on the SoM bottom side are not specified in this revision.
+The maximum module thickness, the maximum component height on the SoM
+bottom side and the LGA pad stand-off are not specified in this
+revision.
 
 ### 5.3 Component placement areas
 
 ![Component placement areas — top and bottom](images/component-placement-areas.png)
 
-*Figure 5 — Component placement areas (top side, left; bottom side,
+*Figure 3 — Component placement areas (top side, left; bottom side,
 right). The hatched centre rectangle denotes the maximum-component-zone
 within the LGA pad band; coordinates **TBD**.*
 
-Where present, EMI shielding **SHALL** fit within the declared height
-envelope.
+On the SoM bottom side the zone lies inside the central cavity, which
+the spacer PCB (option (a)) or the carrier cutout (option (b)) of §5.2
+keeps clear of the carrier surface. On the carrier, the SoM occupies
+the courtyard of §5.1.3.
+
+Where present, EMI shielding **SHALL** fit within the module height
+envelope (§5.2).
 
 Numeric keepout dimensions for the placement zones are not specified in this revision.
 
@@ -858,11 +895,11 @@ Each form factor uses its **own** coordinate space; the same physical
 pad position has different coordinates on E1M and E1M-X. The
 form-factor identifier `E1M` or `E1M-X` distinguishes the two.
 
-The pad maps for both form factors are shown in Figures 6 and 7.
+The pad maps for both form factors are shown in Figures 4 and 5.
 
 ![E1M pad map (top view)](images/e1m-pinout-drawing.png)
 
-*Figure 6 — E1M pad map, top view. Rows A–AH (34 letters, top to
+*Figure 4 — E1M pad map, top view. Rows A–AH (34 letters, top to
 bottom) × columns 1–34 (left to right). The pad band is two pads deep
 along the top and bottom edges and three pads deep along the left and
 right edges; pads C3, AF3, C32 and AF32 are not fitted. Centre is
@@ -870,7 +907,7 @@ reserved for top-side components per §5.3.*
 
 ![E1M-X pad map (top view)](images/e1m-x-pinout-drawing.png)
 
-*Figure 7 — E1M-X pad map, top view, landscape. Rows A–AR (44
+*Figure 5 — E1M-X pad map, top view, landscape. Rows A–AR (44
 letters, top to bottom) × columns 1–64 (left to right). The pad band is
 two pads deep along the long (65 mm) edges and three pads deep along
 the short (45 mm) edges.*
@@ -1659,24 +1696,27 @@ A carrier board is **E1M-conformant** if all of the following hold:
 
 1. The mating land pattern, power delivery, and pad-by-pad signal
    usage match the chosen form factor's coordinate space.
-2. The carrier does not require any tertiary function (§8.4) unless
+2. **Mounting.** The SoM is not placed directly on the carrier: the
+   carrier uses a spacer PCB (§5.2 option (a)) or a through-cutout of
+   the size and position given in §5.2 option (b).
+3. The carrier does not require any tertiary function (§8.4) unless
    it explicitly targets a single SoM or set of SoMs (declared in
    the carrier's BOM / build system).
-3. The carrier connects every `GND` pad of the SoM to a low-impedance
+4. The carrier connects every `GND` pad of the SoM to a low-impedance
    ground plane.
-4. **5 V input.** The carrier meets §6.1.1 clauses 1–8.
-5. **`VIO_OUT`.** The carrier meets §6.1.2 clauses 2–6.
-6. **Sequencing and back-powering.** The carrier meets §6.2.1, §6.2.2
+5. **5 V input.** The carrier meets §6.1.1 clauses 1–8.
+6. **`VIO_OUT`.** The carrier meets §6.1.2 clauses 2–6.
+7. **Sequencing and back-powering.** The carrier meets §6.2.1, §6.2.2
    and §6.2.3.
-7. **Control pads.** The carrier drives `MODULE_EN`, `MODULE_STBY`,
+8. **Control pads.** The carrier drives `MODULE_EN`, `MODULE_STBY`,
    `PORn` and `JTAG_nRST` per §6.3.1.
-8. **Pad domains and default fits.** The carrier meets §6.7.1 and
+9. **Pad domains and default fits.** The carrier meets §6.7.1 and
    §6.7.2, and declares, for every build variant, the fit of each
    dual-meaning pad group and the SoMs it supports.
-9. **Reserved and not-routed pads.** The carrier leaves every `RSVD`
-   pad unconnected (§7.3.3) and routes no unrelated net through a pad
-   that a SoM does not route (§7.3.4).
-10. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
+10. **Reserved and not-routed pads.** The carrier leaves every `RSVD`
+    pad unconnected (§7.3.3) and routes no unrelated net through a pad
+    that a SoM does not route (§7.3.4).
+11. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
     (Ethernet), §7.3.10 (debug UART) and §7.3.14 (CAN).
 
 ### 9.3 Optional vs. mandatory pad classes
