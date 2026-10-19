@@ -7,9 +7,9 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
-### [1.5] — draft for review
+## [1.5] — 2026-10-19
 
-Document revision 1.5 of `E1M-STD-1.0` (Edition 1.0), draft. The pad
+Document revision 1.5 of `E1M-STD-1.0` (Edition 1.0). The pad
 assignments, the pinout JSONs, the Loom schema and the Loom form-factor
 version (`1.0`) are unchanged. The figures of the mounting options and
 of the carrier land pattern are in the published PDF edition.
