@@ -2,9 +2,9 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.4
-**Date:** 2026-10-19
-**Status:** Released
+**Revision:** 1.5
+**Date:** release date pending
+**Status:** Draft for review
 **Publisher:** Alp Lab AB
 
 **Reference implementation:** `pinout/v1.json` (E1M, 35 × 35 mm) and
@@ -45,8 +45,9 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.4, the current
-release; revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.5, a draft for
+review; revision 1.4 is the current release and revision 1.0 was the
+first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -111,8 +112,8 @@ NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and
 Throughout this document:
 
 - Pad identifiers (e.g. `A1`, `K63`, `AQ15`) follow the BGA-style
-  convention: column letter(s) followed by row number, in the
-  coordinate space of the named form factor.
+  convention: row letter(s) followed by column number, in the
+  coordinate space of the named form factor (§4.3, §7.1).
 - Pin names in monospace (e.g. `I2C0_SCL`) match the `silkscreen`
   field of the corresponding pad in the pinout JSON.
 - A value of *TBD* indicates a parameter intentionally not yet
@@ -213,7 +214,7 @@ applies.
 | Outline | **35 × 35 mm**, ±0.1 mm (TBD) |
 | Pad pattern | LGA |
 | Pad count | **312** |
-| Coordinate space | Columns `A`–`AH`, rows `1`–`34` |
+| Coordinate space | Rows `A`–`AH` (top to bottom), columns `1`–`34` (left to right), top view |
 | Reference SoMs | E1M-AEN family — seven SKUs `E1M-AEN301`/`401`/`501`/`601`/`701`/`801`/`803` (Alif Semiconductor Ensemble E3–E8). |
 
 ### 4.2 E1M-X ("Extended")
@@ -223,13 +224,24 @@ applies.
 | Outline | **45 × 65 mm**, ±0.1 mm (TBD) |
 | Pad pattern | LGA |
 | Pad count | **496** |
-| Coordinate space | Columns `A`–`AR`, rows `1`–`64` |
+| Coordinate space | Rows `A`–`AR` (top to bottom, along the 45 mm side), columns `1`–`64` (left to right, along the 65 mm side), top view; the outline is 65 mm across and 45 mm down |
 | Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102` (Renesas RZ/V2N + DRP-AI3 + optional DeepX M1). |
 
 ### 4.3 Coordinate system
 
 Each form factor uses an **independent** coordinate space. Pad `A1` on
-E1M is **not** the same physical position as pad `A1` on E1M-X. SoM
+E1M is **not** the same physical position as pad `A1` on E1M-X. In
+both, in the top view (component side up), the pad letters name the
+rows, running top to bottom, and the pad numbers name the columns,
+running left to right; pad `A1` is the top-left corner pad, 1.0 mm from
+the left and top edges, next to the pin-1 fiducial. `A2` is directly
+right of `A1` and `B1` is directly below `A1`. The pad band is two pads
+deep along the top and bottom edges (rows `A`, `B` and the last two
+rows) and three pads deep along the left and right edges (columns
+`1`–`3` and the last three columns). In this frame the E1M-X outline
+is 65 mm across (columns `1`–`64`) and 45 mm down (rows `A`–`AR`). The
+`outline_mm` field of `pinout/x-v1.json` (w = 45, h = 65) records the
+outline size; it does not set the drawing orientation. SoM
 manifests reference pads by `(form-factor id, coordinate)`. The
 form-factor identifier `E1M` or `E1M-X` is recorded in the top-level
 `id` field of the corresponding pinout JSON.
@@ -240,13 +252,24 @@ form-factor identifier `E1M` or `E1M-X` is recorded in the top-level
 
 ### 5.1 Footprint
 
+> **Pad-frame correction.** Revisions 1.3 and 1.4 of this specification
+> drew the pad array transposed: their pad maps, footprints and
+> pad-frame text (in the PDF edition, and the frame wording of this file)
+> put the pad letters across and the numbers down, which mirrors every
+> pad about the `A1` diagonal. A carrier footprint or symbol made from
+> those revisions **SHALL** be checked against this revision or against
+> `pinout/v1.json` / `pinout/x-v1.json` before fabrication. The correct
+> frame (§4.3, §7.1): top view, `A1` top left, letters are the rows from
+> top to bottom, numbers are the columns from left to right, `A2`
+> directly right of `A1`, `B1` directly below `A1`.
+
 #### 5.1.1 E1M (35 × 35 mm)
 
 ![E1M footprint mechanical drawing](images/e1m-footprint.png)
 
 *Figure 1 — E1M footprint (top view). Overall envelope 35.0 × 35.0 mm.
-Central cavity 29.0 × 27.0 mm. Detail A (5:1 scale) shows the corner
-pad band: 1.0 mm pad pitch (signal grid), 0.40 mm pad diameter. Pin
+Central cavity 27.0 mm across × 29.0 mm down. Detail A (5:1 scale)
+shows the A1 corner of the pad band (pad C3 not fitted): 1.0 mm pad pitch (signal grid), 0.40 mm pad diameter. Pin
 A1 corner is marked by the 0.5 mm triangular fiducial.*
 
 The E1M signal pads **SHALL** lie on a 1.0 mm pitch grid and **SHALL**
@@ -259,9 +282,11 @@ Dimension tolerances other than the outline, and a carrier-board footprint libra
 
 ![E1M-X footprint mechanical drawing](images/e1m-x-footprint.png)
 
-*Figure 2 — E1M-X footprint (top view). Overall envelope 45.0 × 65.0 mm.
-Central cavity 39.45 × 57.45 mm. Two corner Detail views (5:1 scale)
-show the pad band on the long and short edges. A scalable vector copy
+*Figure 2 — E1M-X footprint (top view), drawn landscape. Overall
+envelope 65.0 mm across × 45.0 mm down. Central cavity 57.45 mm across
+× 39.45 mm down. Two corner Detail views (5:1 scale) show the pad band:
+two pads deep along the long (65 mm) edges, three pads deep along the
+short (45 mm) edges. A scalable vector copy
 is available in `images/e1m-x-footprint.svg`.*
 
 Dimension callouts and a carrier-board footprint library for E1M-X are not specified in this revision.
@@ -821,14 +846,35 @@ supports both options on one PCB uses assembly options (BOM variants,
 
 ### 7.1 Pin numbering convention
 
-Pads on each form factor **SHALL** be identified using a BGA-style
-coordinate of the form `<column-letter(s)><row-number>`:
+> **Pad-frame correction.** Revisions 1.3 and 1.4 of this specification
+> drew the pad array transposed: their pad maps, footprints and
+> pad-frame text (in the PDF edition, and the frame wording of this file)
+> put the pad letters across and the numbers down, which mirrors every
+> pad about the `A1` diagonal. A carrier footprint or symbol made from
+> those revisions **SHALL** be checked against this revision or against
+> `pinout/v1.json` / `pinout/x-v1.json` before fabrication. The correct
+> frame (§4.3, §7.1): top view, `A1` top left, letters are the rows from
+> top to bottom, numbers are the columns from left to right, `A2`
+> directly right of `A1`, `B1` directly below `A1`.
 
-- `A1` is the corner pad at column A, row 1, of the form factor's
-  coordinate space.
-- Letter columns increase as `A, B, …, Z, AA, AB, …, AH` for E1M and
-  `A, B, …, Z, AA, AB, …, AR` for E1M-X.
-- Row numbers increase from the top edge.
+Pads on each form factor **SHALL** be identified using a BGA-style
+coordinate of the form `<row-letter(s)><column-number>`, in the top
+view (component side up):
+
+- `A1` is the corner pad at row A, column 1, of the form factor's
+  coordinate space: the top-left corner pad, next to the pin-1
+  fiducial.
+- Row letters increase from the top edge as `A, B, …, Z, AA, AB, …, AH`
+  for E1M and `A, B, …, Z, AA, AB, …, AR` for E1M-X. `B1` is directly
+  below `A1`.
+- Column numbers increase from the left edge, `1`–`34` for E1M and
+  `1`–`64` for E1M-X. `A2` is directly right of `A1`.
+- The E1M-X outline is therefore 65 mm across (columns `1`–`64`) and
+  45 mm down (rows `A`–`AR`).
+- The pad band is two pads deep along the top and bottom edges (rows
+  `A`, `B` and `AG`, `AH` on E1M; `A`, `B` and `AQ`, `AR` on E1M-X)
+  and three pads deep along the left and right edges (columns `1`–`3`
+  and `32`–`34` on E1M; `1`–`3` and `62`–`64` on E1M-X).
 
 Each form factor uses its **own** coordinate space; the same physical
 pad position has different coordinates on E1M and E1M-X. The
@@ -838,15 +884,18 @@ The pad maps for both form factors are shown in Figures 6 and 7.
 
 ![E1M pad map (top view)](images/e1m-pinout-drawing.png)
 
-*Figure 6 — E1M pad map, top view. Columns A–AH (34 letters) × rows
-1–34. Three-row peripheral pad band; centre is reserved for top-side
-components per §5.3.*
+*Figure 6 — E1M pad map, top view. Rows A–AH (34 letters, top to
+bottom) × columns 1–34 (left to right). The pad band is two pads deep
+along the top and bottom edges and three pads deep along the left and
+right edges; pads C3, AF3, C32 and AF32 are not fitted. Centre is
+reserved for top-side components per §5.3.*
 
 ![E1M-X pad map (top view)](images/e1m-x-pinout-drawing.png)
 
-*Figure 7 — E1M-X pad map, top view. Columns A–AR (44 letters) × rows
-1–64. Three-row peripheral pad band on the long edges; full pad band
-on the short edges to expose the additional CSI/PCIe controllers.*
+*Figure 7 — E1M-X pad map, top view, landscape. Rows A–AR (44
+letters, top to bottom) × columns 1–64 (left to right). The pad band is
+two pads deep along the long (65 mm) edges and three pads deep along
+the short (45 mm) edges.*
 
 ### 7.2 Interface count overview
 
@@ -1958,7 +2007,7 @@ Both validate against `pinout/schema/loom-v1.schema.json`.
 | `id` | enum | yes | `"E1M"` or `"E1M-X"`. |
 | `version` | string | yes | Form-factor revision, `major.minor`. |
 | `footprint_class` | enum | yes | `"FC_35x35"` (E1M) or `"FC_45x65"` (E1M-X). |
-| `outline_mm` | object | yes | `{ "w": <int>, "h": <int> }`. |
+| `outline_mm` | object | yes | `{ "w": <int>, "h": <int> }`: the outline size. It does not set the drawing orientation; the top-view frame is given in §4.3 and §7.1. |
 | `pads` | array | yes | Array of pad objects. |
 | `pads[].id` | string | yes | BGA-style coordinate, regex `^[A-Z]+\d+$`. Unique within `pads`. |
 | `pads[].silkscreen` | string | no | Silkscreen text from §7.3. |

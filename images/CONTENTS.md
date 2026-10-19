@@ -14,8 +14,8 @@ reflect what each image actually depicts.
 
 | File | Form factor | Notes |
 | --- | --- | --- |
-| `e1m-pinout-drawing.png` | E1M (35 × 35 mm) | Top-view with column letters A…AH (34 cols) and rows 1…34. Three-row peripheral pad band; centre is reserved for top-side components. |
-| `e1m-x-pinout-drawing.png` | E1M-X (45 × 65 mm) | Top-view with column letters A…AR (44 cols) and rows 1…64. Wider peripheral pad band on top and bottom edges. |
+| `e1m-pinout-drawing.png` | E1M (35 × 35 mm) | Top view with row letters A…AH (34 rows, top to bottom) and column numbers 1…34 (left to right). Pad band two pads deep top and bottom, three pads deep left and right; centre is reserved for top-side components. |
+| `e1m-x-pinout-drawing.png` | E1M-X (45 × 65 mm) | Top view, landscape, with row letters A…AR (44 rows, top to bottom) and column numbers 1…64 (left to right). Pad band two pads deep along the long edges, three pads deep along the short edges. |
 
 ## Footprint mechanical drawings
 

@@ -7,6 +7,41 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+### [1.5] — draft for review
+
+Document revision 1.5 of `E1M-STD-1.0` (Edition 1.0), draft. The pad
+assignments, the pinout JSONs, the Loom schema and the Loom form-factor
+version (`1.0`) are unchanged.
+
+#### Fixed
+
+- **Pad maps, footprints and pad-frame text in revisions 1.3 and 1.4
+  drew the pad array transposed (letters across); they are corrected
+  to letters down, numbers across. Check any footprint made from
+  revision 1.3 or 1.4.** A footprint drawn from those revisions is
+  mirrored about the `A1` diagonal. The figures of this repository
+  (`images/*.png`, the original drawings) already show the correct
+  frame; the transposed figures were in the PDF edition.
+- **Frame** (§1.4, §4.1, §4.2, §4.3, §7.1): top view, component side
+  up, `A1` top left next to the pin-1 fiducial; the pad letters are
+  the rows (top to bottom), the pad numbers the columns (left to
+  right); `A2` is directly right of `A1`, `B1` directly below `A1`.
+  The pad band is two pads deep along the top and bottom edges and
+  three pads deep along the left and right edges. E1M-X is 65 mm
+  across and 45 mm down in this frame.
+- **§5.1 captions:** E1M cavity 27.0 mm across × 29.0 mm down; E1M-X
+  65.0 mm across × 45.0 mm down, cavity 57.45 mm across × 39.45 mm
+  down. **§7.1 captions:** band depths corrected. `images/CONTENTS.md`
+  likewise.
+
+#### Added
+
+- Pad-frame correction warning at §5.1 and §7.1.
+- Annex B: `outline_mm` gives the outline size, not the drawing
+  orientation (the schema does not define `w` / `h` as the top-view
+  horizontal / vertical size, so `pinout/x-v1.json` keeps w = 45,
+  h = 65).
+
 ## [1.4] — 2026-10-19
 
 Document revision 1.4 of `E1M-STD-1.0` (Edition 1.0). Informative
