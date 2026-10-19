@@ -7,6 +7,70 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.5] — 2026-10-19
+
+Document revision 1.5 of `E1M-STD-1.0` (Edition 1.0). The pad
+assignments, the pinout JSONs, the Loom schema and the Loom form-factor
+version (`1.0`) are unchanged. The figures of the mounting options and
+of the carrier land pattern are in the published PDF edition.
+
+#### Changed
+
+- **§5.2 Mounting** (new, normative; replaces "Module height"): a SoM
+  **SHALL NOT** be placed directly on the carrier; option (a) a spacer
+  PCB between SoM and carrier, or option (b) a carrier through-cutout
+  the size of the central cavity at the cavity position, R1.00 corners
+  (E1M 27.0 mm across × 29.0 mm down at 4.0 / 3.0 mm from the left /
+  top edges; E1M-X 57.45 mm across × 39.45 mm down at 3.775 / 2.775 mm).
+  The standard-height and extended-height classes and their manifest
+  declaration are withdrawn; informative note on the SoM bottom-side
+  components under the cavity. Option (a): the spacer PCB is soldered
+  on both faces (module LGA to spacer, spacer to carrier), and under
+  both options the carrier **SHALL** have no components inside the
+  cavity outline (same size and position as the option (b) cutout).
+- **§5.2 figures** (PDF edition): the standard-height and
+  extended-height cross-sections, the first of which showed the SoM
+  flat on the carrier, are replaced by "Module on a spacer PCB" and
+  "Module over a carrier cutout". `images/module-cross-section-*.png`
+  are no longer referenced by `STANDARD.md`, whose later figure
+  captions are renumbered (Figures 3 to 5). Spacer thickness, module
+  thickness and bottom-side component height remain TBD.
+- **§5.1.3:** courtyard 2.0 mm around the module outline on every side
+  (E1M 39.0 × 39.0 mm, E1M-X 69.0 mm across × 49.0 mm down); the
+  option (b) cutout is part of the carrier land pattern; carrier
+  land-pattern figure with the courtyard and the cutout (dashed) in
+  the PDF edition.
+- **§5.3:** the bottom-side zone lies inside the central cavity, clear
+  of the carrier under either mounting option; EMI shielding fits
+  within the module height envelope of §5.2 (was: the declared height
+  envelope).
+- **§9.2:** carrier mounting check (spacer PCB or cutout per §5.2),
+  new item 11, added last so the numbers of items 1–10 do not change.
+
+#### Fixed
+
+- Pad maps, footprints and pad-frame text redrawn: letters down
+  (rows), numbers across (columns), `A1` top left. Pad assignments
+  unchanged.
+- **Frame** (§1.4, §4.1, §4.2, §4.3, §7.1): top view, component side
+  up, `A1` top left next to the pin-1 fiducial; the pad letters are
+  the rows (top to bottom), the pad numbers the columns (left to
+  right); `A2` is directly right of `A1`, `B1` directly below `A1`.
+  The pad band is two pads deep along the top and bottom edges and
+  three pads deep along the left and right edges. E1M-X is 65 mm
+  across and 45 mm down in this frame.
+- **§5.1 captions:** E1M cavity 27.0 mm across × 29.0 mm down; E1M-X
+  65.0 mm across × 45.0 mm down, cavity 57.45 mm across × 39.45 mm
+  down. **§7.1 captions:** band depths corrected. `images/CONTENTS.md`
+  likewise.
+
+#### Added
+
+- Annex B: `outline_mm` gives the outline size, not the drawing
+  orientation (the schema does not define `w` / `h` as the top-view
+  horizontal / vertical size, so `pinout/x-v1.json` keeps w = 45,
+  h = 65).
+
 ## [1.4] — 2026-10-19
 
 Document revision 1.4 of `E1M-STD-1.0` (Edition 1.0). Informative

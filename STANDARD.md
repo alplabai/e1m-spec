@@ -2,7 +2,7 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.4
+**Revision:** 1.5
 **Date:** 2026-10-19
 **Status:** Released
 **Publisher:** Alp Lab AB
@@ -45,8 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.4, the current
-release; revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.5 (released
+2026-10-19); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -73,7 +73,8 @@ ports, more MIPI CSI lanes, parallel LCD, etc.) than fits on E1M.
 
 This specification defines, for the E1M and E1M-X form factors:
 
-- The mechanical envelope (outline, height, component placement areas).
+- The mechanical envelope (outline, height, mounting on the carrier,
+  component placement areas).
 - The electrical interface (power input, voltage rails, reset, boot
   strap, electrical characteristics).
 - The complete pinout (every pad's coordinate, default function, and
@@ -111,8 +112,8 @@ NOT**, **SHOULD**, **SHOULD NOT**, **RECOMMENDED**, **MAY**, and
 Throughout this document:
 
 - Pad identifiers (e.g. `A1`, `K63`, `AQ15`) follow the BGA-style
-  convention: column letter(s) followed by row number, in the
-  coordinate space of the named form factor.
+  convention: row letter(s) followed by column number, in the
+  coordinate space of the named form factor (§4.3, §7.1).
 - Pin names in monospace (e.g. `I2C0_SCL`) match the `silkscreen`
   field of the corresponding pad in the pinout JSON.
 - A value of *TBD* indicates a parameter intentionally not yet
@@ -213,7 +214,7 @@ applies.
 | Outline | **35 × 35 mm**, ±0.1 mm (TBD) |
 | Pad pattern | LGA |
 | Pad count | **312** |
-| Coordinate space | Columns `A`–`AH`, rows `1`–`34` |
+| Coordinate space | Rows `A`–`AH` (top to bottom), columns `1`–`34` (left to right), top view |
 | Reference SoMs | E1M-AEN family — seven SKUs `E1M-AEN301`/`401`/`501`/`601`/`701`/`801`/`803` (Alif Semiconductor Ensemble E3–E8). |
 
 ### 4.2 E1M-X ("Extended")
@@ -223,13 +224,24 @@ applies.
 | Outline | **45 × 65 mm**, ±0.1 mm (TBD) |
 | Pad pattern | LGA |
 | Pad count | **496** |
-| Coordinate space | Columns `A`–`AR`, rows `1`–`64` |
+| Coordinate space | Rows `A`–`AR` (top to bottom, along the 45 mm side), columns `1`–`64` (left to right, along the 65 mm side), top view; the outline is 65 mm across and 45 mm down |
 | Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102` (Renesas RZ/V2N + DRP-AI3 + optional DeepX M1). |
 
 ### 4.3 Coordinate system
 
 Each form factor uses an **independent** coordinate space. Pad `A1` on
-E1M is **not** the same physical position as pad `A1` on E1M-X. SoM
+E1M is **not** the same physical position as pad `A1` on E1M-X. In
+both, in the top view (component side up), the pad letters name the
+rows, running top to bottom, and the pad numbers name the columns,
+running left to right; pad `A1` is the top-left corner pad, 1.0 mm from
+the left and top edges, next to the pin-1 fiducial. `A2` is directly
+right of `A1` and `B1` is directly below `A1`. The pad band is two pads
+deep along the top and bottom edges (rows `A`, `B` and the last two
+rows) and three pads deep along the left and right edges (columns
+`1`–`3` and the last three columns). In this frame the E1M-X outline
+is 65 mm across (columns `1`–`64`) and 45 mm down (rows `A`–`AR`). The
+`outline_mm` field of `pinout/x-v1.json` (w = 45, h = 65) records the
+outline size; it does not set the drawing orientation. SoM
 manifests reference pads by `(form-factor id, coordinate)`. The
 form-factor identifier `E1M` or `E1M-X` is recorded in the top-level
 `id` field of the corresponding pinout JSON.
@@ -245,8 +257,8 @@ form-factor identifier `E1M` or `E1M-X` is recorded in the top-level
 ![E1M footprint mechanical drawing](images/e1m-footprint.png)
 
 *Figure 1 — E1M footprint (top view). Overall envelope 35.0 × 35.0 mm.
-Central cavity 29.0 × 27.0 mm. Detail A (5:1 scale) shows the corner
-pad band: 1.0 mm pad pitch (signal grid), 0.40 mm pad diameter. Pin
+Central cavity 27.0 mm across × 29.0 mm down. Detail A (5:1 scale)
+shows the A1 corner of the pad band (pad C3 not fitted): 1.0 mm pad pitch (signal grid), 0.40 mm pad diameter. Pin
 A1 corner is marked by the 0.5 mm triangular fiducial.*
 
 The E1M signal pads **SHALL** lie on a 1.0 mm pitch grid and **SHALL**
@@ -259,9 +271,11 @@ Dimension tolerances other than the outline, and a carrier-board footprint libra
 
 ![E1M-X footprint mechanical drawing](images/e1m-x-footprint.png)
 
-*Figure 2 — E1M-X footprint (top view). Overall envelope 45.0 × 65.0 mm.
-Central cavity 39.45 × 57.45 mm. Two corner Detail views (5:1 scale)
-show the pad band on the long and short edges. A scalable vector copy
+*Figure 2 — E1M-X footprint (top view), drawn landscape. Overall
+envelope 65.0 mm across × 45.0 mm down. Central cavity 57.45 mm across
+× 39.45 mm down. Two corner Detail views (5:1 scale) show the pad band:
+two pads deep along the long (65 mm) edges, three pads deep along the
+short (45 mm) edges. A scalable vector copy
 is available in `images/e1m-x-footprint.svg`.*
 
 Dimension callouts and a carrier-board footprint library for E1M-X are not specified in this revision.
@@ -269,10 +283,13 @@ Dimension callouts and a carrier-board footprint library for E1M-X are not speci
 #### 5.1.3 Recommended carrier land pattern (informative)
 
 The land pattern below is recommended for the carrier board of both
-form factors. Its values are the carrier land pattern published for
-E1M-AEN (DS-AEN-001) _(E1M-AEN only)_; the pad pitch and the copper pad
-diameter are those of §5.1.1 and of the E1M-X footprint drawing
-(§5.1.2).
+form factors. Its pad, solder-mask and stencil values are the carrier
+land pattern published for E1M-AEN (DS-AEN-001) _(E1M-AEN only)_; the
+pad pitch and the copper pad diameter are those of §5.1.1 and of the
+E1M-X footprint drawing (§5.1.2). The courtyard is 2.0 mm clearance
+around the module outline on every side. For mounting option (b) of
+§5.2 the through-cutout is part of the carrier land pattern; its size,
+position and corner radius are normative (§5.2).
 
 | Parameter | Value | Provenance |
 | --- | --- | --- |
@@ -282,49 +299,96 @@ diameter are those of §5.1.1 and of the E1M-X footprint drawing
 | Solder-mask opening | 0.50 mm diameter | _(E1M-AEN only)_ |
 | Stencil aperture | 1:1, 0.40 mm diameter | _(E1M-AEN only)_ |
 | Stencil thickness | 0.08 mm | _(E1M-AEN only)_ |
+| Courtyard | module outline + 2.0 mm on every side: E1M 39.0 × 39.0 mm; E1M-X 69.0 mm across × 49.0 mm down | §5.1.3 |
+| Through-cutout, mounting option (b) only | central-cavity size and position, R1.00 corners: E1M 27.0 mm across × 29.0 mm down, 4.0 mm from the left and 3.0 mm from the top edge of the module outline; E1M-X 57.45 mm across × 39.45 mm down, 3.775 mm from the left and 2.775 mm from the top edge | §5.2 (normative) |
 
 A pad-detail figure of this land pattern (top view of four pads of
-the 1.0 mm grid, and a section through one pad with the stencil) is
-in the published PDF edition of this specification.
+the 1.0 mm grid, and a section through one pad with the stencil) and
+a figure of the carrier land pattern of each form factor (module
+outline, 2.0 mm courtyard, land pads and the option (b) cutout,
+dashed) are in the published PDF edition of this specification.
 
 Pad position and size tolerances are not specified in this revision
 (§5.1.1).
 
-### 5.2 Module height
+### 5.2 Mounting
 
-Two height classes are defined. A SoM **SHALL** declare its height
-class in its per-SoM manifest.
+A SoM **SHALL NOT** be placed directly on the carrier board. One of
+the following two mounting options **SHALL** be used:
 
-#### 5.2.1 Standard height
+1. **Option (a), spacer PCB.** A spacer PCB **SHALL** be placed
+   between the SoM and the carrier board, soldered on both faces: the
+   SoM's LGA pads **SHALL** be soldered to the spacer PCB and the
+   spacer PCB **SHALL** be soldered to the carrier board (§5.2.1). The
+   carrier **SHALL** keep the area under the SoM's central cavity
+   clear: no carrier component **SHALL** lie inside the cavity outline
+   given below, with or without a spacer PCB.
+2. **Option (b), carrier cutout.** The carrier board **SHALL** have a
+   through-cutout the size of the SoM's central cavity, at the cavity
+   position, with R1.00 corners (§5.2.2). In the top view of §4.3,
+   the cutout is:
+   - **E1M:** 27.0 mm across × 29.0 mm down, its left edge 4.0 mm
+     from the left edge and its top edge 3.0 mm from the top edge of
+     the module outline (§5.1.1);
+   - **E1M-X:** 57.45 mm across × 39.45 mm down, its left edge
+     3.775 mm from the left edge and its top edge 2.775 mm from the
+     top edge of the module outline (§5.1.2).
 
-![Standard-height cross-section](images/module-cross-section-standard-height.png)
+> **Why two mounting options (informative).** A SoM carries components
+> on its bottom side, under its central cavity, inside the LGA pad
+> band (§5.3). Placed directly on the carrier, these components would
+> meet the carrier surface. The spacer PCB of option (a) raises the
+> SoM above the carrier; the cutout of option (b) gives the
+> bottom-side components room through the carrier board.
 
-*Figure 3 — Standard-height cross-section. The SoM PCB sits directly
-on the base-board surface; only the SoM's top-side components rise
-above the base-board plane.*
+#### 5.2.1 Option (a): spacer PCB
 
-The maximum module thickness and the LGA pad stand-off are not specified in this revision.
+The cross-section figure "Module on a spacer PCB" is in the published
+PDF edition of this specification: the spacer PCB lies between the
+SoM pad band and the carrier board, and the components on the SoM
+bottom side, under the central cavity, clear the carrier surface.
 
-#### 5.2.2 Extended height
+The module is soldered to the spacer PCB and the spacer PCB is
+soldered to the carrier board, so each of the two faces of the spacer
+PCB carries a solder joint. The carrier **SHALL** have no components
+inside the cavity outline of §5.2 (E1M 27.0 mm across × 29.0 mm down,
+4.0 mm from the left and 3.0 mm from the top edge of the module
+outline; E1M-X 57.45 mm across × 39.45 mm down, 3.775 mm from the left
+and 2.775 mm from the top edge; R1.00 corners).
 
-![Extended-height cross-section](images/module-cross-section-extended-height.png)
+The spacer-PCB thickness, the maximum module thickness and the maximum
+component height on the SoM bottom side are not specified in this
+revision.
 
-*Figure 4 — Extended-height cross-section. A spacer-PCB layer between
-the SoM and the base board allows components on the bottom side of
-the SoM to clear the base-board surface.*
+#### 5.2.2 Option (b): carrier cutout
 
-The spacer-PCB thickness, the maximum total module thickness and the maximum component height on the SoM bottom side are not specified in this revision.
+The cross-section figure "Module over a carrier cutout" is in the
+published PDF edition of this specification: the SoM pad band is
+soldered to the carrier land pattern, the through-cutout in the
+carrier board has the size and position of the SoM's central cavity,
+and the components on the SoM bottom side extend into it. The cutout
+is shown in the carrier land-pattern figure of §5.1.3.
+
+The maximum module thickness, the maximum component height on the SoM
+bottom side and the LGA pad stand-off are not specified in this
+revision.
 
 ### 5.3 Component placement areas
 
 ![Component placement areas — top and bottom](images/component-placement-areas.png)
 
-*Figure 5 — Component placement areas (top side, left; bottom side,
+*Figure 3 — Component placement areas (top side, left; bottom side,
 right). The hatched centre rectangle denotes the maximum-component-zone
 within the LGA pad band; coordinates **TBD**.*
 
-Where present, EMI shielding **SHALL** fit within the declared height
-envelope.
+On the SoM bottom side the zone lies inside the central cavity, which
+the spacer PCB (option (a)) or the carrier cutout (option (b)) of §5.2
+keeps clear of the carrier surface; under either option the carrier
+has no components inside the cavity outline. On the carrier, the SoM
+occupies the courtyard of §5.1.3.
+
+Where present, EMI shielding **SHALL** fit within the module height
+envelope (§5.2).
 
 Numeric keepout dimensions for the placement zones are not specified in this revision.
 
@@ -822,31 +886,44 @@ supports both options on one PCB uses assembly options (BOM variants,
 ### 7.1 Pin numbering convention
 
 Pads on each form factor **SHALL** be identified using a BGA-style
-coordinate of the form `<column-letter(s)><row-number>`:
+coordinate of the form `<row-letter(s)><column-number>`, in the top
+view (component side up):
 
-- `A1` is the corner pad at column A, row 1, of the form factor's
-  coordinate space.
-- Letter columns increase as `A, B, …, Z, AA, AB, …, AH` for E1M and
-  `A, B, …, Z, AA, AB, …, AR` for E1M-X.
-- Row numbers increase from the top edge.
+- `A1` is the corner pad at row A, column 1, of the form factor's
+  coordinate space: the top-left corner pad, next to the pin-1
+  fiducial.
+- Row letters increase from the top edge as `A, B, …, Z, AA, AB, …, AH`
+  for E1M and `A, B, …, Z, AA, AB, …, AR` for E1M-X. `B1` is directly
+  below `A1`.
+- Column numbers increase from the left edge, `1`–`34` for E1M and
+  `1`–`64` for E1M-X. `A2` is directly right of `A1`.
+- The E1M-X outline is therefore 65 mm across (columns `1`–`64`) and
+  45 mm down (rows `A`–`AR`).
+- The pad band is two pads deep along the top and bottom edges (rows
+  `A`, `B` and `AG`, `AH` on E1M; `A`, `B` and `AQ`, `AR` on E1M-X)
+  and three pads deep along the left and right edges (columns `1`–`3`
+  and `32`–`34` on E1M; `1`–`3` and `62`–`64` on E1M-X).
 
 Each form factor uses its **own** coordinate space; the same physical
 pad position has different coordinates on E1M and E1M-X. The
 form-factor identifier `E1M` or `E1M-X` distinguishes the two.
 
-The pad maps for both form factors are shown in Figures 6 and 7.
+The pad maps for both form factors are shown in Figures 4 and 5.
 
 ![E1M pad map (top view)](images/e1m-pinout-drawing.png)
 
-*Figure 6 — E1M pad map, top view. Columns A–AH (34 letters) × rows
-1–34. Three-row peripheral pad band; centre is reserved for top-side
-components per §5.3.*
+*Figure 4 — E1M pad map, top view. Rows A–AH (34 letters, top to
+bottom) × columns 1–34 (left to right). The pad band is two pads deep
+along the top and bottom edges and three pads deep along the left and
+right edges; pads C3, AF3, C32 and AF32 are not fitted. Centre is
+reserved for top-side components per §5.3.*
 
 ![E1M-X pad map (top view)](images/e1m-x-pinout-drawing.png)
 
-*Figure 7 — E1M-X pad map, top view. Columns A–AR (44 letters) × rows
-1–64. Three-row peripheral pad band on the long edges; full pad band
-on the short edges to expose the additional CSI/PCIe controllers.*
+*Figure 5 — E1M-X pad map, top view, landscape. Rows A–AR (44
+letters, top to bottom) × columns 1–64 (left to right). The pad band is
+two pads deep along the long (65 mm) edges and three pads deep along
+the short (45 mm) edges.*
 
 ### 7.2 Interface count overview
 
@@ -1651,6 +1728,11 @@ A carrier board is **E1M-conformant** if all of the following hold:
    that a SoM does not route (§7.3.4).
 10. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
     (Ethernet), §7.3.10 (debug UART) and §7.3.14 (CAN).
+11. **Mounting.** The SoM is not placed directly on the carrier: the
+    carrier uses a spacer PCB soldered on both faces (§5.2 option (a))
+    or a through-cutout of the size and position given in §5.2
+    option (b), and under either option carries no components inside
+    the cavity outline.
 
 ### 9.3 Optional vs. mandatory pad classes
 
@@ -1958,7 +2040,7 @@ Both validate against `pinout/schema/loom-v1.schema.json`.
 | `id` | enum | yes | `"E1M"` or `"E1M-X"`. |
 | `version` | string | yes | Form-factor revision, `major.minor`. |
 | `footprint_class` | enum | yes | `"FC_35x35"` (E1M) or `"FC_45x65"` (E1M-X). |
-| `outline_mm` | object | yes | `{ "w": <int>, "h": <int> }`. |
+| `outline_mm` | object | yes | `{ "w": <int>, "h": <int> }`: the outline size. It does not set the drawing orientation; the top-view frame is given in §4.3 and §7.1. |
 | `pads` | array | yes | Array of pad objects. |
 | `pads[].id` | string | yes | BGA-style coordinate, regex `^[A-Z]+\d+$`. Unique within `pads`. |
 | `pads[].silkscreen` | string | no | Silkscreen text from §7.3. |
