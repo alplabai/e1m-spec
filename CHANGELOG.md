@@ -42,7 +42,7 @@ of the carrier land pattern are in the published PDF edition.
   within the module height envelope of §5.2 (was: the declared height
   envelope).
 - **§9.2:** carrier mounting check (spacer PCB or cutout per §5.2),
-  new item 2; the following items are renumbered.
+  new item 11, added last so the numbers of items 1–10 do not change.
 
 #### Fixed
 

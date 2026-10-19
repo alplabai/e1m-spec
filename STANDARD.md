@@ -1696,28 +1696,28 @@ A carrier board is **E1M-conformant** if all of the following hold:
 
 1. The mating land pattern, power delivery, and pad-by-pad signal
    usage match the chosen form factor's coordinate space.
-2. **Mounting.** The SoM is not placed directly on the carrier: the
-   carrier uses a spacer PCB (§5.2 option (a)) or a through-cutout of
-   the size and position given in §5.2 option (b).
-3. The carrier does not require any tertiary function (§8.4) unless
+2. The carrier does not require any tertiary function (§8.4) unless
    it explicitly targets a single SoM or set of SoMs (declared in
    the carrier's BOM / build system).
-4. The carrier connects every `GND` pad of the SoM to a low-impedance
+3. The carrier connects every `GND` pad of the SoM to a low-impedance
    ground plane.
-5. **5 V input.** The carrier meets §6.1.1 clauses 1–8.
-6. **`VIO_OUT`.** The carrier meets §6.1.2 clauses 2–6.
-7. **Sequencing and back-powering.** The carrier meets §6.2.1, §6.2.2
+4. **5 V input.** The carrier meets §6.1.1 clauses 1–8.
+5. **`VIO_OUT`.** The carrier meets §6.1.2 clauses 2–6.
+6. **Sequencing and back-powering.** The carrier meets §6.2.1, §6.2.2
    and §6.2.3.
-8. **Control pads.** The carrier drives `MODULE_EN`, `MODULE_STBY`,
+7. **Control pads.** The carrier drives `MODULE_EN`, `MODULE_STBY`,
    `PORn` and `JTAG_nRST` per §6.3.1.
-9. **Pad domains and default fits.** The carrier meets §6.7.1 and
+8. **Pad domains and default fits.** The carrier meets §6.7.1 and
    §6.7.2, and declares, for every build variant, the fit of each
    dual-meaning pad group and the SoMs it supports.
-10. **Reserved and not-routed pads.** The carrier leaves every `RSVD`
-    pad unconnected (§7.3.3) and routes no unrelated net through a pad
-    that a SoM does not route (§7.3.4).
-11. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
+9. **Reserved and not-routed pads.** The carrier leaves every `RSVD`
+   pad unconnected (§7.3.3) and routes no unrelated net through a pad
+   that a SoM does not route (§7.3.4).
+10. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
     (Ethernet), §7.3.10 (debug UART) and §7.3.14 (CAN).
+11. **Mounting.** The SoM is not placed directly on the carrier: the
+    carrier uses a spacer PCB (§5.2 option (a)) or a through-cutout of
+    the size and position given in §5.2 option (b).
 
 ### 9.3 Optional vs. mandatory pad classes
 
