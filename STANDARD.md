@@ -252,17 +252,6 @@ form-factor identifier `E1M` or `E1M-X` is recorded in the top-level
 
 ### 5.1 Footprint
 
-> **Pad-frame correction.** Revisions 1.3 and 1.4 of this specification
-> drew the pad array transposed: their pad maps, footprints and
-> pad-frame text (in the PDF edition, and the frame wording of this file)
-> put the pad letters across and the numbers down, which mirrors every
-> pad about the `A1` diagonal. A carrier footprint or symbol made from
-> those revisions **SHALL** be checked against this revision or against
-> `pinout/v1.json` / `pinout/x-v1.json` before fabrication. The correct
-> frame (§4.3, §7.1): top view, `A1` top left, letters are the rows from
-> top to bottom, numbers are the columns from left to right, `A2`
-> directly right of `A1`, `B1` directly below `A1`.
-
 #### 5.1.1 E1M (35 × 35 mm)
 
 ![E1M footprint mechanical drawing](images/e1m-footprint.png)
@@ -845,17 +834,6 @@ supports both options on one PCB uses assembly options (BOM variants,
 ## 7 Pinout
 
 ### 7.1 Pin numbering convention
-
-> **Pad-frame correction.** Revisions 1.3 and 1.4 of this specification
-> drew the pad array transposed: their pad maps, footprints and
-> pad-frame text (in the PDF edition, and the frame wording of this file)
-> put the pad letters across and the numbers down, which mirrors every
-> pad about the `A1` diagonal. A carrier footprint or symbol made from
-> those revisions **SHALL** be checked against this revision or against
-> `pinout/v1.json` / `pinout/x-v1.json` before fabrication. The correct
-> frame (§4.3, §7.1): top view, `A1` top left, letters are the rows from
-> top to bottom, numbers are the columns from left to right, `A2`
-> directly right of `A1`, `B1` directly below `A1`.
 
 Pads on each form factor **SHALL** be identified using a BGA-style
 coordinate of the form `<row-letter(s)><column-number>`, in the top

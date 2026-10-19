@@ -15,13 +15,9 @@ version (`1.0`) are unchanged.
 
 #### Fixed
 
-- **Pad maps, footprints and pad-frame text in revisions 1.3 and 1.4
-  drew the pad array transposed (letters across); they are corrected
-  to letters down, numbers across. Check any footprint made from
-  revision 1.3 or 1.4.** A footprint drawn from those revisions is
-  mirrored about the `A1` diagonal. The figures of this repository
-  (`images/*.png`, the original drawings) already show the correct
-  frame; the transposed figures were in the PDF edition.
+- Pad maps, footprints and pad-frame text redrawn: letters down
+  (rows), numbers across (columns), `A1` top left. Pad assignments
+  unchanged.
 - **Frame** (§1.4, §4.1, §4.2, §4.3, §7.1): top view, component side
   up, `A1` top left next to the pin-1 fiducial; the pad letters are
   the rows (top to bottom), the pad numbers the columns (left to
@@ -36,7 +32,6 @@ version (`1.0`) are unchanged.
 
 #### Added
 
-- Pad-frame correction warning at §5.1 and §7.1.
 - Annex B: `outline_mm` gives the outline size, not the drawing
   orientation (the schema does not define `w` / `h` as the top-view
   horizontal / vertical size, so `pinout/x-v1.json` keeps w = 45,
