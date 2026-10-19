@@ -24,7 +24,10 @@ of the carrier land pattern are in the published PDF edition.
   top edges; E1M-X 57.45 mm across × 39.45 mm down at 3.775 / 2.775 mm).
   The standard-height and extended-height classes and their manifest
   declaration are withdrawn; informative note on the SoM bottom-side
-  components under the cavity.
+  components under the cavity. Option (a): the spacer PCB is soldered
+  on both faces (module LGA to spacer, spacer to carrier), and under
+  both options the carrier **SHALL** have no components inside the
+  cavity outline (same size and position as the option (b) cutout).
 - **§5.2 figures** (PDF edition): the standard-height and
   extended-height cross-sections, the first of which showed the SoM
   flat on the carrier, are replaced by "Module on a spacer PCB" and

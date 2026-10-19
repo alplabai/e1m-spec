@@ -318,7 +318,12 @@ A SoM **SHALL NOT** be placed directly on the carrier board. One of
 the following two mounting options **SHALL** be used:
 
 1. **Option (a), spacer PCB.** A spacer PCB **SHALL** be placed
-   between the SoM and the carrier board (§5.2.1).
+   between the SoM and the carrier board, soldered on both faces: the
+   SoM's LGA pads **SHALL** be soldered to the spacer PCB and the
+   spacer PCB **SHALL** be soldered to the carrier board (§5.2.1). The
+   carrier **SHALL** keep the area under the SoM's central cavity
+   clear: no carrier component **SHALL** lie inside the cavity outline
+   given below, with or without a spacer PCB.
 2. **Option (b), carrier cutout.** The carrier board **SHALL** have a
    through-cutout the size of the SoM's central cavity, at the cavity
    position, with R1.00 corners (§5.2.2). In the top view of §4.3,
@@ -343,6 +348,14 @@ The cross-section figure "Module on a spacer PCB" is in the published
 PDF edition of this specification: the spacer PCB lies between the
 SoM pad band and the carrier board, and the components on the SoM
 bottom side, under the central cavity, clear the carrier surface.
+
+The module is soldered to the spacer PCB and the spacer PCB is
+soldered to the carrier board, so each of the two faces of the spacer
+PCB carries a solder joint. The carrier **SHALL** have no components
+inside the cavity outline of §5.2 (E1M 27.0 mm across × 29.0 mm down,
+4.0 mm from the left and 3.0 mm from the top edge of the module
+outline; E1M-X 57.45 mm across × 39.45 mm down, 3.775 mm from the left
+and 2.775 mm from the top edge; R1.00 corners).
 
 The spacer-PCB thickness, the maximum module thickness and the maximum
 component height on the SoM bottom side are not specified in this
@@ -371,8 +384,9 @@ within the LGA pad band; coordinates **TBD**.*
 
 On the SoM bottom side the zone lies inside the central cavity, which
 the spacer PCB (option (a)) or the carrier cutout (option (b)) of §5.2
-keeps clear of the carrier surface. On the carrier, the SoM occupies
-the courtyard of §5.1.3.
+keeps clear of the carrier surface; under either option the carrier
+has no components inside the cavity outline. On the carrier, the SoM
+occupies the courtyard of §5.1.3.
 
 Where present, EMI shielding **SHALL** fit within the module height
 envelope (§5.2).
@@ -1716,8 +1730,10 @@ A carrier board is **E1M-conformant** if all of the following hold:
 10. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
     (Ethernet), §7.3.10 (debug UART) and §7.3.14 (CAN).
 11. **Mounting.** The SoM is not placed directly on the carrier: the
-    carrier uses a spacer PCB (§5.2 option (a)) or a through-cutout of
-    the size and position given in §5.2 option (b).
+    carrier uses a spacer PCB soldered on both faces (§5.2 option (a))
+    or a through-cutout of the size and position given in §5.2
+    option (b), and under either option carries no components inside
+    the cavity outline.
 
 ### 9.3 Optional vs. mandatory pad classes
 
