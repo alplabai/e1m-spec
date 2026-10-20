@@ -7,6 +7,23 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.7] — 2026-10-20
+
+Document revision 1.7 of `E1M-STD-1.0` (Edition 1.0). No normative
+change: the pad assignments, the pinout JSONs, the Loom schema and the
+Loom form-factor version (`1.0`) are unchanged. The figures are in the
+published PDF edition.
+
+#### Changed
+
+- **§5.4.1 figure** (PDF edition): the reflow profile figure shows one
+  measured curve (was three traces), with its phase spans and values
+  (preheat 30–150 °C 116.5 s, soak 150–217 °C 71.5 s, at or above
+  220 °C 60.0 s, cooling from 220 °C −1.53 °C/s, peak 242.9 °C).
+- **§5.4.1** (informative): the measured column is headed "Measured,
+  E1M-AEN" and each measured value is given as the range measured on
+  the module; the values are unchanged.
+
 ## [1.6] — 2026-10-20
 
 Document revision 1.6 of `E1M-STD-1.0` (Edition 1.0). No normative

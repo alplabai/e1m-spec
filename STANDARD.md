@@ -2,7 +2,7 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.6
+**Revision:** 1.7
 **Date:** 2026-10-20
 **Status:** Released
 **Publisher:** Alp Lab AB
@@ -45,7 +45,7 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.6 (released
+This document is Edition 1.0, document revision 1.7 (released
 2026-10-20); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
@@ -403,14 +403,13 @@ this.
 
 The profile below is informative. Its values are those measured for
 E1M-AEN in a JTR1000 convection reflow oven with ALPHA OM338 solder
-paste (SAC, Pb-free), with three thermocouples on the module (CH3,
-CH4, CH5); each value is given as the range over the three
-thermocouples. The profile phases follow IPC/JEDEC J-STD-020. The
+paste (SAC, Pb-free); each measured value is given as the range
+measured on the module. The profile phases follow IPC/JEDEC J-STD-020. The
 process windows are those of the profiler report for this run. A
 recommended reflow profile for the other reference SoMs is not
 specified in this revision.
 
-| Parameter | Measured, E1M-AEN _(three thermocouples)_ | Process window _(informative)_ |
+| Parameter | Measured, E1M-AEN | Process window _(informative)_ |
 | --- | --- | --- |
 | Reflow oven | JTR1000 | — |
 | Solder paste | ALPHA OM338 (SAC, Pb-free) | — |
@@ -424,7 +423,7 @@ specified in this revision.
 The solder-paste liquidus is 217 °C; the time-above-reflow values are
 measured at 220 °C, as in the profiler report.
 
-A figure of the measured profile (E1M-AEN, three thermocouples) is in
+A figure of the measured profile (E1M-AEN) is in
 the published PDF edition of this specification.
 
 ### 5.5 Packaging
