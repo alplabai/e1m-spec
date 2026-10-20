@@ -37,6 +37,11 @@ published PDF edition.
   down (rows), numbers across (columns), `A1` top left.
 - **Revision history** (PDF edition): the entries of revisions 1.0,
   1.1 and 1.2 are given as bullet lists; their text is unchanged.
+- **Annex A.2 / A.3** (informative): the silicon stacks list the main
+  PMIC `ACT88760` (I2C `0x25` / `0x26`, Qorvo) and the secondary PMIC
+  `DA9292` (multi-channel, I2C `0x1E`, Renesas), as in the PDF edition
+  since revision 1.2 (was a single PMIC row, `DA9292`).
+  `examples/alp-x-v2n-m1.som-manifest.json` likewise.
 
 #### Fixed
 

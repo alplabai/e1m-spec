@@ -1916,7 +1916,8 @@ The supporting silicon stack is:
 | --- | --- | --- |
 | Primary MPU | `R9A09G056N44GBG#AC0` | Renesas |
 | Auxiliary I/O MCU | `GD32G553` — Arm Cortex-M33 @ 216 MHz | GigaDevice |
-| PMIC | `DA9292` (multi-channel) | Renesas |
+| Main PMIC | `ACT88760` (I2C `0x25` / `0x26`) | Qorvo |
+| Secondary PMIC | `DA9292` (multi-channel, I2C `0x1E`) | Renesas |
 | Ethernet PHY (×2) | `RTL8211FI-VD-CG` | Realtek |
 | Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
 
@@ -1957,7 +1958,8 @@ Full silicon stack (V2N stack + DeepX M1):
 | Primary MPU | `R9A09G056N44GBG#AC0` | Renesas |
 | Companion AI accelerator | `DX-M1` (PCIe-attached, 25 TOPS) | DeepX |
 | Auxiliary I/O MCU | `GD32G553` — Arm Cortex-M33 @ 216 MHz | GigaDevice |
-| PMIC | `DA9292` (multi-channel) | Renesas |
+| Main PMIC | `ACT88760` (I2C `0x25` / `0x26`) | Qorvo |
+| Secondary PMIC | `DA9292` (multi-channel, I2C `0x1E`) | Renesas |
 | Ethernet PHY (×2) | `RTL8211FI-VD-CG` | Realtek |
 | Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
 
