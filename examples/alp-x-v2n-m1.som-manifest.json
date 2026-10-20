@@ -2,17 +2,17 @@
   "som_manifest_version": 1,
   "id": "E1M-V2M101",
   "version": "0.1.0",
-  "description": "Reference SoM manifest snippet for E1M-V2M101 — Alp Lab E1M-X V2N-M1 family member (Renesas RZ/V2N + DeepX M1). Two SKUs in the family (E1M-V2M101 / E1M-V2M102) differ in memory tier (32/32 vs 64/128 Gbit). Sister family E1M-X V2N (E1M-V2N101 / E1M-V2N102) is the same module without DeepX M1. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
+  "description": "Reference SoM manifest snippet for E1M-V2M101 — Alp Lab E1M-X V2N-M1 family member (Renesas RZ/V2N + DeepX M1). Three SKUs in the family (E1M-V2M101 / E1M-V2M102 / E1M-V2M103) differ in memory tier (LPDDR4X + eMMC: 4 GB + 4 GB, 8 GB + 16 GB, 4 GB + 16 GB). Sister family E1M-X V2N (E1M-V2N101 / E1M-V2N102 / E1M-V2N103) is the same module without DeepX M1. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
   "implements": {
     "spec_id": "E1M-X",
     "spec_version": "1.0",
     "spec_repo": "https://github.com/alplabai/e1m-spec"
   },
   "family": "E1M-X V2N-M1",
-  "family_skus": ["E1M-V2M101", "E1M-V2M102"],
+  "family_skus": ["E1M-V2M101", "E1M-V2M102", "E1M-V2M103"],
   "sibling_family": {
     "name": "E1M-X V2N",
-    "skus": ["E1M-V2N101", "E1M-V2N102"],
+    "skus": ["E1M-V2N101", "E1M-V2N102", "E1M-V2N103"],
     "delta": "Same module without the DeepX M1 accelerator. PCIE0_* pads are then exposed externally rather than shared with the on-module M1."
   },
   "silicon": [
@@ -28,7 +28,7 @@
       "vendor": "GigaDevice",
       "family": "GD32G553",
       "part": "GD32G553",
-      "notes": "Separate on-module Arm Cortex-M33 @ 216 MHz, distinct from the Cortex-M33 embedded inside the RZ/V2N. Supervises power-rail sequencing alongside the DA9292 PMIC and orchestrates on-module peripherals during boot and low-power states."
+      "notes": "Separate on-module Arm Cortex-M33 @ 216 MHz, distinct from the Cortex-M33 embedded inside the RZ/V2N. Supervises power-rail sequencing alongside the ACT88760 and DA9292 PMICs and orchestrates on-module peripherals during boot and low-power states."
     },
     {
       "role": "accelerator",
@@ -39,16 +39,23 @@
     },
     {
       "role": "pmic",
+      "vendor": "Qorvo",
+      "family": "ACT88760",
+      "part": "ACT88760",
+      "notes": "Main PMIC for RZ/V2N (I2C 0x25 / 0x26)."
+    },
+    {
+      "role": "pmic",
       "vendor": "Renesas",
       "family": "DA9292",
       "part": "DA9292",
-      "notes": "Multi-channel PMIC for RZ/V2N."
+      "notes": "Secondary PMIC, multi-channel (I2C 0x1E)."
     },
     {
       "role": "ethernet_phy",
       "vendor": "Realtek",
       "family": "RTL8211F",
-      "part": "RTL8211FDI-VD-CG",
+      "part": "RTL8211FI-VD-CG",
       "notes": "1 GbE PHY. Two instances on the SoM, one per E1M-X ETHn_* group."
     },
     {
@@ -62,7 +69,7 @@
   "_routes_format_note": "soc_pin uses the Renesas RZ/V2N datasheet's functional pin name (e.g. 'RIIC0_SCL0', 'TCK_SWCLK', 'MD_BOOT0'). soc_pin_bga is the BGA package coordinate of that same pin from R9A09G056N44GBG Pin Out.csv. For pads that go through an on-module PHY (Ethernet, Wi-Fi, CAN), soc_pin is the PHY's pin name and soc_via names the PHY chip.",
   "routes": [
     { "pad_id": "A1", "use": "default", "soc_pin": "VSS" },
-    { "pad_id": "T1", "use": "default", "soc_pin": "VDD_5V_IN_BOARD", "as": "POWER_5V0", "soc_note": "Board-level 5 V input; on-module PMIC (Renesas DA9292) derives all SoC rails." },
+    { "pad_id": "T1", "use": "default", "soc_pin": "VDD_5V_IN_BOARD", "as": "POWER_5V0", "soc_note": "Board-level 5 V input; on-module PMICs (main Qorvo ACT88760, secondary Renesas DA9292) derive all SoC rails." },
     { "pad_id": "U1", "use": "default", "soc_pin": "VDD_5V_IN_BOARD", "as": "POWER_5V0" },
     { "pad_id": "W1", "use": "default", "soc_pin": "VDDIO_1V8_OUT", "as": "POWER_VIO_OUT", "soc_note": "Module-side 1.8 V I/O reference rail; sourced from on-module PMIC." },
 
@@ -84,8 +91,8 @@
     { "pad_id": "I1",  "use": "default", "soc_pin": "USB30_TX0M", "soc_pin_bga": "W28",  "as": "USB_TX_N", "instance": "USB0" },
     { "pad_id": "H1",  "use": "default", "soc_pin": "USB30_TX0P", "soc_pin_bga": "W29",  "as": "USB_TX_P", "instance": "USB0" },
 
-    { "pad_id": "AR59", "use": "default", "soc_pin": "MDI_TXN_or_RXN", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_N", "instance": "ETH0", "soc_note": "E1M-X ETH differential pads connect to the on-module Realtek RTL8211FDI PHY's MDI side; the Renesas RZ/V2N drives the PHY over RGMII (not exposed on E1M-X)." },
-    { "pad_id": "AQ59", "use": "default", "soc_pin": "MDI_TXP_or_RXP", "soc_via": "Realtek RTL8211FDI", "as": "ETH_DA_P", "instance": "ETH0" },
+    { "pad_id": "AR59", "use": "default", "soc_pin": "MDI_TXN_or_RXN", "soc_via": "Realtek RTL8211FI", "as": "ETH_DA_N", "instance": "ETH0", "soc_note": "E1M-X ETH differential pads connect to the on-module Realtek RTL8211FI PHY's MDI side; the Renesas RZ/V2N drives the PHY over RGMII (not exposed on E1M-X)." },
+    { "pad_id": "AQ59", "use": "default", "soc_pin": "MDI_TXP_or_RXP", "soc_via": "Realtek RTL8211FI", "as": "ETH_DA_P", "instance": "ETH0" },
 
     { "pad_id": "B47", "use": "default", "soc_pin": "PCIE_REFCLKN0", "soc_pin_bga": "G26", "as": "PCIE_CLK_N", "instance": "PCIE0", "soc_note": "PCIe controller is shared on V2N-M1: the on-module DeepX M1 sits on PCIE0 internally; external PCIE0_* pads are then bridge-shared." },
     { "pad_id": "A47", "use": "default", "soc_pin": "PCIE_REFCLKP0", "soc_pin_bga": "G25", "as": "PCIE_CLK_P", "instance": "PCIE0" },
