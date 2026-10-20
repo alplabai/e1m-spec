@@ -7,6 +7,49 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.6] — 2026-10-20
+
+Document revision 1.6 of `E1M-STD-1.0` (Edition 1.0). No normative
+change: the pad assignments, the pinout JSONs, the Loom schema and the
+Loom form-factor version (`1.0`) are unchanged. The figures are in the
+published PDF edition.
+
+#### Changed
+
+- **§5.4.1** (informative): reflow table from the measured E1M-AEN run
+  (JTR1000 oven, ALPHA OM338 paste, three thermocouples `CH3`, `CH4`,
+  `CH5`; values are the range over the three): preheat 30–150 °C
+  116.5–122.0 s (new); soak 150–217 °C 70.5–73.5 s (was 70–74 s); time
+  at or above 220 °C 56.5–60.0 s (was "about 60 s" above liquidus
+  217 °C, the wrong reference temperature); cooling slope from 220 °C
+  −1.53 to −1.66 °C/s (was about −1.6 °C/s); peak 240.9–244.3 °C (was
+  241–244 °C); oven JTR1000 (new). The profiler report's process
+  windows are added as a separate informative column: preheat
+  60–160 s, soak 60–120 s, at or above 220 °C 45–90 s, cooling −4 to
+  −0.5 °C/s, peak 230–250 °C. The solder-paste liquidus is 217 °C; the
+  time-above-reflow values are measured at 220 °C.
+- **§5.4.1 figure** (PDF edition): redrawn from the three measured
+  thermocouple traces at true scale (was an idealised curve with an
+  illustrative preheat), with the 150 °C, 217 °C (liquidus) and
+  220 °C levels and the phase spans.
+- **Front matter** (PDF edition): form-factor figure redrawn from the
+  pinout JSON at one scale, with the pad ring at 1.0 mm pitch, letters
+  down (rows), numbers across (columns), `A1` top left.
+- **Revision history** (PDF edition): the entries of revisions 1.0,
+  1.1 and 1.2 are given as bullet lists; their text is unchanged.
+
+#### Fixed
+
+- **Annex A.2 / A.3** (informative): LPDDR4X and eMMC sizes in GB:
+  `E1M-V2N101` / `E1M-V2M101` 4 GB + 4 GB, `E1M-V2N102` /
+  `E1M-V2M102` 8 GB + 16 GB, `E1M-V2N103` / `E1M-V2M103` 4 GB + 16 GB
+  (was 32 Gbit + 32 Gbit and 64 Gbit + 128 Gbit).
+- **§4.2, Annex A** (informative): the SKUs `E1M-V2N103` and
+  `E1M-V2M103` are now listed; "all three SKUs" (was "both SKUs").
+- **Annex A.2 / A.3** (informative): Ethernet PHY `RTL8211FI-VD-CG`
+  (was `RTL8211FDI-VD-CG`). `examples/alp-x-v2n-m1.som-manifest.json`
+  and `examples/README.md` likewise.
+
 ## [1.5] — 2026-10-19
 
 Document revision 1.5 of `E1M-STD-1.0` (Edition 1.0). The pad

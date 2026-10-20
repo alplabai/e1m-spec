@@ -2,8 +2,8 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.5
-**Date:** 2026-10-19
+**Revision:** 1.6
+**Date:** 2026-10-20
 **Status:** Released
 **Publisher:** Alp Lab AB
 
@@ -45,8 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.5 (released
-2026-10-19); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.6 (released
+2026-10-20); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -225,7 +225,7 @@ applies.
 | Pad pattern | LGA |
 | Pad count | **496** |
 | Coordinate space | Rows `A`–`AR` (top to bottom, along the 45 mm side), columns `1`–`64` (left to right, along the 65 mm side), top view; the outline is 65 mm across and 45 mm down |
-| Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102` (Renesas RZ/V2N + DRP-AI3 + optional DeepX M1). |
+| Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`/`E1M-V2N103`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102`/`E1M-V2M103` (Renesas RZ/V2N + DRP-AI3 + optional DeepX M1). |
 
 ### 4.3 Coordinate system
 
@@ -402,23 +402,30 @@ this.
 #### 5.4.1 Recommended reflow profile (informative)
 
 The profile below is informative. Its values are those measured for
-E1M-AEN (DS-AEN-001) with ALPHA OM338 solder paste (SAC, Pb-free); the
-profile phases follow IPC/JEDEC J-STD-020. A recommended reflow
-profile for the other reference SoMs is not specified in this
-revision.
+E1M-AEN in a JTR1000 convection reflow oven with ALPHA OM338 solder
+paste (SAC, Pb-free), with three thermocouples on the module (CH3,
+CH4, CH5); each value is given as the range over the three
+thermocouples. The profile phases follow IPC/JEDEC J-STD-020. The
+process windows are those of the profiler report for this run. A
+recommended reflow profile for the other reference SoMs is not
+specified in this revision.
 
-| Parameter | Value _(E1M-AEN measured)_ |
-| --- | --- |
-| Solder paste | ALPHA OM338 (SAC, Pb-free) |
-| Soak, 150–217 °C | 70–74 s |
-| Time above liquidus (217 °C) | about 60 s |
-| Peak temperature | 241–244 °C |
-| Cooling slope | about −1.6 °C/s |
-| Profile reference | IPC/JEDEC J-STD-020 |
+| Parameter | Measured, E1M-AEN _(three thermocouples)_ | Process window _(informative)_ |
+| --- | --- | --- |
+| Reflow oven | JTR1000 | — |
+| Solder paste | ALPHA OM338 (SAC, Pb-free) | — |
+| Preheat, 30–150 °C | 116.5–122.0 s | 60–160 s |
+| Soak, 150–217 °C | 70.5–73.5 s | 60–120 s |
+| Time at or above 220 °C | 56.5–60.0 s | 45–90 s |
+| Cooling slope, from 220 °C | −1.53 to −1.66 °C/s | −4 to −0.5 °C/s |
+| Peak temperature | 240.9–244.3 °C | 230–250 °C |
+| Profile reference | IPC/JEDEC J-STD-020 | — |
 
-A reflow-window figure drawn from these measured values (preheat
-duration illustrative) is in the published PDF edition of this
-specification.
+The solder-paste liquidus is 217 °C; the time-above-reflow values are
+measured at 220 °C, as in the profiler report.
+
+A figure of the measured profile (E1M-AEN, three thermocouples) is in
+the published PDF edition of this specification.
 
 ### 5.5 Packaging
 
@@ -1801,8 +1808,8 @@ any component set that satisfies §4–§9.
 | Reference SoM family | Form factor | Primary silicon | SKUs | Detail |
 | --- | --- | --- | --- | --- |
 | **E1M-AEN** | E1M | Alif Semiconductor Ensemble (E3–E8) | `E1M-AEN301`, `E1M-AEN401`, `E1M-AEN501`, `E1M-AEN601`, `E1M-AEN701`, `E1M-AEN801`, `E1M-AEN803` | §A.1 |
-| **E1M-X V2N** | E1M-X | Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) | `E1M-V2N101`, `E1M-V2N102` | §A.2 |
-| **E1M-X V2N-M1** | E1M-X | Renesas RZ/V2N + DeepX DX-M1 | `E1M-V2M101`, `E1M-V2M102` | §A.3 |
+| **E1M-X V2N** | E1M-X | Renesas RZ/V2N (CA55 + CM33 + DRP-AI3) | `E1M-V2N101`, `E1M-V2N102`, `E1M-V2N103` | §A.2 |
+| **E1M-X V2N-M1** | E1M-X | Renesas RZ/V2N + DeepX DX-M1 | `E1M-V2M101`, `E1M-V2M102`, `E1M-V2M103` | §A.3 |
 
 ### A.1 E1M-AEN family (seven SKUs, shared E1M routing)
 
@@ -1870,15 +1877,16 @@ repository.
 ### A.2 E1M-X V2N family (Renesas RZ/V2N)
 
 The **E1M-X V2N** family pairs the Renesas *RZ/V2N* vision-AI MPU
-with the E1M-X (45 × 65 mm) form factor. Two SKUs differ only in
+with the E1M-X (45 × 65 mm) form factor. Three SKUs differ only in
 memory tier:
 
 | SKU | Renesas part | LPDDR4X | eMMC |
 | --- | --- | --- | --- |
-| `E1M-V2N101` | `R9A09G056N44GBG#AC0` | 32 Gbit | eMMC 5.1, 32 Gbit |
-| `E1M-V2N102` | `R9A09G056N44GBG#AC0` | 64 Gbit | eMMC 5.1, 128 Gbit |
+| `E1M-V2N101` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 4 GB |
+| `E1M-V2N102` | `R9A09G056N44GBG#AC0` | 8 GB | eMMC 5.1, 16 GB |
+| `E1M-V2N103` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 16 GB |
 
-Common silicon and capability across both SKUs:
+Common silicon and capability across all three SKUs:
 
 | Item | Value |
 | --- | --- |
@@ -1898,7 +1906,7 @@ Common silicon and capability across both SKUs:
 | Boot | NOR Flash (boot-supported) |
 | Operating temperature | −40 to +85 °C |
 
-Both SKUs additionally include an on-module display backlight driver,
+All three SKUs additionally include an on-module display backlight driver,
 4 LDOs for external cameras, NOR Flash, the I/O MCU, a TPM (secure
 chip), an EEPROM, an RTC, and a temperature sensor.
 
@@ -1909,7 +1917,7 @@ The supporting silicon stack is:
 | Primary MPU | `R9A09G056N44GBG#AC0` | Renesas |
 | Auxiliary I/O MCU | `GD32G553` — Arm Cortex-M33 @ 216 MHz | GigaDevice |
 | PMIC | `DA9292` (multi-channel) | Renesas |
-| Ethernet PHY (×2) | `RTL8211FDI-VD-CG` | Realtek |
+| Ethernet PHY (×2) | `RTL8211FI-VD-CG` | Realtek |
 | Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
 
 The `GD32G553` is a **separate, on-module Cortex-M33 IC**, distinct
@@ -1923,12 +1931,13 @@ is **not** the same CPU as the GD32G553 (216 MHz).
 ### A.3 E1M-X V2N-M1 family (Renesas RZ/V2N + DeepX M1)
 
 The **E1M-X V2N-M1** family is the V2N SoM with an added **DeepX M1**
-standalone AI accelerator. Two SKUs match the V2N memory tiers:
+standalone AI accelerator. Three SKUs match the V2N memory tiers:
 
 | SKU | Renesas part | LPDDR4X | eMMC | AI capability |
 | --- | --- | --- | --- | --- |
-| `E1M-V2M101` | `R9A09G056N44GBG#AC0` | 32 Gbit | eMMC 5.1, 32 Gbit | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
-| `E1M-V2M102` | `R9A09G056N44GBG#AC0` | 64 Gbit | eMMC 5.1, 128 Gbit | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
+| `E1M-V2M101` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 4 GB | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
+| `E1M-V2M102` | `R9A09G056N44GBG#AC0` | 8 GB | eMMC 5.1, 16 GB | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
+| `E1M-V2M103` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 16 GB | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
 
 All other V2N attributes carry over (CPU, ISP, GPU, codec, MIPI
 counts, Wi-Fi / BLE, Ethernet, CAN, PCIe, plus the on-module
@@ -1949,7 +1958,7 @@ Full silicon stack (V2N stack + DeepX M1):
 | Companion AI accelerator | `DX-M1` (PCIe-attached, 25 TOPS) | DeepX |
 | Auxiliary I/O MCU | `GD32G553` — Arm Cortex-M33 @ 216 MHz | GigaDevice |
 | PMIC | `DA9292` (multi-channel) | Renesas |
-| Ethernet PHY (×2) | `RTL8211FDI-VD-CG` | Realtek |
+| Ethernet PHY (×2) | `RTL8211FI-VD-CG` | Realtek |
 | Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
 
 The DeepX M1 sits behind the RZ/V2N's PCIe controller, so the
