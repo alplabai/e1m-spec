@@ -2,7 +2,7 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.7
+**Revision:** 1.8
 **Date:** 2026-10-20
 **Status:** Released
 **Publisher:** Alp Lab AB
@@ -45,8 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.7 (released
-2026-10-20); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.8 (released
+2026-10-28); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -416,15 +416,18 @@ specified in this revision.
 | Preheat, 30–150 °C | 116.5–122.0 s | 60–160 s |
 | Soak, 150–217 °C | 70.5–73.5 s | 60–120 s |
 | Time at or above 220 °C | 56.5–60.0 s | 45–90 s |
-| Cooling slope, from 220 °C | −1.53 to −1.66 °C/s | −4 to −0.5 °C/s |
+| Ramp-down slope at or above 220 °C | −1.53 to −1.66 °C/s | −4 to −0.5 °C/s |
 | Peak temperature | 240.9–244.3 °C | 230–250 °C |
 | Profile reference | IPC/JEDEC J-STD-020 | — |
 
 The solder-paste liquidus is 217 °C; the time-above-reflow values are
-measured at 220 °C, as in the profiler report.
+measured at 220 °C, as in the profiler report. The ramp-down slope is
+the slope while the module is at or above 220 °C, from the peak down to
+220 °C.
 
-A figure of the measured profile (E1M-AEN) is in
-the published PDF edition of this specification.
+A figure of the recommended profile (the measured E1M-AEN profile,
+smoothed, without its zone-boundary kink) is in the published PDF
+edition of this specification.
 
 ### 5.5 Packaging
 

@@ -7,6 +7,23 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.8] — 2026-10-28
+
+Document revision 1.8 of `E1M-STD-1.0` (Edition 1.0). No normative
+change: the pad assignments, the pinout JSONs, the Loom schema and the
+Loom form-factor version (`1.0`) are unchanged. The figures are in the
+published PDF edition.
+
+#### Changed
+
+- **§5.4.1** (informative): the −1.53 to −1.66 °C/s value is the
+  ramp-down slope at or above 220 °C, from the peak down to 220 °C, as
+  in the profiler report (was labelled "Cooling slope, from 220 °C").
+  The values are unchanged.
+- **§5.4.1 figure** (PDF edition): the recommended reflow profile is the
+  measured E1M-AEN profile, smoothed, without its zone-boundary kink.
+- **Table of Contents** (PDF edition): entries link to their sections.
+
 ## [1.7] — 2026-10-20
 
 Document revision 1.7 of `E1M-STD-1.0` (Edition 1.0). No normative
