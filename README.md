@@ -31,7 +31,7 @@ subset in per-variant SoM manifests held in consumer repositories
 
 ## Status
 
-**v1.7 — released (2026-10-20)** (`E1M-STD-1.0` revision 1.7). Pinout JSON files are generated from the
+**v1.8 — released (2026-10-28)** (`E1M-STD-1.0` revision 1.8). Pinout JSON files are generated from the
 Altium pin-list exports in `source/altium-e1m.tsv` and
 `source/altium-e1m-x.tsv` by `source/_build.py`. STANDARD.md is the
 prose specification that goes alongside.
