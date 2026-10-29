@@ -2,7 +2,7 @@
   "som_manifest_version": 1,
   "id": "E1M-V2M101",
   "version": "0.1.0",
-  "description": "Reference SoM manifest snippet for E1M-V2M101 — Alp Lab E1M-X V2N-M1 family member (Renesas RZ/V2N + DeepX M1). Three SKUs in the family (E1M-V2M101 / E1M-V2M102 / E1M-V2M103) differ in memory tier (LPDDR4X + eMMC: 4 GB + 4 GB, 8 GB + 16 GB, 4 GB + 16 GB). Sister family E1M-X V2N (E1M-V2N101 / E1M-V2N102 / E1M-V2N103) is the same module without DeepX M1. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
+  "description": "Reference SoM manifest snippet for E1M-V2M101 — Alp Lab E1M-X V2N-M1 family member (Renesas RZ/V2N + DeepX DX-M1). Three SKUs in the family (E1M-V2M101 / E1M-V2M102 / E1M-V2M103) differ in memory tier (LPDDR4X + eMMC: 4 GB + 4 GB, 8 GB + 16 GB, 4 GB + 16 GB). Sister family E1M-X V2N (E1M-V2N101 / E1M-V2N102 / E1M-V2N103) is the same module without DeepX DX-M1. Routes the standard's primary functions on most pads; alt-uses GPIO on a handful for board-level signalling.",
   "implements": {
     "spec_id": "E1M-X",
     "spec_version": "1.0",
@@ -13,7 +13,7 @@
   "sibling_family": {
     "name": "E1M-X V2N",
     "skus": ["E1M-V2N101", "E1M-V2N102", "E1M-V2N103"],
-    "delta": "Same module without the DeepX M1 accelerator. PCIE0_* pads are then exposed externally rather than shared with the on-module M1."
+    "delta": "Same module without the DeepX DX-M1 accelerator. PCIE0_* pads are then exposed externally rather than shared with the on-module DX-M1."
   },
   "silicon": [
     {
@@ -94,7 +94,7 @@
     { "pad_id": "AR59", "use": "default", "soc_pin": "MDI_TXN_or_RXN", "soc_via": "Realtek RTL8211FI", "as": "ETH_DA_N", "instance": "ETH0", "soc_note": "E1M-X ETH differential pads connect to the on-module Realtek RTL8211FI PHY's MDI side; the Renesas RZ/V2N drives the PHY over RGMII (not exposed on E1M-X)." },
     { "pad_id": "AQ59", "use": "default", "soc_pin": "MDI_TXP_or_RXP", "soc_via": "Realtek RTL8211FI", "as": "ETH_DA_P", "instance": "ETH0" },
 
-    { "pad_id": "B47", "use": "default", "soc_pin": "PCIE_REFCLKN0", "soc_pin_bga": "G26", "as": "PCIE_CLK_N", "instance": "PCIE0", "soc_note": "PCIe controller is shared on V2N-M1: the on-module DeepX M1 sits on PCIE0 internally; external PCIE0_* pads are then bridge-shared." },
+    { "pad_id": "B47", "use": "default", "soc_pin": "PCIE_REFCLKN0", "soc_pin_bga": "G26", "as": "PCIE_CLK_N", "instance": "PCIE0", "soc_note": "PCIe controller is shared on V2N-M1: the on-module DeepX DX-M1 sits on PCIE0 internally; external PCIE0_* pads are then bridge-shared." },
     { "pad_id": "A47", "use": "default", "soc_pin": "PCIE_REFCLKP0", "soc_pin_bga": "G25", "as": "PCIE_CLK_P", "instance": "PCIE0" },
     { "pad_id": "B42", "use": "default", "soc_pin": "PCIE_RXDNL0",   "soc_pin_bga": "F27", "as": "PCIE_RX0_N", "instance": "PCIE0" },
     { "pad_id": "A42", "use": "default", "soc_pin": "PCIE_RXDPL0",   "soc_pin_bga": "F28", "as": "PCIE_RX0_P", "instance": "PCIE0" },

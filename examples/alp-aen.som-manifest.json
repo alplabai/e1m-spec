@@ -72,7 +72,7 @@
     "B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"
   ],
   "routing_caveats": {
-    "boot_strap": "BOOT0..BOOT3 are NC on every ALP-AEN SKU. The AEN family does not support strap-driven boot-mode selection.",
+    "boot_strap": "BOOT0..BOOT3 are NC on every E1M-AEN SKU. The AEN family does not support strap-driven boot-mode selection.",
     "ethernet": "Only ETH0_* is routed (Ensemble has one MAC). ETH1_* pads are NC.",
     "mipi_csi": "Only CSI0_* is routed (Ensemble has one CSI controller, 2 lanes).",
     "mipi_dsi": "Only DSI0_* is routed (Ensemble has one DSI controller, 2 lanes).",
