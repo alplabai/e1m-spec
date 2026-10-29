@@ -44,8 +44,8 @@ NOT COVERED BY THIS LICENSE
 ================================================================================
 
 The proprietary System-on-Module designs that implement the E1M
-specification — including but not limited to ALP-AEN, ALP-X-V2N,
-ALP-X-V2N-M1, their schematics, PCB layouts, Altium libraries, BOMs,
+specification — including but not limited to E1M-AEN, E1M-X V2N,
+E1M-X V2N-M1, their schematics, PCB layouts, Altium libraries, BOMs,
 manufacturing files, firmware, and software — are NOT part of this
 repository and are NOT licensed under CC BY-SA 4.0. Those artefacts are
 proprietary to Alp Lab AB and require a separate written agreement.

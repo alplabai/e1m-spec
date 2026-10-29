@@ -1,8 +1,8 @@
 {
   "som_manifest_version": 1,
-  "id": "E1M-AEN301",
+  "id": "E1M-AEN",
   "version": "0.1.0",
-  "description": "Reference SoM manifest for E1M-AEN301 — Alp Lab E1M-AEN family member built around the Alif Semiconductor Ensemble E3 SoC (2x Cortex-M55 + 2x Ethos-U55, no application CPU). The E1M-AEN family has six SKUs (E1M-AEN301/401/501/601/701/801) that share this E1M routing and differ only in Ensemble variant, MRAM size, and ISP/JPEG-encoder option. Snippet is illustrative — it lists only the pads needed for debug + first I2C peripheral, not the full routing.",
+  "description": "Reference SoM manifest for the E1M-AEN family, shown for E1M-AEN301, built around the Alif Semiconductor Ensemble E3 SoC (2x Cortex-M55 + 2x Ethos-U55, no application CPU). The E1M-AEN family has six SKUs (E1M-AEN301/401/501/601/701/801) that share this E1M routing and differ only in Ensemble variant, MRAM size, and ISP/JPEG-encoder option. Snippet is illustrative — it lists only the pads needed for debug + first I2C peripheral, not the full routing.",
   "implements": {
     "spec_id": "E1M",
     "spec_version": "1.0",
@@ -72,7 +72,7 @@
     "B21", "B22", "B23", "B24", "B25", "B26", "B27", "B28"
   ],
   "routing_caveats": {
-    "boot_strap": "BOOT0..BOOT3 are NC on every ALP-AEN SKU. The AEN family does not support strap-driven boot-mode selection.",
+    "boot_strap": "BOOT0..BOOT3 are NC on every E1M-AEN SKU. The AEN family does not support strap-driven boot-mode selection.",
     "ethernet": "Only ETH0_* is routed (Ensemble has one MAC). ETH1_* pads are NC.",
     "mipi_csi": "Only CSI0_* is routed (Ensemble has one CSI controller, 2 lanes).",
     "mipi_dsi": "Only DSI0_* is routed (Ensemble has one DSI controller, 2 lanes).",

@@ -3,7 +3,7 @@
 This directory contains **non-normative** reference snippets showing how
 a per-SoM manifest declares (a) which subset of the E1M pinout the SoM
 actually routes and (b) the silicon behind those pins. Real SoM manifests
-live in a separate **consumer** repository (e.g. `alp-studio`); these
+live in the SoM vendor's own repository or tooling; these
 examples are tracked here only to keep the manifest format aligned with
 the standard.
 
@@ -16,15 +16,15 @@ SHALL only reference pad IDs that exist in the matching `pinout/v1.json`
 
 | File | SKU | Form factor | Silicon | Notes |
 | --- | --- | --- | --- | --- |
-| [`alp-aen.som-manifest.json`](./alp-aen.som-manifest.json) | `E1M-AEN301` | E1M (35×35) | Alif Semiconductor Ensemble E3 | Minimal example: routes a small subset (debug + I²C + a few GPIOs). Used to bring up first silicon. The `family_skus` field lists all six E1M-AEN SKUs (E1M-AEN301 / 401 / 501 / 601 / 701 / 801) that share this routing. |
-| [`alp-x-v2n-m1.som-manifest.json`](./alp-x-v2n-m1.som-manifest.json) | `E1M-V2M101` | E1M-X (45×65) | Renesas RZ/V2N + DRP-AI3 + DeepX M1 | Extended example: shows multiple silicon parts on one SoM, broader routing, and the `not_routed` field. The `family_skus` field lists `E1M-V2M101` / `E1M-V2M102` / `E1M-V2M103`; the sibling `E1M-X V2N` family (`E1M-V2N101` / `E1M-V2N102` / `E1M-V2N103`) is the same module without DeepX M1. |
+| [`e1m-aen.som-manifest.json`](./e1m-aen.som-manifest.json) | `E1M-AEN` | E1M (35×35) | Alif Semiconductor Ensemble E3 | Minimal example: routes a small subset (debug + I²C + a few GPIOs). Used to bring up first silicon. The `family_skus` field lists all six E1M-AEN SKUs (E1M-AEN301 / 401 / 501 / 601 / 701 / 801) that share this routing. |
+| [`e1m-x-v2n-m1.som-manifest.json`](./e1m-x-v2n-m1.som-manifest.json) | `E1M-V2M101` | E1M-X (45×65) | Renesas RZ/V2N + DRP-AI3 + DeepX DX-M1 | Extended example: shows multiple silicon parts on one SoM, broader routing, and the `not_routed` field. The `family_skus` field lists `E1M-V2M101` / `E1M-V2M102` / `E1M-V2M103`; the sibling `E1M-X V2N` family (`E1M-V2N101` / `E1M-V2N102` / `E1M-V2N103`) is the same module without DeepX DX-M1. |
 
 ## Manifest format (v1)
 
 ```json
 {
   "som_manifest_version": 1,
-  "id": "ALP-AEN",
+  "id": "E1M-AEN",
   "version": "0.1.0",
   "implements": {
     "spec_id": "E1M",
@@ -68,7 +68,7 @@ SHALL only reference pad IDs that exist in the matching `pinout/v1.json`
 | Field | Type | Description |
 | --- | --- | --- |
 | `som_manifest_version` | int | Manifest schema version. `1` for this rev. |
-| `id` | string | Per-SoM identifier (e.g. `ALP-AEN`). |
+| `id` | string | Per-SoM identifier (e.g. `E1M-AEN`). |
 | `version` | string (semver) | Per-SoM version, independent of E1M version. |
 | `implements.spec_id` | string | Always `E1M` or `E1M-X`. |
 | `implements.spec_version` | string | E1M version this SoM targets. |

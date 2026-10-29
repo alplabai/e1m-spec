@@ -2,8 +2,8 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.8
-**Date:** 2026-10-20
+**Revision:** 1.9
+**Date:** 2026-10-29
 **Status:** Released
 **Publisher:** Alp Lab AB
 
@@ -45,8 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.8 (released
-2026-10-28); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.9 (released
+2026-10-29); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -130,8 +130,9 @@ The form-factor uses `major.minor` versioning:
   populating a previously-reserved pad or adding an alt-function entry
   to an existing pad.
 
-Released editions are tagged `v<major>.<minor>` in this repository
-(e.g. `v1.0`).
+Document revisions of `E1M-STD-1.0` are tagged `v<X>.<Y>` in this
+repository (e.g. `v1.9` = revision 1.9); the tag is not the
+form-factor version.
 
 ---
 
@@ -225,7 +226,7 @@ applies.
 | Pad pattern | LGA |
 | Pad count | **496** |
 | Coordinate space | Rows `A`–`AR` (top to bottom, along the 45 mm side), columns `1`–`64` (left to right, along the 65 mm side), top view; the outline is 65 mm across and 45 mm down |
-| Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`/`E1M-V2N103`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102`/`E1M-V2M103` (Renesas RZ/V2N + DRP-AI3 + optional DeepX M1). |
+| Reference SoMs | E1M-X V2N family — `E1M-V2N101`/`E1M-V2N102`/`E1M-V2N103`. E1M-X V2N-M1 family — `E1M-V2M101`/`E1M-V2M102`/`E1M-V2M103` (Renesas RZ/V2N + DRP-AI3 + optional DeepX DX-M1). |
 
 ### 4.3 Coordinate system
 
@@ -350,7 +351,9 @@ bottom side, under the central cavity, clear the carrier surface.
 
 The module is soldered to the spacer PCB and the spacer PCB is
 soldered to the carrier board, so each of the two faces of the spacer
-PCB carries a solder joint. The carrier **SHALL** have no components
+PCB carries a solder joint. A solder joint, here and in option (b),
+can be an LGA joint, formed from solder paste printed on the land
+pattern, or a solder ball. The carrier **SHALL** have no components
 inside the cavity outline of §5.2 (E1M 27.0 mm across × 29.0 mm down,
 4.0 mm from the left and 3.0 mm from the top edge of the module
 outline; E1M-X 57.45 mm across × 39.45 mm down, 3.775 mm from the left
@@ -358,7 +361,8 @@ and 2.775 mm from the top edge; R1.00 corners).
 
 The spacer-PCB thickness, the maximum module thickness and the maximum
 component height on the SoM bottom side are not specified in this
-revision.
+revision. *(informative)* The spacer PCB that Alp Lab uses with the
+reference SoMs is 1.6 mm thick.
 
 #### 5.2.2 Option (b): carrier cutout
 
@@ -371,7 +375,8 @@ is shown in the carrier land-pattern figure of §5.1.3.
 
 The maximum module thickness, the maximum component height on the SoM
 bottom side and the LGA pad stand-off are not specified in this
-revision.
+revision. *(informative)* The module PCB of the reference SoMs
+(E1M-AEN, E1M-X V2N and E1M-X V2N-M1) is 1.0 mm thick.
 
 ### 5.3 Component placement areas
 
@@ -1780,8 +1785,8 @@ is licensed under the
 ### 10.3 What is **not** licensed under CC BY-SA 4.0
 
 The proprietary System-on-Module designs that implement this
-specification — including but not limited to ALP-AEN, ALP-X-V2N,
-ALP-X-V2N-M1, their schematics, PCB layouts, Altium libraries, BOMs,
+specification — including but not limited to E1M-AEN, E1M-X V2N,
+E1M-X V2N-M1, their schematics, PCB layouts, Altium libraries, BOMs,
 manufacturing files, firmware, and software — are **not** part of this
 repository and are **not** licensed under CC BY-SA 4.0. Those
 artefacts are proprietary to Alp Lab AB and require a separate written
@@ -1872,8 +1877,8 @@ internal RAM 13.5 MB (E3, E5, E7) or 9.75 MB (E4, E6, E8). External
 OSPI memory: `E1M-AEN803` fits 512 Mbit HyperRAM + 256 Mbit NOR flash,
 `E1M-AEN801` fits none, and `E1M-AEN301` / `401` / `501` / `601` /
 `701` have on-die memory only in the standard build (external memory
-is an assembly option). Details are in the ALP-AEN Hardware Design
-Guide and the ALP-AEN Datasheet, both maintained outside this
+is an assembly option). Details are in the E1M-AEN Hardware Design
+Guide and the E1M-AEN Datasheet, both maintained outside this
 repository.
 
 ### A.2 E1M-X V2N family (Renesas RZ/V2N)
@@ -1931,29 +1936,29 @@ peripherals during boot and low-power states. The RZ/V2N's own
 internal M33 (200 MHz) handles application-level real-time work and
 is **not** the same CPU as the GD32G553 (216 MHz).
 
-### A.3 E1M-X V2N-M1 family (Renesas RZ/V2N + DeepX M1)
+### A.3 E1M-X V2N-M1 family (Renesas RZ/V2N + DeepX DX-M1)
 
-The **E1M-X V2N-M1** family is the V2N SoM with an added **DeepX M1**
+The **E1M-X V2N-M1** family is the V2N SoM with an added **DeepX DX-M1**
 standalone AI accelerator. Three SKUs match the V2N memory tiers:
 
 | SKU | Renesas part | LPDDR4X | eMMC | AI capability |
 | --- | --- | --- | --- | --- |
-| `E1M-V2M101` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 4 GB | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
-| `E1M-V2M102` | `R9A09G056N44GBG#AC0` | 8 GB | eMMC 5.1, 16 GB | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
-| `E1M-V2M103` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 16 GB | V2N DRP-AI3 4 TOPS + DeepX M1 25 TOPS |
+| `E1M-V2M101` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 4 GB | V2N DRP-AI3 4 TOPS + DeepX DX-M1 25 TOPS |
+| `E1M-V2M102` | `R9A09G056N44GBG#AC0` | 8 GB | eMMC 5.1, 16 GB | V2N DRP-AI3 4 TOPS + DeepX DX-M1 25 TOPS |
+| `E1M-V2M103` | `R9A09G056N44GBG#AC0` | 4 GB | eMMC 5.1, 16 GB | V2N DRP-AI3 4 TOPS + DeepX DX-M1 25 TOPS |
 
 All other V2N attributes carry over (CPU, ISP, GPU, codec, MIPI
 counts, Wi-Fi / BLE, Ethernet, CAN, PCIe, plus the on-module
-GigaDevice `GD32G553` Cortex-M33 supervisor). The DeepX M1 adds:
+GigaDevice `GD32G553` Cortex-M33 supervisor). The DeepX DX-M1 adds:
 
 | Item | Value |
 | --- | --- |
 | Companion AI accelerator | **DeepX DX-M1** — up to **25 TOPS** |
 | Companion memory | 2 × LPDDR5X |
 | Companion storage | SPI NAND flash |
-| Connection | DeepX M1 attached internally to the SoM via PCIe; not exposed on additional E1M-X pads |
+| Connection | DeepX DX-M1 attached internally to the SoM via PCIe; not exposed on additional E1M-X pads |
 
-Full silicon stack (V2N stack + DeepX M1):
+Full silicon stack (V2N stack + DeepX DX-M1):
 
 | Role | Part | Vendor |
 | --- | --- | --- |
@@ -1965,9 +1970,9 @@ Full silicon stack (V2N stack + DeepX M1):
 | Ethernet PHY (×2) | `RTL8211FI-VD-CG` | Realtek |
 | Wi-Fi 6 + BLE 5.4 module | `LBEE5HY2FY` (Type2FY, based on Infineon `CYW55513`) | Murata |
 
-The DeepX M1 sits behind the RZ/V2N's PCIe controller, so the
+The DeepX DX-M1 sits behind the RZ/V2N's PCIe controller, so the
 external-PCIe routing on `PCIE0_*` is effectively shared with the
-on-module M1. The `GD32G553` supervisor is the same part used on the
+on-module DX-M1. The `GD32G553` supervisor is the same part used on the
 sibling V2N family — see §A.2 for its role.
 
 ### A.4 Wireless module & antenna (E1M-X)
@@ -1985,8 +1990,8 @@ The reference E1M-X SoMs support:
 - **LPDDR4X** up to 8 GB at 32-bit / 3.2 GT/s (RZ/V2N main DRAM).
 - **SPI NOR** flash, 128 Mbit, boot-supported.
 - **EEPROM** for board-ID / configuration storage.
-- **(V2N-M1 only)** 2 × LPDDR5X attached to the DeepX M1.
-- **(V2N-M1 only)** SPI NAND for the DeepX M1.
+- **(V2N-M1 only)** 2 × LPDDR5X attached to the DeepX DX-M1.
+- **(V2N-M1 only)** SPI NAND for the DeepX DX-M1.
 
 ### A.6 Trusted Platform Module
 
@@ -2086,14 +2091,13 @@ The complete SignalKind enum is captured in
 
 Each conformant SoM publishes a manifest describing which E1M pads it
 routes and the silicon behind them. Manifests **SHALL** live in the
-SoM vendor's repository (typically the `alp-studio` consumer
-repository for Alp Lab SoMs) and reference this specification by
+SoM vendor's repository and reference this specification by
 version.
 
 ```json
 {
   "som_manifest_version": 1,
-  "id": "ALP-AEN",
+  "id": "E1M-AEN",
   "version": "0.1.0",
   "implements": {
     "spec_id": "E1M",
@@ -2130,8 +2134,8 @@ Wi-Fi bands and the antenna pads left no-connect (§6.5, §7.3.2).
 Their field names are illustrative until the manifest schema defines
 them.
 
-See `examples/alp-aen.som-manifest.json` and
-`examples/alp-x-v2n-m1.som-manifest.json` for full reference snippets.
+See `examples/e1m-aen.som-manifest.json` and
+`examples/e1m-x-v2n-m1.som-manifest.json` for full reference snippets.
 
 ---
 

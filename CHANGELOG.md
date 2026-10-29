@@ -7,6 +7,58 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.9] — 2026-10-29
+
+Document revision 1.9 of `E1M-STD-1.0` (Edition 1.0). No normative
+change: the pad assignments, the pinout JSONs, the Loom schema and the
+Loom form-factor version (`1.0`) are unchanged.
+
+#### Changed
+
+- **Product names** (`STANDARD.md` §10.3 and Annex A.1, `LICENSE`,
+  `README.md`): the reference SoMs are named E1M-AEN, E1M-X V2N and
+  E1M-X V2N-M1 (was ALP-AEN, ALP-X-V2N and ALP-X-V2N-M1), including the
+  E1M-AEN Hardware Design Guide and E1M-AEN Datasheet.
+- **DeepX accelerator** (`STANDARD.md` §4.2, Annex A.3 and A.5,
+  `README.md`, `examples/`): named DeepX DX-M1 (was DeepX M1) in the
+  text, the Annex A.3 title and the SKU-matrix cells; "the on-module
+  DX-M1" (was "the on-module M1"). `DX-M1` code spans are unchanged.
+- **Annex C, `examples/README.md` and the E1M-AEN example**: the
+  example manifest `"id"` is `"E1M-AEN"` (was `"ALP-AEN"` in Annex C and
+  `"E1M-AEN301"` in the example file).
+- **`examples/` file names**: `alp-aen.som-manifest.json` is renamed
+  `e1m-aen.som-manifest.json` and `alp-x-v2n-m1.som-manifest.json` is
+  renamed `e1m-x-v2n-m1.som-manifest.json`; Annex C and
+  `examples/README.md` point to the new names. Links to the old paths
+  no longer resolve.
+- **§1.5**: release tags `v<X>.<Y>` are document revisions of
+  `E1M-STD-1.0` (e.g. `v1.9` = revision 1.9), not the form-factor
+  version (was "Released editions are tagged `v<major>.<minor>`").
+- **Annex C, `README.md`, `examples/README.md`**: removed the name of a
+  non-public repository as the location of SoM manifests; manifests
+  live in the SoM vendor's own repository or tooling.
+- **§5.2 option (a)** (informative): a solder joint, under either
+  mounting option, can be an LGA joint (printed solder paste) or a
+  solder ball.
+- **`images/`**: the withdrawn standard-height and extended-height
+  cross-sections (`module-cross-section-*-height.png`, the first of
+  which showed the SoM flat on the carrier) are replaced by
+  `module-cross-section-spacer-pcb.svg` and
+  `module-cross-section-carrier-cutout.svg`, the §5.2 mounting figures
+  of the PDF edition, which draw the joints as solder balls on copper
+  lands (labels "Solder balls or LGA joints").
+- **§5.2.1 and §5.2.2** (informative): the module PCB of the reference
+  SoMs is 1.0 mm thick, and the spacer PCB that Alp Lab uses with them
+  is 1.6 mm thick; the mounting figures dimension the module PCB as
+  1.0 mm and the spacer PCB as 1.6 mm (was TBD).
+- **`examples/*.json`**: product names in the description, note and
+  `boot_strap` text updated as above; the structure is unchanged.
+- **`README.md` Versioning**: release tags `vX.Y` are document revisions
+  of `E1M-STD-1.0` (currently 1.9); the form-factor (Loom) version, the
+  `version` field of the pinout JSONs, is `major.minor`, currently
+  `1.0`, and the major/minor rules apply to it.
+- `package.json` / `package-lock.json` version 1.9.0.
+
 ## [1.8] — 2026-10-28
 
 Document revision 1.8 of `E1M-STD-1.0` (Edition 1.0). No normative

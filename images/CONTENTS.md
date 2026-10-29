@@ -29,8 +29,8 @@ reflect what each image actually depicts.
 
 | File | Notes |
 | --- | --- |
-| `module-cross-section-standard-height.png` | Side view of a SoM mounted directly on a base board (standard-height class, no spacer). Top-side components are within the standard envelope. |
-| `module-cross-section-extended-height.png` | Side view with a spacer-PCB layer between the SoM and the base board, allowing components on the bottom of the SoM to clear the base-board surface (extended-height class). |
+| `module-cross-section-spacer-pcb.svg` | Mounting option (a), §5.2: module on a spacer PCB soldered on both faces; the SoM bottom-side components under the central cavity clear the carrier surface. Not to scale; heights TBD. |
+| `module-cross-section-carrier-cutout.svg` | Mounting option (b), §5.2: module over a carrier through-cutout of the central-cavity size and position. Not to scale; heights TBD. |
 
 ## Component placement areas
 
