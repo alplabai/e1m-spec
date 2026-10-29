@@ -350,7 +350,9 @@ bottom side, under the central cavity, clear the carrier surface.
 
 The module is soldered to the spacer PCB and the spacer PCB is
 soldered to the carrier board, so each of the two faces of the spacer
-PCB carries a solder joint. The carrier **SHALL** have no components
+PCB carries a solder joint. A solder joint, here and in option (b),
+can be an LGA joint, formed from solder paste printed on the land
+pattern, or a solder ball. The carrier **SHALL** have no components
 inside the cavity outline of §5.2 (E1M 27.0 mm across × 29.0 mm down,
 4.0 mm from the left and 3.0 mm from the top edge of the module
 outline; E1M-X 57.45 mm across × 39.45 mm down, 3.775 mm from the left

@@ -28,6 +28,15 @@ Loom form-factor version (`1.0`) are unchanged.
 - **Annex C, `README.md`, `examples/README.md`**: removed the name of a
   non-public repository as the location of SoM manifests; manifests
   live in the SoM vendor's own repository or tooling.
+- **§5.2 option (a)** (informative): a solder joint, under either
+  mounting option, can be an LGA joint (printed solder paste) or a
+  solder ball.
+- **`images/`**: the withdrawn standard-height and extended-height
+  cross-sections (`module-cross-section-*-height.png`, the first of
+  which showed the SoM flat on the carrier) are replaced by
+  `module-cross-section-spacer-pcb.svg` and
+  `module-cross-section-carrier-cutout.svg`, the §5.2 mounting figures
+  of the PDF edition (labels "LGA or solder-ball joints").
 - **`examples/*.json`**: product names in the description, note and
   `boot_strap` text updated as above; file names and structure are
   unchanged.
