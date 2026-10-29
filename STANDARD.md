@@ -360,7 +360,8 @@ and 2.775 mm from the top edge; R1.00 corners).
 
 The spacer-PCB thickness, the maximum module thickness and the maximum
 component height on the SoM bottom side are not specified in this
-revision.
+revision. *(informative)* The spacer PCB that Alp Lab uses with the
+reference SoMs is 1.6 mm thick.
 
 #### 5.2.2 Option (b): carrier cutout
 
@@ -373,7 +374,8 @@ is shown in the carrier land-pattern figure of §5.1.3.
 
 The maximum module thickness, the maximum component height on the SoM
 bottom side and the LGA pad stand-off are not specified in this
-revision.
+revision. *(informative)* The module PCB of the reference SoMs
+(E1M-AEN, E1M-X V2N and E1M-X V2N-M1) is 1.0 mm thick.
 
 ### 5.3 Component placement areas
 

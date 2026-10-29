@@ -38,6 +38,10 @@ Loom form-factor version (`1.0`) are unchanged.
   `module-cross-section-carrier-cutout.svg`, the §5.2 mounting figures
   of the PDF edition, which draw the joints as solder balls on copper
   lands (labels "Solder balls or LGA joints").
+- **§5.2.1 and §5.2.2** (informative): the module PCB of the reference
+  SoMs is 1.0 mm thick, and the spacer PCB that Alp Lab uses with them
+  is 1.6 mm thick; the mounting figures label them "Module PCB, 1.0 mm"
+  and "Spacer PCB, 1.6 mm".
 - **`examples/*.json`**: product names in the description, note and
   `boot_strap` text updated as above; file names and structure are
   unchanged.
