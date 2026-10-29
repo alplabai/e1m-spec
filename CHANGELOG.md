@@ -36,7 +36,8 @@ Loom form-factor version (`1.0`) are unchanged.
   which showed the SoM flat on the carrier) are replaced by
   `module-cross-section-spacer-pcb.svg` and
   `module-cross-section-carrier-cutout.svg`, the §5.2 mounting figures
-  of the PDF edition (labels "LGA or solder-ball joints").
+  of the PDF edition, which draw the joints as solder balls on copper
+  lands (labels "Solder balls or LGA joints").
 - **`examples/*.json`**: product names in the description, note and
   `boot_strap` text updated as above; file names and structure are
   unchanged.
