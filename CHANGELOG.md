@@ -23,8 +23,17 @@ Loom form-factor version (`1.0`) are unchanged.
   `README.md`, `examples/`): named DeepX DX-M1 (was DeepX M1) in the
   text, the Annex A.3 title and the SKU-matrix cells; "the on-module
   DX-M1" (was "the on-module M1"). `DX-M1` code spans are unchanged.
-- **Annex C and `examples/README.md`**: the example manifest `"id"` is
-  `"E1M-AEN"` (was `"ALP-AEN"`).
+- **Annex C, `examples/README.md` and the E1M-AEN example**: the
+  example manifest `"id"` is `"E1M-AEN"` (was `"ALP-AEN"` in Annex C and
+  `"E1M-AEN301"` in the example file).
+- **`examples/` file names**: `alp-aen.som-manifest.json` is renamed
+  `e1m-aen.som-manifest.json` and `alp-x-v2n-m1.som-manifest.json` is
+  renamed `e1m-x-v2n-m1.som-manifest.json`; Annex C and
+  `examples/README.md` point to the new names. Links to the old paths
+  no longer resolve.
+- **§1.5**: release tags `v<X>.<Y>` are document revisions of
+  `E1M-STD-1.0` (e.g. `v1.9` = revision 1.9), not the form-factor
+  version (was "Released editions are tagged `v<major>.<minor>`").
 - **Annex C, `README.md`, `examples/README.md`**: removed the name of a
   non-public repository as the location of SoM manifests; manifests
   live in the SoM vendor's own repository or tooling.
@@ -43,8 +52,7 @@ Loom form-factor version (`1.0`) are unchanged.
   is 1.6 mm thick; the mounting figures dimension the module PCB as
   1.0 mm and the spacer PCB as 1.6 mm (was TBD).
 - **`examples/*.json`**: product names in the description, note and
-  `boot_strap` text updated as above; file names and structure are
-  unchanged.
+  `boot_strap` text updated as above; the structure is unchanged.
 - **`README.md` Versioning**: release tags `vX.Y` are document revisions
   of `E1M-STD-1.0` (currently 1.9); the form-factor (Loom) version, the
   `version` field of the pinout JSONs, is `major.minor`, currently

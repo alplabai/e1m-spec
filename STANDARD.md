@@ -130,8 +130,9 @@ The form-factor uses `major.minor` versioning:
   populating a previously-reserved pad or adding an alt-function entry
   to an existing pad.
 
-Released editions are tagged `v<major>.<minor>` in this repository
-(e.g. `v1.0`).
+Document revisions of `E1M-STD-1.0` are tagged `v<X>.<Y>` in this
+repository (e.g. `v1.9` = revision 1.9); the tag is not the
+form-factor version.
 
 ---
 
@@ -2133,8 +2134,8 @@ Wi-Fi bands and the antenna pads left no-connect (§6.5, §7.3.2).
 Their field names are illustrative until the manifest schema defines
 them.
 
-See `examples/alp-aen.som-manifest.json` and
-`examples/alp-x-v2n-m1.som-manifest.json` for full reference snippets.
+See `examples/e1m-aen.som-manifest.json` and
+`examples/e1m-x-v2n-m1.som-manifest.json` for full reference snippets.
 
 ---
 
