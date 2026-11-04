@@ -3,8 +3,8 @@
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
 **Revision:** 1.10
-**Date:** November 2026 _(release date pending)_
-**Status:** Draft for review
+**Date:** 2026-11-04
+**Status:** Released
 **Publisher:** Alp Lab AB
 
 **Reference implementation:** `pinout/v1.json` (E1M, 35 × 35 mm) and
@@ -45,8 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.10 (draft for
-review, November 2026); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.10 (released
+2026-11-04); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---

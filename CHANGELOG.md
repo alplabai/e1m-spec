@@ -7,7 +7,7 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
-## [1.10] — draft for review, release date pending
+## [1.10] — 2026-11-04
 
 Document revision 1.10 of `E1M-STD-1.0` (Edition 1.0). Normative pad
 change on E1M-X only: pad `AD3` becomes `RTC_WAKE_N`, pads `AI3`, `AO3`
