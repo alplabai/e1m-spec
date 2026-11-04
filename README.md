@@ -31,7 +31,7 @@ own repository or tooling.
 
 ## Status
 
-**v1.9 — released (2026-10-29)** (`E1M-STD-1.0` revision 1.9). Pinout JSON files are generated from the
+**v1.10 — released (2026-11-04)** (`E1M-STD-1.0` revision 1.10). Pinout JSON files are generated from the
 Altium pin-list exports in `source/altium-e1m.tsv` and
 `source/altium-e1m-x.tsv` by `source/_build.py`. STANDARD.md is the
 prose specification that goes alongside.
@@ -41,9 +41,9 @@ prose specification that goes alongside.
 Two version numbers apply, and they are independent.
 
 **Document revision.** Releases of this repository are tagged
-`v<X>.<Y>` (e.g. `v1.9`). Each tag is a document revision of
-`E1M-STD-1.0` (Edition 1.0); the current one is revision 1.9 (tag
-`v1.9`). A document revision corrects or extends the text, figures and
+`v<X>.<Y>` (e.g. `v1.10`). Each tag is a document revision of
+`E1M-STD-1.0` (Edition 1.0); the current one is revision 1.10 (tag
+`v1.10`). A document revision corrects or extends the text, figures and
 tooling; it does not by itself change the form-factor version.
 
 **Form-factor (Loom) version.** The pinout JSONs carry the form-factor

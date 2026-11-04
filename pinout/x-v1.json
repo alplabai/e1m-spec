@@ -1485,11 +1485,7 @@
       "id": "F63",
       "silkscreen": "IO25",
       "default": "GPIO",
-      "alt": [
-        {
-          "signal": "RTC_WAKE_N"
-        }
-      ]
+      "alt": []
     },
     {
       "id": "F64",
@@ -2783,8 +2779,8 @@
     },
     {
       "id": "AD3",
-      "silkscreen": "NC",
-      "default": "NC",
+      "silkscreen": "RTC_WAKE_N",
+      "default": "RTC_WAKE_N",
       "alt": []
     },
     {
@@ -3032,8 +3028,8 @@
     },
     {
       "id": "AI3",
-      "silkscreen": "NC",
-      "default": "NC",
+      "silkscreen": "RSVD",
+      "default": "RSVD",
       "alt": []
     },
     {
@@ -3321,8 +3317,8 @@
     },
     {
       "id": "AO3",
-      "silkscreen": "NC",
-      "default": "NC",
+      "silkscreen": "RSVD",
+      "default": "RSVD",
       "alt": []
     },
     {
@@ -3357,8 +3353,8 @@
     },
     {
       "id": "AP3",
-      "silkscreen": "NC",
-      "default": "NC",
+      "silkscreen": "RSVD",
+      "default": "RSVD",
       "alt": []
     },
     {

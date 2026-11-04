@@ -66,7 +66,7 @@ def classify(name: str) -> str:
         return "Power & control"
     if n in {"VDD", "VDD_5V_IN", "VIO_OUT", "+S_CAP",
              "MODULE_EN", "MODULE_STBY", "PORN",
-             "RTC_CLKOUT", "AUDIO_CLK"}:
+             "RTC_CLKOUT", "RTC_WAKE_N", "AUDIO_CLK"}:
         return "Power & control"
     if n.startswith("BOOT"):
         return "Power & control"

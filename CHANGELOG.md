@@ -7,6 +7,65 @@ Versioning is `major.minor` per the rules in `README.md`.
 
 ## [Unreleased]
 
+## [1.10] — 2026-11-04
+
+Document revision 1.10 of `E1M-STD-1.0` (Edition 1.0). Normative pad
+change on E1M-X only: pad `AD3` becomes `RTC_WAKE_N`, pads `AI3`, `AO3`
+and `AP3` become `RSVD`, and `IO25` (`F63`) loses its `RTC_WAKE_N`
+alternate. The `NC` pad rules change for both form factors. The E1M
+pinout JSON, the Loom schema and the Loom form-factor version (`1.0`)
+are unchanged. The form-factor version stays `1.0` because the changed
+pads had no function in earlier revisions and the only E1M-X modules
+that use them already use them as described here (rationale in §1.5).
+
+#### Changed
+
+- **§7.3.1, §8.2**: E1M-X pad `AD3` is the standard pad `RTC_WAKE_N`
+  (was `NC`): active-low, open-drain RTC wake / interrupt output from
+  the SoM always-on domain, valid in every power state while
+  `VDD_5V_IN` is present, 5 V tolerant (≤ 5.5 V); the carrier supplies
+  the pull-up to its own or the host's always-on rail.
+- **§8.2**: the `RTC_WAKE_N` alternate function of E1M-X `IO25`
+  (`F63`) is removed; `F63` stays `IO25` (GPIO). E1M keeps
+  `RTC_WAKE_N` as the alternate function of `IO25` (`P3`).
+- **§6.2.3 clause 2, §6.6 tables and Annex A.7**: the `RTC_WAKE_N`
+  exception and limits cite E1M `IO25` and E1M-X `AD3` (was `IO25` on
+  both form factors).
+- **§6.7.1**: `RTC_WAKE_N` listed as a pad outside the `VIO_OUT`
+  domain (open-drain, up to 5.5 V, SoM always-on domain).
+- **§7.3.3**: E1M-X pads `AI3`, `AO3` and `AP3` are `RSVD`, reserved
+  for manufacturing (were `NC`); carriers leave them unconnected;
+  informative example of their factory use on E1M-X V2N / V2N-M1.
+  Connecting them can damage the SoM.
+- **§7.3.4**: an `NC` pad has no function defined by this
+  specification; a SoM **MAY** give it a module-specific function
+  documented in its datasheet; a carrier **SHALL NOT** route its own
+  nets through it and **SHALL** connect it only as the hosted SoM
+  datasheet allows; leaving it unconnected is always safe (was: no internal
+  connection, carriers **MAY** route through it or leave it
+  unconnected).
+- **§7.3.4**: informative example of `AK3`–`AM3` on E1M-X V2N-M1 R3
+  (DX-M1 boot straps `M1_BOOT0`–`M1_BOOT2`).
+- **§7.3.4**: the E1M-X `NC` pads are `D63`, `AE3`–`AH3`, `AJ3`–`AN3`,
+  `AQ36`–`AQ45` and `AR36`–`AR45`.
+- **§7.2**: E1M-X pad counts `RSVD` 23 (was 20) and `NC` 30 (was 34).
+- **§9.2**: the carrier clause on reserved and not-routed pads also
+  covers `NC` pads.
+- **§1.5**: paragraph stating why revision 1.10 leaves the form-factor
+  version at `1.0`.
+- **§8.2**: `RTC_WAKE_N` joins the set of pads that get no `GPIO`
+  secondary.
+- **§3.2**: `RSVD` is reserved for manufacturing or future use (was
+  "Reserved for future use").
+- **`source/altium-e1m-x.tsv`**: `AD3` is `RTC_WAKE_N`; `AI3`, `AO3`
+  and `AP3` are `RSVD`.
+- **`source/_build.py`**: `RTC_WAKE_N` maps to the `RTC_WAKE_N`
+  SignalKind; the `IO25` → `RTC_WAKE_N` alternate applies to E1M only.
+- **`pinout/x-v1.json`** (regenerated): `AD3` default `RTC_WAKE_N`
+  and no alternate (`alt` is empty); `AI3`, `AO3`, `AP3` default `RSVD`;
+  `F63` has no `RTC_WAKE_N` alternate. `pinout/v1.json` is unchanged.
+- `package.json` / `package-lock.json` version 1.10.0.
+
 ## [1.9] — 2026-10-29
 
 Document revision 1.9 of `E1M-STD-1.0` (Edition 1.0). No normative

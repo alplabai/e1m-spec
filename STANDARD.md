@@ -2,8 +2,8 @@
 
 **Designation:** E1M-STD-1.0
 **Edition:** 1.0
-**Revision:** 1.9
-**Date:** 2026-10-29
+**Revision:** 1.10
+**Date:** 2026-11-04
 **Status:** Released
 **Publisher:** Alp Lab AB
 
@@ -45,8 +45,8 @@ from the Altium pin-list exports kept under `source/`. The CI workflow
 re-runs the generator on every push and rejects any commit that drifts
 from the source.
 
-This document is Edition 1.0, document revision 1.9 (released
-2026-10-29); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
+This document is Edition 1.0, document revision 1.10 (released
+2026-11-04); revision 1.0 was the first public release. Subsequent revisions follow the versioning rules
 in §1.5.
 
 ---
@@ -134,6 +134,14 @@ Document revisions of `E1M-STD-1.0` are tagged `v<X>.<Y>` in this
 repository (e.g. `v1.9` = revision 1.9); the tag is not the
 form-factor version.
 
+Document revision 1.10 changes the function of E1M-X pads `AD3`,
+`AI3`, `AO3` and `AP3` and the rules for `NC` pads, and leaves the
+form-factor version at `1.0`. The pads it changes had no function in
+earlier revisions, and the only E1M-X modules that use them (E1M-X
+V2N and V2N-M1, hardware revision R3) already use them as revision
+1.10 describes, so no conforming carrier or module loses a function it
+relied on.
+
 ---
 
 ## 2 Normative references
@@ -195,7 +203,7 @@ applies.
 | PDM | Pulse-density modulation (microphone) |
 | PMIC | Power-management IC |
 | PWM | Pulse-width modulation |
-| RSVD | Reserved for future use |
+| RSVD | Reserved (for manufacturing or future use) |
 | SDIO | Secure-digital input/output |
 | SoM | System-on-Module |
 | SPI | Serial peripheral interface |
@@ -618,9 +626,9 @@ have no ready output; the hand-off delay is TBD._
    resistors, and open-drain outputs that only pull low, are permitted
    at any time.
 2. **Exceptions.** Clause 1 does not apply to `MODULE_EN` (5 V
-   tolerant, §6.3.1), to `IO25` when the SoM uses it as `RTC_WAKE_N`
-   (open-drain, 5 V tolerant, §8.2), or to pads in a domain other
-   than `VIO_OUT`; those pads follow the rule in §6.7.1. Clause 4
+   tolerant, §6.3.1), to `RTC_WAKE_N` (E1M-X pad `AD3`, and E1M pad
+   `IO25` when the SoM uses it as `RTC_WAKE_N`; open-drain, 5 V
+   tolerant, §8.2), or to pads in a domain other than `VIO_OUT`; those pads follow the rule in §6.7.1. Clause 4
    does not apply to `RTC_WAKE_N` either: its pull-up goes to an
    always-on rail.
 3. **Gate.** The carrier **SHALL** use `VIO_OUT` high together with
@@ -790,7 +798,7 @@ this revision; the SoM datasheet and manifest give it.
 | --- | --- | --- | --- |
 | Supply input | `VDD_5V_IN` voltage at the pads | ≤ 5.5 V, including transients | §6.1.1 (2), (9) |
 | Control | `MODULE_EN` voltage | −0.3 V to 5.5 V | §6.3.1 (1) |
-| Control | `IO25` used as `RTC_WAKE_N`, voltage | ≤ 5.5 V (5 V tolerant); minimum per SoM datasheet | §8.2 |
+| Control | `RTC_WAKE_N` (E1M-X `AD3`; E1M `IO25` used as `RTC_WAKE_N`), voltage | ≤ 5.5 V (5 V tolerant); minimum per SoM datasheet | §8.2 |
 | `VIO_OUT`-domain signal pads | Voltage at any `VIO_OUT`-domain pad (§6.7.1) | −0.3 V to 1.98 V | §6.2.3 (5) |
 | SD card pads | `SD_CLK`, `SD_CMD`, `SD_D0`–`SD_D3` voltage | per SoM datasheet | §6.7.1 |
 | High-speed and RF pads | USB, MIPI CSI / DSI, PCIe, Ethernet MDI, `ANT_*` | per SoM datasheet | §6.7.1 |
@@ -823,7 +831,7 @@ this revision; the SoM datasheet and manifest give it.
 | Control | `MODULE_EN` SoM-internal pull-up | to a rail up to `VDD_5V_IN`; about 1 MΩ | §6.3, §6.3.1 (1); value _(E1M-AEN only)_ |
 | Control | `MODULE_STBY` SoM-internal pull-up | present; value per SoM datasheet | §6.3 |
 | Control | `PORn` SoM-internal pull-up | to 1.8 V; value per SoM datasheet | §6.3 |
-| Control | `IO25` used as `RTC_WAKE_N` output | open-drain, active-low; output low level per SoM datasheet | §8.2 |
+| Control | `RTC_WAKE_N` (E1M-X `AD3`; E1M `IO25` used as `RTC_WAKE_N`) output | open-drain, active-low; output low level per SoM datasheet | §8.2 |
 | `VIO_OUT`-domain signal pads | V<sub>IL</sub>, V<sub>IH</sub>, V<sub>OL</sub>, V<sub>OH</sub>, drive strength, leakage | per SoM datasheet | — |
 
 *AC characteristics by signal class (informative)*
@@ -850,6 +858,7 @@ and **SHALL** apply the rule given for each.
 | Pads | Domain | Carrier rule |
 | --- | --- | --- |
 | `MODULE_EN` | up to 5.5 V | §6.3.1 (1). |
+| `RTC_WAKE_N` (E1M-X `AD3`; E1M `IO25` when used as `RTC_WAKE_N`) | open-drain, up to 5.5 V, SoM always-on domain | §6.2.3 (2) and §8.2: the pull-up goes to the carrier's or the host's always-on rail. |
 | `VDD_5V_IN` / `VDD` | 5 V input | §6.1.1. |
 | `VIO_OUT`, `SD_VDD_OUT` / `SD_VDD`, `+V_CAM0`–`+V_CAM3` | SoM supply outputs | The carrier **SHALL NOT** drive, back-feed or connect another supply to them. _Informative: on E1M-AEN, `SD_VDD` was a carrier input on hw_rev R2 and is a 3.4 V SoM output from hw_rev R3._ |
 | `SD_CLK`, `SD_CMD`, `SD_D0`–`SD_D3` | `SD_VDD_OUT` / `SD_VDD` | The carrier **SHALL** drive or pull them up only to `SD_VDD_OUT` / `SD_VDD` levels and only while that rail is on. _Informative: E1M-AEN 3.4 V through an on-module translator; E1M-X V2N / V2N-M1 1.8 V / 3.3 V, switched automatically._ |
@@ -972,8 +981,8 @@ exposed by this standard on each form factor.
 | Parallel camera (8 / 16-bit) | 1 (8 bit) | 1 (16 bit) |
 | Parallel LCD (24-bit RGB) | — | 1 |
 | PCIe 4-lane | 1 | 2 |
-| Reserved (RSVD) | 34 | 20 |
-| Not connected (NC) | 0 | 34 |
+| Reserved (RSVD) | 34 | 23 |
+| Not connected (NC) | 0 | 30 |
 
 > **Note.** The "GPIO (default-function)" row counts only pads whose
 > default signal is `GPIO`. Per §8.2, every digital pad (USB, MIPI,
@@ -1022,6 +1031,7 @@ project), both names are shown. Slash-combo names (`JTAG_TCK/SWDCLK`,
 | AB1 | O2 | `MODULE_STBY` |
 | Z1 | W1 | `PORn` |
 | AQ16 | AH16 | `RTC_CLKOUT` |
+| AD3 | _(E1M-X only; on E1M the alternate function of `IO25`, `P3`, §8.2)_ | `RTC_WAKE_N` |
 | T1, T2, U1, U2, V1, V2 | R1, R2, S1, S2 | `VDD_5V_IN` (E1M-X) / `VDD` (E1M) |
 | W1, W2 | P1, P2 | `VIO_OUT` |
 
@@ -1055,25 +1065,37 @@ Carrier boards **SHALL** leave them unconnected: no trace, test point,
 pull resistor, load or jumper. An RSVD pad can carry a live on-module
 net used in production, and connecting it can damage the SoM.
 _Informative: on E1M-AEN, `W3` is an on-module 1.8 V rail and `U3` /
-`V3` are a 3.3 V programming port._
+`V3` are a 3.3 V programming port. On E1M-X V2N / V2N-M1, `AI3` is a
+PMIC programming input that takes 10 V in factory programming and
+`AO3` / `AP3` are a factory programming I²C port; they are for factory
+use only, never for the customer, and connecting them can damage the
+SoM._
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
-| W62, X62, Y62, Z62, AA62, AB62, AE62, AF62, AG62, AH62, AI62, AJ62, AK62, AL62, AM62, AN62, AO62, AP62, AQ62, AR62 | A33, A34, D32, E32, F32, G32, H32, I32, J32, K32, L32, M32, N32, O32, P32, Q3, Q32, R3, R32, S3, T3, U3, V3, W3, X3, Y3, Z3, AA3, AB3, AC3, AG26, AG32, AH26, AH32 | `RSVD` |
+| W62, X62, Y62, Z62, AA62, AB62, AE62, AF62, AG62, AH62, AI3, AI62, AJ62, AK62, AL62, AM62, AN62, AO3, AO62, AP3, AP62, AQ62, AR62 | A33, A34, D32, E32, F32, G32, H32, I32, J32, K32, L32, M32, N32, O32, P32, Q3, Q32, R3, R32, S3, T3, U3, V3, W3, X3, Y3, Z3, AA3, AB3, AC3, AG26, AG32, AH26, AH32 | `RSVD` |
 
 #### 7.3.4 Not connected (NC)
 
-NC pads have no internal connection. Carrier boards **MAY** route
-through them or leave them unconnected. This permission applies only
-to pads whose default function in this specification is `NC`. A pad
-that one SoM does not route (listed in its manifest `not_routed`, or
-described as "NC" in a SoM datasheet) keeps its standard function on
-other SoMs; a carrier that targets the standard generically **SHALL
-NOT** route unrelated nets through such a pad.
+An NC pad has no function defined by this specification. A SoM
+**MAY** give an NC pad a module-specific function, documented in its
+datasheet. A carrier board **SHALL NOT** route its own nets through an
+NC pad, and **SHALL** connect an NC pad only as the datasheet of the
+hosted SoM allows. Leaving an NC pad unconnected is always safe. These rules
+apply to the pads whose default function in this specification is
+`NC`. A pad that one SoM does not route (listed in its manifest
+`not_routed`, or described as "NC" in a SoM datasheet) keeps its
+standard function on other SoMs; a carrier that targets the standard
+generically **SHALL NOT** route unrelated nets through such a pad.
+_Informative: on E1M-X V2N-M1 R3, `AK3`–`AM3` are the DX-M1 boot
+straps `M1_BOOT0`–`M1_BOOT2` (open = normal boot; a carrier that wants
+DX-M1 recovery provides strap pull-ups only from a rail that follows
+the DX-M1 1.8 V I/O rail, per the E1M-X V2N-M1 datasheet); on E1M-X
+V2N they are unconnected._
 
 | E1M-X coord(s) | E1M coord(s) | Pin name |
 | --- | --- | --- |
-| D63, AD3, AE3, AF3, AG3, AH3, AI3, AJ3, AK3, AL3, AM3, AN3, AO3, AP3, AQ36–AQ45, AR36–AR45 | _(none)_ | `NC` |
+| D63, AE3, AF3, AG3, AH3, AJ3, AK3, AL3, AM3, AN3, AQ36–AQ45, AR36–AR45 | _(none)_ | `NC` |
 
 #### 7.3.5 USB
 
@@ -1612,7 +1634,7 @@ list (it **MAY** appear in `not_routed`).
 
 For any pad whose default function is a digital signal — that is,
 **not** in the set { `GND`, `NC`, `RSVD`, `POWER_*`, `ANT_*`,
-`BL_LED_A`, `BL_LED_K` } — a conformant SoM **MAY** additionally expose
+`BL_LED_A`, `BL_LED_K`, `RTC_WAKE_N` } — a conformant SoM **MAY** additionally expose
 the pad as a general-purpose digital I/O (`GPIO`).
 
 A carrier board that uses a pad as GPIO **SHALL** remain
@@ -1623,15 +1645,18 @@ pad as default-driven when no GPIO software is loaded.
 In the JSON, the GPIO secondary is expressed by including
 `{ "signal": "GPIO" }` in the pad's `alt` array.
 
-Pad `IO25` (E1M `P3`, E1M-X `F63`) additionally defines the alternate
-function `RTC_WAKE_N`: an active-low, open-drain RTC wake / interrupt
-output from the module. A SoM that exposes it **SHALL** drive it
-open-drain from its always-on domain, keep it valid in every power
+`RTC_WAKE_N` is an active-low, open-drain RTC wake / interrupt output
+from the module. On E1M-X it is the default function of pad `AD3`
+(§7.3.1); E1M-X pad `IO25` (`F63`) has no `RTC_WAKE_N` alternate
+function. On E1M, pad `IO25` (`P3`) additionally defines the alternate
+function `RTC_WAKE_N`. A SoM that exposes `RTC_WAKE_N` **SHALL** drive
+it open-drain from its always-on domain, keep it valid in every power
 state while `VDD_5V_IN` is present, and tolerate up to 5.5 V on the pad
 (5 V tolerant). The carrier supplies the pull-up, to its own or the
 host's always-on rail; `RTC_WAKE_N` is an exception to §6.2.3
-clauses 1 and 4. The JSON expresses it as
-`{ "signal": "RTC_WAKE_N" }` in the pad's `alt` array.
+clauses 1 and 4. The JSON expresses it as `"default": "RTC_WAKE_N"`
+on E1M-X pad `AD3`, and as `{ "signal": "RTC_WAKE_N" }` in the `alt`
+array of E1M pad `P3`.
 
 ### 8.3 Compound-function pins
 
@@ -1737,9 +1762,11 @@ A carrier board is **E1M-conformant** if all of the following hold:
 8. **Pad domains and default fits.** The carrier meets §6.7.1 and
    §6.7.2, and declares, for every build variant, the fit of each
    dual-meaning pad group and the SoMs it supports.
-9. **Reserved and not-routed pads.** The carrier leaves every `RSVD`
-   pad unconnected (§7.3.3) and routes no unrelated net through a pad
-   that a SoM does not route (§7.3.4).
+9. **Reserved, not-connected and not-routed pads.** The carrier
+   leaves every `RSVD` pad unconnected (§7.3.3), routes none of its
+   own nets through an `NC` pad and connects an `NC` pad only as the
+   hosted SoM datasheet allows (§7.3.4), and routes no unrelated net
+   through a pad that a SoM does not route (§7.3.4).
 10. **Interfaces.** The carrier meets the carrier clauses of §7.3.6
     (Ethernet), §7.3.10 (debug UART) and §7.3.14 (CAN).
 11. **Mounting.** The SoM is not placed directly on the carrier: the
@@ -2002,7 +2029,8 @@ The rev 1.0 reference E1M-X SoMs include one Trusted Platform Module
 
 E1M and E1M-X SoMs may include a battery-backed real-time clock with
 its 32 kHz output exposed on `RTC_CLKOUT` and its active-low wake /
-interrupt output on `RTC_WAKE_N` (alternate function of `IO25`, §8.2).
+interrupt output on `RTC_WAKE_N` (E1M-X pad `AD3`; on E1M the
+alternate function of `IO25`, §8.2).
 
 ### A.8 PCB temperature sensor
 
