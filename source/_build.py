@@ -94,6 +94,8 @@ EXPLICIT: dict[str, tuple[str, str | None, str | None]] = {
     "MODULE_STBY": ("MODULE_STBY", None, None),
     "AUDIO_CLK": ("AUDIO_CLK", None, None),
     "RTC_CLKOUT": ("RTC_CLKOUT", None, None),
+    # E1M-X pad AD3 (on E1M, RTC_WAKE_N is the alternate of IO25, P3)
+    "RTC_WAKE_N": ("RTC_WAKE_N", None, None),
     "BL_LED_A": ("BL_LED_A", None, None),
     "BL_LED_K": ("BL_LED_K", None, None),
     "NC": ("NC", None, None),
@@ -312,13 +314,17 @@ NOT_GPIO_CAPABLE = {
     "ANT_2_4GHZ", "ANT_5GHZ", "ANT_6GHZ",
     "RSVD",
     "BL_LED_A", "BL_LED_K",
+    "RTC_WAKE_N",
 }
 
 
 # GPIO-default pads that also carry a defined non-GPIO alternate, keyed by
-# Altium pin name (IO25 is P3 on E1M and F63 on E1M-X).
+# form factor and Altium pin name. E1M only: IO25 (P3) carries the
+# RTC_WAKE_N alternate. On E1M-X, RTC_WAKE_N is the default of pad AD3 and
+# IO25 (F63) has no RTC_WAKE_N alternate (E1M-STD-1.0 revision 1.10).
 GPIO_PAD_ALTS = {
-    "IO25": "RTC_WAKE_N",
+    "E1M": {"IO25": "RTC_WAKE_N"},
+    "E1M-X": {},
 }
 
 
@@ -344,7 +350,8 @@ def resolve(name: str) -> tuple[str, str | None, str | None]:
 
 
 def build_pad(coord: str, original_name: str, signal: str,
-              instance: str | None, alt_signal: str | None) -> dict:
+              instance: str | None, alt_signal: str | None,
+              gpio_pad_alts: dict[str, str]) -> dict:
     pad: dict = {"id": coord, "silkscreen": original_name, "default": signal}
     if instance:
         pad["instance"] = instance
@@ -356,14 +363,16 @@ def build_pad(coord: str, original_name: str, signal: str,
         alts.append(entry)
     if signal not in NOT_GPIO_CAPABLE and signal != "GPIO":
         alts.append({"signal": "GPIO"})
-    if signal == "GPIO" and original_name in GPIO_PAD_ALTS:
-        alts.append({"signal": GPIO_PAD_ALTS[original_name]})
+    if signal == "GPIO" and original_name in gpio_pad_alts:
+        alts.append({"signal": gpio_pad_alts[original_name]})
     pad["alt"] = alts
     return pad
 
 
-def build_form_factor(rows: list[tuple[str, str]]) -> tuple[list[dict], list[str]]:
+def build_form_factor(rows: list[tuple[str, str]],
+                      form_id: str) -> tuple[list[dict], list[str]]:
     """Return (pads, anomaly-report-lines)."""
+    gpio_pad_alts = GPIO_PAD_ALTS[form_id]
     pads: list[dict] = []
     anomalies: list[str] = []
     seen_coords: set[str] = set()
@@ -382,7 +391,8 @@ def build_form_factor(rows: list[tuple[str, str]]) -> tuple[list[dict], list[str
         # Tag anomaly with the coord for traceability.
         if len(anomalies) > ann_before:
             anomalies[-1] = f"{coord}: " + anomalies[-1]
-        pads.append(build_pad(coord, original_name, signal, instance, alt_signal))
+        pads.append(build_pad(coord, original_name, signal, instance, alt_signal,
+                              gpio_pad_alts))
     return pads, anomalies
 
 
@@ -410,8 +420,8 @@ def main() -> int:
     e1m_rows = parse_tsv(TSV_E1M)
     e1mx_rows = parse_tsv(TSV_E1MX)
 
-    e1m_pads, e1m_anom = build_form_factor(e1m_rows)
-    e1mx_pads, e1mx_anom = build_form_factor(e1mx_rows)
+    e1m_pads, e1m_anom = build_form_factor(e1m_rows, "E1M")
+    e1mx_pads, e1mx_anom = build_form_factor(e1mx_rows, "E1M-X")
 
     e1m_pads = sort_pads(e1m_pads)
     e1mx_pads = sort_pads(e1mx_pads)
